@@ -35,7 +35,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  top: 75,
+                  top: 80,
                   left: 0,
                   right: 0,
                   child: Center(
