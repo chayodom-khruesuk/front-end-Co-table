@@ -10,3 +10,7 @@ abstract class ThemeEvent extends Equatable {
 class LoadTheme extends ThemeEvent {}
 
 class ChangeToDarkTheme extends ThemeEvent {}
+
+class TextFieldTheme extends ThemeEvent {}
+
+class ForgotTheme extends ThemeEvent {}
