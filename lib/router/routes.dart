@@ -1,13 +1,19 @@
 import 'package:co_table/pages/forgot/forgot_page.dart';
-import 'package:co_table/pages/widget/navbar.dart';
+import 'package:co_table/widget/navbar.dart';
 import 'package:co_table/router/routes_conf.dart';
 import 'package:flutter/material.dart';
 
 import '../pages/login/login_page.dart';
 import '../pages/signup/singup_page.dart';
+import '../pages/splash/splash_page.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
+    case splashPageRoute:
+      return MaterialPageRoute(
+        builder: (context) => const SplashPage(),
+      );
+
     case navBarRoute:
     case homePageRoute:
       return MaterialPageRoute(
@@ -30,7 +36,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
     default:
       return MaterialPageRoute(
-        builder: (context) => const NavWithAnimated(),
+        builder: (context) => const SplashPage(),
       );
   }
 }

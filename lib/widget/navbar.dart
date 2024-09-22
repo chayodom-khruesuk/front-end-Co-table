@@ -3,8 +3,8 @@ import 'package:co_table/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../profile/profile_page.dart';
-import '../reservation/reservation_page.dart';
+import '../pages/profile/profile_page.dart';
+import '../pages/reservation/reservation_page.dart';
 
 class NavWithAnimated extends StatefulWidget {
   const NavWithAnimated({super.key});
@@ -32,7 +32,7 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
       ),
       bottomNavigationBar: Container(
         margin: EdgeInsets.all(displayWidth * .06),
-        height: displayWidth * .155,
+        height: displayWidth * .19,
         decoration: BoxDecoration(
           gradient: ThemeState.lightTheme,
           boxShadow: [

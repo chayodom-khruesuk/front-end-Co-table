@@ -24,6 +24,15 @@ class ThemeState extends Equatable {
         ],
       );
 
+  static LinearGradient get darkTheme => const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Color(0xFF000000),
+          Color(0xFF000000),
+        ],
+      );
+
   @override
   List<Object> get props => [backgroundGradient];
 }
