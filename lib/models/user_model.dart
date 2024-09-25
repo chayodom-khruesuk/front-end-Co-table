@@ -1,0 +1,114 @@
+import 'package:equatable/equatable.dart';
+
+class UserModel extends Equatable {
+  final int id;
+  final String username;
+  final String password;
+  final String name;
+  final String email;
+  final String roles;
+  final String faculty;
+  final bool roomPermission;
+  final String registerDate;
+  final String updatedDate;
+  final String lastLoginDate;
+
+  const UserModel({
+    this.id = 0,
+    required this.username,
+    required this.password,
+    required this.name,
+    required this.email,
+    this.roles = '',
+    this.faculty = '',
+    this.roomPermission = false,
+    this.registerDate = '',
+    this.updatedDate = '',
+    this.lastLoginDate = '',
+  });
+
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      id: json['id'],
+      username: json['username'],
+      password: json['password'],
+      name: json['name'],
+      email: json['email'],
+      roles: json['roles'],
+      faculty: json['faculty'],
+      roomPermission: json['room_permission'],
+      registerDate: json['register_date'],
+      updatedDate: json['updated_date'],
+      lastLoginDate: json['last_login_date'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'username': username,
+      'password': password,
+      'name': name,
+      'email': email,
+      'roles': roles,
+      'faculty': faculty,
+      'room_permission': roomPermission,
+      'register_date': registerDate,
+      'updated_date': updatedDate,
+    };
+  }
+
+  @override
+  List<Object?> get props => [
+        id,
+        username,
+        password,
+        name,
+        email,
+        roles,
+        faculty,
+        roomPermission,
+        registerDate,
+        updatedDate,
+        lastLoginDate,
+      ];
+}
+
+class UserModelList extends Equatable {
+  final List<UserModel> users;
+  final int page;
+  final int pageCount;
+  final int sizePerPage;
+
+  const UserModelList({
+    required this.users,
+    required this.page,
+    required this.pageCount,
+    required this.sizePerPage,
+  });
+
+  factory UserModelList.fromJson(Map<String, dynamic> json) {
+    List<UserModel> users = [];
+    for (var user in json['users']) {
+      users.add(UserModel.fromJson(user));
+    }
+    return UserModelList(
+      users: users,
+      page: json['page'],
+      pageCount: json['page_count'],
+      sizePerPage: json['size_per_page'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'users': users.map((user) => user.toJson()).toList(),
+      'page': page,
+      'page_count': pageCount,
+      'size_per_page': sizePerPage,
+    };
+  }
+
+  @override
+  List<Object?> get props => [users, page, pageCount, sizePerPage];
+}
