@@ -33,6 +33,33 @@ class ThemeState extends Equatable {
         ],
       );
 
+  static const LinearGradient appTheme = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFFCC3CEA),
+      Color(0xFFCC3CEA),
+    ],
+  );
+
+  static const LinearGradient bodyTheme = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFFCC3CEA),
+      Color(0xFFCC3CEA),
+    ],
+  );
+
+  static const LinearGradient buttonSelectTheme = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFF39B070),
+      Color(0xFF39B070),
+    ],
+  );
+
   @override
   List<Object> get props => [backgroundGradient];
 }

@@ -12,3 +12,7 @@ class LoadTheme extends ThemeEvent {}
 class ChangeToDarkTheme extends ThemeEvent {}
 
 class ChangeToLightTheme extends ThemeEvent {}
+
+class AppTheme extends ThemeEvent {}
+
+class SelectTheme extends ThemeEvent {}

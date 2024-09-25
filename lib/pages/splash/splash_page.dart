@@ -69,7 +69,7 @@ class _SplashPageState extends State<SplashPage> {
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.easeInOut,
                   bottom: _showText
-                      ? MediaQuery.of(context).size.height * 0.5 - 100
+                      ? MediaQuery.of(context).size.height * 0.5 - 120
                       : -100,
                   left: 0,
                   right: 0,

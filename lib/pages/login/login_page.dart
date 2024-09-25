@@ -1,8 +1,8 @@
-import 'package:co_table/bloc/bloc.dart';
 import 'package:co_table/utils/image_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../core.dart';
 import '../../theme/widget/clip_path.dart';
 import 'form_login_page.dart';
 

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
-import '../../bloc/bloc.dart';
+import '../../core.dart';
 
 class FormSignupPage extends StatefulWidget {
   const FormSignupPage({super.key});

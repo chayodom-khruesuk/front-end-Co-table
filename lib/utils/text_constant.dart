@@ -29,4 +29,10 @@ class TextConstant {
 
   static const String submit = "SUBMIT";
   static const String textForgotFooter = "Remember password?";
+
+  static const String textAvailable = "Available";
+  static const String textSelected = "Selected";
+  static const String textBlocked = "Blocked";
+
+  static const String textSelect = "Select Now";
 }
