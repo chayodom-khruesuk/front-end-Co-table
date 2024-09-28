@@ -45,7 +45,7 @@ class TableHistory extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: MediaQuery.of(context).size.height * 0.5 - 375,
+                top: MediaQuery.of(context).size.height * 0.5 - 410,
                 left: MediaQuery.of(context).size.width * 0.5 - 175,
                 child: Container(
                   decoration: BoxDecoration(
@@ -62,6 +62,60 @@ class TableHistory extends StatelessWidget {
                   ),
                   width: 350,
                   height: 140,
+                  child: const Column(
+                    children: [
+                      SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Padding(padding: EdgeInsets.only(left: 30)),
+                          Text(
+                            "Room Name",
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF040261),
+                            ),
+                          ),
+                          Spacer(),
+                          Text(
+                            "0/12 Tables",
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF040261),
+                            ),
+                          ),
+                          Padding(padding: EdgeInsets.only(right: 30)),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: EdgeInsets.only(right: 70),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Open: 9.00 - 12.00 AM",
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFC01E13),
+                              ),
+                            ),
+                            Text(
+                              "กรุณาอย่าส่งเสียงดัง รบกวนผู้อื่น",
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFAE0F2C),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Positioned(

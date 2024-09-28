@@ -27,6 +27,22 @@ class UserModel extends Equatable {
     this.lastLoginDate = '',
   });
 
+  factory UserModel.empty() {
+    return const UserModel(
+      id: 0,
+      username: '',
+      password: '',
+      name: '',
+      email: '',
+      roles: '',
+      faculty: '',
+      roomPermission: false,
+      registerDate: '',
+      updatedDate: '',
+      lastLoginDate: '',
+    );
+  }
+
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'],

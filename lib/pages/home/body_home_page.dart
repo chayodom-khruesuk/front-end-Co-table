@@ -7,7 +7,7 @@ class BodyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double boxHeight = 160;
+    const double boxHeight = 177;
 
     return SingleChildScrollView(
       padding:
