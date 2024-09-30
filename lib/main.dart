@@ -1,16 +1,15 @@
+import 'package:co_table/repositories/user/user_repo_db.dart';
 import 'package:co_table/theme/theme_bloc.dart';
 import 'package:co_table/router/routes_conf.dart';
 import 'package:flutter/material.dart';
 import 'package:co_table/router/routes.dart' as router;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'bloc/bloc.dart';
+
 void main() {
-  runApp(
-    BlocProvider(
-      create: (context) => ThemeBloc(),
-      child: const MainApp(),
-    ),
-  );
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MainApp());
 }
 
 class MainApp extends StatelessWidget {
@@ -18,10 +17,20 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      onGenerateRoute: router.generateRoute,
-      initialRoute: splashPageRoute,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => ThemeBloc()),
+        BlocProvider<UserBloc>(create: (context) {
+          final bloc = UserBloc(userRepo: UserRepoDb());
+          bloc.add(LoadUserEvent());
+          return bloc;
+        })
+      ],
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        onGenerateRoute: router.generateRoute,
+        initialRoute: splashPageRoute,
+      ),
     );
   }
 }

@@ -4,7 +4,9 @@ import '../size_constant.dart';
 
 class SnackBarHelper {
   static void showSuccessSnackBar(BuildContext context,
-      {required String title, required String message}) {
+      {required String title,
+      required String message,
+      required Duration duration}) {
     _showSnackBar(context,
         title: title,
         message: message,
@@ -13,7 +15,9 @@ class SnackBarHelper {
   }
 
   static void showWarningSnackBar(BuildContext context,
-      {required String title, required String message}) {
+      {required String title,
+      required String message,
+      required Duration duration}) {
     _showSnackBar(context,
         title: title,
         message: message,
@@ -22,7 +26,9 @@ class SnackBarHelper {
   }
 
   static void showErrorSnackBar(BuildContext context,
-      {required String title, required String message}) {
+      {required String title,
+      required String message,
+      required Duration duration}) {
     _showSnackBar(context,
         title: title,
         message: message,
@@ -63,7 +69,7 @@ class SnackBarHelper {
           ],
         ),
         backgroundColor: backgroundColor,
-        duration: const Duration(seconds: 6),
+        duration: const Duration(seconds: 3),
         behavior: SnackBarBehavior.floating,
         margin: const EdgeInsets.all(SizeConstant.defaultPadding - 10),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

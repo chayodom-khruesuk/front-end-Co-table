@@ -13,7 +13,7 @@ class DioInterceptor extends Interceptor {
     }
 
     options.headers['Content-Type'] = 'application/json';
-    options.baseUrl = 'http://localhost:8080';
+    options.baseUrl = 'http://10.0.2.2:8000';
 
     super.onRequest(options, handler);
   }

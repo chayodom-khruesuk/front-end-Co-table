@@ -22,9 +22,9 @@ class ApiService {
     }
   }
 
-  Future<Response> post(String path, {Object? data}) async {
+  Future<Response> post(String path, {Object? data, Options? options}) async {
     try {
-      final response = await _dio.post(path, data: data);
+      final response = await _dio.post(path, data: data, options: options);
       return response;
     } catch (e) {
       debugPrint(e.toString());
@@ -59,8 +59,13 @@ class ApiService {
   Future<String> login(
       {required String username, required String password}) async {
     try {
-      final response = await post('/token',
-          data: {'username': username, 'password': password});
+      final response = await post(
+        '/token',
+        data: FormData.fromMap({'username': username, 'password': password}),
+        options: Options(
+          contentType: Headers.formUrlEncodedContentType,
+        ),
+      );
 
       if (response.statusCode == 200) {
         final token = response.data['access_token'];

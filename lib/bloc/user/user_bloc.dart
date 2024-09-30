@@ -1,4 +1,5 @@
 import 'package:co_table/repositories/user/user_repo.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc.dart';
@@ -17,6 +18,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   _onLoadUserEvent(LoadUserEvent event, Emitter<UserState> emit) async {
     if (state is LoadingUserState) {
       final user = await userRepo.getUser();
+      debugPrint("user: ${user.toString()}");
       emit(ReadyUserState(user: user));
     }
   }
@@ -26,8 +28,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       final response = await userRepo.createUser(
         username: event.username,
         email: event.email,
-        roles: event.roles,
-        faculty: event.faculty,
         password: event.password,
       );
       emit(LoadingUserState(responseText: response));
@@ -35,13 +35,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   _onLoginUserEvent(LoginUserEvent event, Emitter<UserState> emit) async {
-    if (state is ReadyUserState) {
-      final response = await userRepo.loginUser(
-        username: event.username,
-        password: event.password,
-      );
-      emit(LoadingUserState(responseText: response));
-    }
+    final response = await userRepo.loginUser(
+      username: event.username,
+      password: event.password,
+    );
+    emit(LoadingUserState(responseText: response));
   }
 
   _onLogoutUserEvent(LogoutUserEvent event, Emitter<UserState> emit) async {

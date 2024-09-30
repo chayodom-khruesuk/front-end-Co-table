@@ -17,8 +17,6 @@ class FormSignupPage extends StatefulWidget {
 class FormSignupPageState extends State<FormSignupPage> {
   bool _showPassword = false;
   bool _showConfirmPassword = false;
-  String _userType = 'general';
-  String? _selectedFaculty;
 
   @override
   Widget build(BuildContext context) {
@@ -97,101 +95,6 @@ class FormSignupPageState extends State<FormSignupPage> {
                       const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
                 ),
               ),
-            ),
-          ),
-          const SizedBox(height: SizeConstant.defaultPadding),
-          const FractionallySizedBox(
-            widthFactor: 0.8,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Type: ",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ChoiceChip(
-                      label: Text('General',
-                          style: TextStyle(
-                              color: _userType == 'general'
-                                  ? Colors.white
-                                  : Colors.black)),
-                      selected: _userType == 'general',
-                      selectedColor: state.backgroundGradient.colors.first,
-                      backgroundColor: Colors.white,
-                      onSelected: (selected) {
-                        setState(() {
-                          _userType = 'general';
-                        });
-                      },
-                    ),
-                    const SizedBox(width: 30),
-                    ChoiceChip(
-                      label: Text('Educational',
-                          style: TextStyle(
-                              color: _userType == 'educational'
-                                  ? Colors.white
-                                  : Colors.black)),
-                      selected: _userType == 'educational',
-                      selectedColor: state.backgroundGradient.colors.first,
-                      backgroundColor: Colors.white,
-                      onSelected: (selected) {
-                        setState(() {
-                          _userType = 'educational';
-                        });
-                      },
-                    ),
-                  ],
-                ),
-                if (_userType == 'educational')
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: FractionallySizedBox(
-                      widthFactor: 0.9,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 4),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<String>(
-                            isExpanded: true,
-                            value: _selectedFaculty,
-                            hint: const Text('Select Faculty'),
-                            items: <String>[
-                              'Engineering',
-                              'Science',
-                              'Arts',
-                              'Medicine'
-                            ].map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text('Faculty of $value'),
-                              );
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                _selectedFaculty = newValue;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
             ),
           ),
           const SizedBox(height: SizeConstant.defaultPadding),

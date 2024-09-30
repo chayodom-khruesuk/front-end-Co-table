@@ -10,33 +10,45 @@ import '../pages/splash/splash_page.dart';
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case splashPageRoute:
-      return MaterialPageRoute(
-        builder: (context) => const SplashPage(),
+      return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const SplashPage(),
+        transitionDuration: const Duration(seconds: 1),
       );
 
     case navBarRoute:
     case homePageRoute:
-      return MaterialPageRoute(
-        builder: (context) => const NavWithAnimated(),
+      return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const NavWithAnimated(),
+        transitionDuration: const Duration(seconds: 1),
       );
 
     case loginPageRoute:
-      return MaterialPageRoute(
-        builder: (context) => const LoginPage(),
+      return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const LoginPage(),
+        transitionDuration: const Duration(seconds: 1),
       );
 
     case forgotPageRoute:
-      return MaterialPageRoute(
-        builder: (context) => const ForgotPage(),
+      return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const ForgotPage(),
+        transitionDuration: const Duration(seconds: 1),
       );
 
     case signupPageRoute:
-      return MaterialPageRoute(
-        builder: (context) => const SignupPage(),
+      return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const SignupPage(),
+        transitionDuration: const Duration(seconds: 1),
       );
     default:
-      return MaterialPageRoute(
-        builder: (context) => const SplashPage(),
+      return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const SplashPage(),
+        transitionDuration: const Duration(seconds: 1),
       );
   }
 }

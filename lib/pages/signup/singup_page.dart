@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core.dart';
-import '../../theme/widget/clip_path.dart';
+import '../../widget/clip_path.dart';
 
 class SignupPage extends StatelessWidget {
   const SignupPage({super.key});
