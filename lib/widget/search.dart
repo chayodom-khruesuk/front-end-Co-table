@@ -5,18 +5,21 @@ class SearchWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      style: const TextStyle(color: Colors.black),
-      decoration: InputDecoration(
-        hintText: 'Search....',
-        hintStyle: const TextStyle(color: Colors.grey),
-        prefixIcon: const Icon(
-          Icons.search,
-          color: Color.fromARGB(255, 110, 128, 14),
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(40),
-          borderSide: const BorderSide(color: Color.fromARGB(255, 206, 193, 8)),
+    return Material(
+      color: Colors.transparent,
+      child: TextField(
+        style: const TextStyle(color: Colors.black),
+        decoration: InputDecoration(
+          hintText: 'Search....',
+          hintStyle: const TextStyle(color: Colors.grey),
+          prefixIcon: const Icon(
+            Icons.search,
+            color: Color(0xFF6E800E),
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(40),
+            borderSide: const BorderSide(color: Color(0xFFCEC108)),
+          ),
         ),
       ),
     );
