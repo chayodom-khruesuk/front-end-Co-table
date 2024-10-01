@@ -24,14 +24,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   _onCreateUserEvent(CreateUserEvent event, Emitter<UserState> emit) async {
-    if (state is ReadyUserState) {
-      final response = await userRepo.createUser(
-        username: event.username,
-        email: event.email,
-        password: event.password,
-      );
-      emit(LoadingUserState(responseText: response));
-    }
+    final response = await userRepo.createUser(
+      username: event.username,
+      name: event.name,
+      email: event.email,
+      password: event.password,
+    );
+    emit(LoadingUserState(responseText: response));
+    add(LoginUserEvent(username: event.username, password: event.password));
   }
 
   _onLoginUserEvent(LoginUserEvent event, Emitter<UserState> emit) async {
@@ -40,6 +40,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       password: event.password,
     );
     emit(LoadingUserState(responseText: response));
+    add(LoadUserEvent());
   }
 
   _onLogoutUserEvent(LogoutUserEvent event, Emitter<UserState> emit) async {

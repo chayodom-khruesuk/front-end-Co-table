@@ -1,6 +1,7 @@
 import 'package:co_table/models/user_model.dart';
 import 'package:co_table/repositories/user/user_repo.dart';
 import 'package:co_table/services/api_service.dart';
+import 'package:flutter/material.dart';
 
 class UserRepoDb extends UserRepo {
   late UserModel user;
@@ -11,16 +12,19 @@ class UserRepoDb extends UserRepo {
   @override
   Future<String> createUser({
     required String username,
+    required String name,
     required String email,
     required String password,
   }) async {
     final Map<String, dynamic> userData = {
       'username': username,
+      'name': name,
       'email': email,
-      'password': password,
+      'password': password
     };
 
-    final response = await apiService.post('$baseUrl/create/', data: userData);
+    debugPrint("userData: $userData");
+    final response = await apiService.post('$baseUrl/create', query: userData);
     if (response.statusCode == 200) {
       return "User created successfully";
     } else if (response.statusCode == 409) {
@@ -45,7 +49,7 @@ class UserRepoDb extends UserRepo {
     required String email,
     required String newPassword,
   }) async {
-    final response = await apiService.post('$baseUrl/forgot-password/',
+    final response = await apiService.post('$baseUrl/forgot-password',
         data: {'email': email, 'new_password': newPassword});
     if (response.statusCode == 200) {
       return "Password reset successfully";
@@ -58,10 +62,9 @@ class UserRepoDb extends UserRepo {
 
   @override
   Future<UserModel> getUser() async {
-    final response = await apiService.get('$baseUrl/me');
+    final response = await apiService.get('$baseUrl/get_me');
     if (response.statusCode == 200) {
-      user = UserModel.fromJson(response.data);
-      return user;
+      return UserModel.fromJson(response.data);
     } else if (response.statusCode == 401) {
       return UserModel.empty();
     } else {

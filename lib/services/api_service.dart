@@ -22,12 +22,17 @@ class ApiService {
     }
   }
 
-  Future<Response> post(String path, {Object? data, Options? options}) async {
+  Future<Response> post(String path,
+      {Object? data, Options? options, Map<String, dynamic>? query}) async {
     try {
-      final response = await _dio.post(path, data: data, options: options);
+      debugPrint("Request data: $data");
+      final response = await _dio.post(path,
+          data: data, options: options, queryParameters: query);
+      debugPrint("Response data: ${response.data}");
       return response;
-    } catch (e) {
-      debugPrint(e.toString());
+    } on DioException catch (e) {
+      debugPrint('DioException: ${e.toString()}');
+      debugPrint('Response: ${e.response}');
       rethrow;
     }
   }
@@ -59,7 +64,7 @@ class ApiService {
   Future<String> login(
       {required String username, required String password}) async {
     try {
-      final response = await post(
+      final response = await _dio.post(
         '/token',
         data: FormData.fromMap({'username': username, 'password': password}),
         options: Options(

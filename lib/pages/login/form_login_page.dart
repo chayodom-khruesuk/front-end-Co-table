@@ -77,25 +77,45 @@ class FormLoginPageState extends State<FormLoginPage> {
   Widget _buildUsernameField(ThemeState state) {
     return FractionallySizedBox(
       widthFactor: 0.9,
-      child: TextFormField(
-        controller: _usernameController,
-        decoration: InputDecoration(
-          prefixIcon: const Icon(LineAwesomeIcons.user, color: Colors.black),
-          labelText: TextConstant.textUsername,
-          labelStyle:
-              const TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
-          fillColor: state.backgroundGradient.colors.first,
-          filled: true,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF6E6E6E).withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
         ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter your username';
-          }
-          return null;
-        },
+        child: TextFormField(
+          controller: _usernameController,
+          decoration: InputDecoration(
+            prefixIcon: const Icon(LineAwesomeIcons.user, color: Colors.black),
+            labelText: TextConstant.textUsername,
+            labelStyle: const TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w700,
+            ),
+            fillColor: state.backgroundGradient.colors.first,
+            filled: true,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide.none,
+            ),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+            errorStyle:
+                const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter your username';
+            }
+            return null;
+          },
+        ),
       ),
     );
   }
@@ -103,35 +123,53 @@ class FormLoginPageState extends State<FormLoginPage> {
   Widget _buildPasswordField(ThemeState state) {
     return FractionallySizedBox(
       widthFactor: 0.9,
-      child: TextFormField(
-        controller: _passwordController,
-        obscureText: !_showPassword,
-        decoration: InputDecoration(
-          prefixIcon: const Icon(LineAwesomeIcons.fingerprint_solid,
-              color: Colors.black),
-          labelText: TextConstant.textPassword,
-          labelStyle:
-              const TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
-          fillColor: state.backgroundGradient.colors.first,
-          filled: true,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-          suffixIcon: IconButton(
-            icon: Icon(
-                _showPassword
-                    ? LineAwesomeIcons.eye
-                    : LineAwesomeIcons.eye_slash,
-                color: Colors.black),
-            onPressed: () => setState(() => _showPassword = !_showPassword),
-          ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF6E6E6E).withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
         ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter your password';
-          }
-          return null;
-        },
+        child: TextFormField(
+          controller: _passwordController,
+          obscureText: !_showPassword,
+          decoration: InputDecoration(
+            prefixIcon: const Icon(LineAwesomeIcons.fingerprint_solid,
+                color: Colors.black),
+            labelText: TextConstant.textPassword,
+            labelStyle: const TextStyle(
+                color: Colors.black, fontWeight: FontWeight.w700),
+            fillColor: state.backgroundGradient.colors.first,
+            filled: true,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide.none,
+            ),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+            errorStyle:
+                const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+            suffixIcon: IconButton(
+              icon: Icon(
+                  _showPassword
+                      ? LineAwesomeIcons.eye
+                      : LineAwesomeIcons.eye_slash,
+                  color: Colors.black),
+              onPressed: () => setState(() => _showPassword = !_showPassword),
+            ),
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter your password';
+            }
+            return null;
+          },
+        ),
       ),
     );
   }

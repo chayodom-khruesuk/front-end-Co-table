@@ -5,6 +5,8 @@ class TextConstant {
   static const String textConfirmPassword = "Confirm Password";
   static const String textNewPassword = "New Password";
 
+  static const String textName = "Name";
+
   static const String textEmail = "E-mail";
 
   static const String forgotPassword = "Forgot Password?";

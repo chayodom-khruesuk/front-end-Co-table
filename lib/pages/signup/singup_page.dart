@@ -25,7 +25,7 @@ class SignupPage extends StatelessWidget {
                     decoration: BoxDecoration(
                       gradient: themeState.backgroundGradient,
                     ),
-                    height: 235,
+                    height: 245,
                   ),
                 ),
                 const Center(
@@ -35,13 +35,13 @@ class SignupPage extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  top: 70,
+                  top: 80,
                   left: 0,
                   right: 0,
                   child: Center(
                     child: Image.asset(
                       ImageConstant.headerImg,
-                      scale: 1.1,
+                      scale: 1.2,
                     ),
                   ),
                 ),

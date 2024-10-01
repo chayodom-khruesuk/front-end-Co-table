@@ -4,11 +4,13 @@ class LoadUserEvent extends UserEvent {}
 
 class CreateUserEvent extends UserEvent {
   final String username;
+  final String name;
   final String email;
   final String password;
 
   CreateUserEvent({
     required this.username,
+    required this.name,
     required this.email,
     required this.password,
   });

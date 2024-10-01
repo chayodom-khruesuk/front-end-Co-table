@@ -10,6 +10,10 @@ class LoadingUserState extends UserState {
   LoadingUserState({super.responseText}) : super(user: UserModel.empty());
 }
 
+class UserEmptyState extends UserState {
+  UserEmptyState({super.responseText}) : super(user: UserModel.empty());
+}
+
 class ReadyUserState extends UserState {
   ReadyUserState({required super.user});
 }
