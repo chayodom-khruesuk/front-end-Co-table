@@ -50,7 +50,7 @@ class FormLoginPageState extends State<FormLoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: SizeConstant.defaultPadding * 6),
+                const SizedBox(height: SizeConstant.defaultPadding * 10),
                 const Text(TextConstant.headerLogin,
                     style:
                         TextStyle(fontSize: 35, fontWeight: FontWeight.w600)),

@@ -25,7 +25,7 @@ class TextConstant {
   static const String textLoginFooter = "Don't have on Account?";
   static const String textLinkLoginFooter = "Signup";
 
-  static const String signup = "SIGNUP";
+  static const String signup = "SIGN UP";
   static const String textSignupFooter = "Already have an Account?";
   static const String textLinkSignupFooter = "Login";
 
@@ -37,4 +37,8 @@ class TextConstant {
   static const String textBlocked = "Blocked";
 
   static const String textSelect = "Select Now";
+
+  static const String profile = "PROFILE";
+
+  static const String edit = "Edit Profile";
 }
