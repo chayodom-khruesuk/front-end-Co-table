@@ -4,7 +4,7 @@ import 'package:co_table/router/routes_conf.dart';
 import 'package:flutter/material.dart';
 
 import '../pages/login/login_page.dart';
-import '../pages/signup/singup_page.dart';
+import '../pages/signup/signup_page.dart';
 import '../pages/splash/splash_page.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
