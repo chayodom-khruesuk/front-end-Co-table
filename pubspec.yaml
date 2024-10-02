@@ -1,10 +1,10 @@
 name: co_table
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: '>=3.4.3 <4.0.0'
+  sdk: ">=3.4.3 <4.0.0"
 
 dependencies:
   dio: ^5.7.0
@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
+  google_fonts: ^6.2.1
   line_awesome_flutter: ^3.0.1
   lottie: ^3.1.2
   shared_preferences: ^2.3.2
