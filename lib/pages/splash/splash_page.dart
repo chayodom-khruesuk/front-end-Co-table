@@ -35,6 +35,7 @@ class _SplashPageState extends State<SplashPage> {
 
     if (!mounted) return;
     Token.getToken().then((token) {
+      if (!mounted) return;
       if (token != null && token.isNotEmpty) {
         Navigator.of(context).pushReplacementNamed('/home');
       } else {
