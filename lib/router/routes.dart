@@ -21,7 +21,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) =>
             const NavWithAnimated(),
-        transitionDuration: const Duration(seconds: 1),
+        transitionDuration: const Duration(milliseconds: 300),
       );
 
     case loginPageRoute:

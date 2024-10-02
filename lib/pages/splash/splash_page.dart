@@ -1,3 +1,4 @@
+import 'package:co_table/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:co_table/theme/theme_bloc.dart';
@@ -33,7 +34,14 @@ class _SplashPageState extends State<SplashPage> {
     await Future.delayed(const Duration(seconds: 2));
 
     if (!mounted) return;
-    Navigator.of(context).pushReplacementNamed('/login');
+    Token.getToken().then((token) {
+      if (!mounted) return;
+      if (token != null && token.isNotEmpty) {
+        Navigator.of(context).pushReplacementNamed('/home');
+      } else {
+        Navigator.of(context).pushReplacementNamed('/login');
+      }
+    });
   }
 
   @override

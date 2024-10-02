@@ -25,7 +25,7 @@ class LoginPage extends StatelessWidget {
                     decoration: BoxDecoration(
                       gradient: themeState.backgroundGradient,
                     ),
-                    height: 275,
+                    height: 295,
                   ),
                 ),
                 const Center(

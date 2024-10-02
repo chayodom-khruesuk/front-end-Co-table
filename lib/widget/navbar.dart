@@ -2,6 +2,7 @@ import 'package:co_table/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../core.dart';
 import '../pages/profile/profile_page.dart';
@@ -97,7 +98,7 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
                                       decoration: BoxDecoration(
                                         color: index == currentIndex
                                             ? ThemeState
-                                                .defualtTheme.colors.first
+                                                .defaultTheme.colors.first
                                             : ThemeState
                                                 .lightTheme.colors.first,
                                         borderRadius: BorderRadius.circular(50),
@@ -137,10 +138,14 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
                                                   index == currentIndex
                                                       ? listNavBarText[index]
                                                       : '',
-                                                  style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 16.5,
+                                                  style:
+                                                      GoogleFonts.notoSansThai(
+                                                    textStyle: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16,
+                                                    ),
                                                   ),
                                                   overflow:
                                                       TextOverflow.visible,
@@ -166,7 +171,7 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
                                               color: index == currentIndex
                                                   ? ThemeState
                                                       .lightTheme.colors.first
-                                                  : ThemeState.defualtTheme
+                                                  : ThemeState.defaultTheme
                                                       .colors.first,
                                             ),
                                           ],
@@ -192,9 +197,9 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
 }
 
 List<String> listNavBarText = [
-  'Home',
-  'Reservation',
-  'Profile',
+  'หน้าหลัก',
+  'การจอง',
+  'โปรไฟล์',
 ];
 
 List<IconData> listNavBarIcon = [

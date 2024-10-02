@@ -1,5 +1,6 @@
 import 'package:co_table/utils/image_constant.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import '../../widget/search.dart';
 import 'body_home_page.dart';
@@ -9,47 +10,46 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String fakeDate = "26 Mar. 2024";
-
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const SizedBox(height: 40),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Image.asset(
-                  ImageConstant.headerImg,
-                  height: 60,
-                  fit: BoxFit.contain,
-                  alignment: Alignment.centerLeft,
+        SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Image.asset(
+                    ImageConstant.headerImg,
+                    height: 60,
+                    fit: BoxFit.contain,
+                    alignment: Alignment.centerLeft,
+                  ),
                 ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  const Row(
-                    children: [
-                      Text(
-                        "welcome",
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.normal),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: Row(
+                        children: [
+                          Text(
+                            "welcome",
+                            style: GoogleFonts.notoSansThai(
+                              textStyle: const TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.normal),
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          const Icon(LineAwesomeIcons.user, size: 24),
+                        ],
                       ),
-                      SizedBox(width: 5),
-                      Icon(LineAwesomeIcons.user, size: 24),
-                    ],
-                  ),
-                  Text(
-                    fakeDate,
-                    style: const TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
         const SizedBox(height: 10),

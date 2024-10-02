@@ -6,7 +6,7 @@ class ThemeState extends Equatable {
 
   const ThemeState({required this.backgroundGradient});
 
-  static LinearGradient get defualtTheme => const LinearGradient(
+  static LinearGradient get defaultTheme => const LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [

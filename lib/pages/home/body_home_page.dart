@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../core.dart';
 import 'table_history.dart';
 
@@ -20,7 +21,7 @@ class BodyHomePage extends StatelessWidget {
             return Container(
               height: boxHeight,
               width: double.infinity,
-              margin: const EdgeInsets.symmetric(vertical: 12),
+              margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
               decoration: BoxDecoration(
                 gradient: ThemeState.lightTheme,
                 borderRadius: BorderRadius.circular(20),
@@ -38,20 +39,14 @@ class BodyHomePage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       'Room Name',
-                      style: TextStyle(
-                        color: Color(0xFF030260),
-                        fontSize: 20,
-                        fontFamily: 'Noto Sans Thai',
-                        fontWeight: FontWeight.w700,
-                        shadows: [
-                          Shadow(
-                            blurRadius: 10,
-                            color: Colors.grey,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
+                      style: GoogleFonts.notoSansThai(
+                        textStyle: const TextStyle(
+                          color: Color(0xFF030260),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -67,25 +62,25 @@ class BodyHomePage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 9),
-                        const Column(
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               'ชื่อคณะ',
-                              style: TextStyle(
-                                color: Color(0xFF030260),
-                                fontSize: 14,
-                                fontFamily: 'Noto Sans Thai',
-                                fontWeight: FontWeight.w700,
+                              style: GoogleFonts.notoSansThai(
+                                textStyle: const TextStyle(
+                                  color: Color(0xFF030260),
+                                  fontSize: 14,
+                                ),
                               ),
                             ),
                             Text(
                               'Room Name',
-                              style: TextStyle(
-                                color: Color(0xFF959494),
-                                fontSize: 10,
-                                fontFamily: 'Noto Sans Thai',
-                                fontWeight: FontWeight.w700,
+                              style: GoogleFonts.notoSansThai(
+                                textStyle: const TextStyle(
+                                  color: Color(0xFF959494),
+                                  fontSize: 10,
+                                ),
                               ),
                             ),
                           ],
@@ -105,18 +100,19 @@ class BodyHomePage extends StatelessWidget {
                             width: 100,
                             height: 36,
                             decoration: ShapeDecoration(
-                              color: const Color(0xFFD93EF2),
+                              color: const Color(0xAAD93EF2),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10)),
                             ),
-                            child: const Center(
+                            child: Center(
                               child: Text(
-                                'Reservation',
-                                style: TextStyle(
-                                  color: Color(0xFF030260),
-                                  fontSize: 14,
-                                  fontFamily: 'Noto Sans Thai',
-                                  fontWeight: FontWeight.w700,
+                                'จอง',
+                                style: GoogleFonts.notoSansThai(
+                                  textStyle: const TextStyle(
+                                    color: Color(0xFF030260),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ),
@@ -137,37 +133,40 @@ class BodyHomePage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 9),
-                        const Column(
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Status Room',
-                              style: TextStyle(
-                                color: Color(0xFF030260),
-                                fontSize: 14,
-                                fontFamily: 'Noto Sans Thai',
-                                fontWeight: FontWeight.w700,
+                              'สถานะ',
+                              style: GoogleFonts.notoSansThai(
+                                textStyle: const TextStyle(
+                                  color: Color(0xFF030260),
+                                  fontSize: 14,
+                                ),
                               ),
                             ),
                             Text(
                               'Room Name',
-                              style: TextStyle(
-                                color: Color(0xFF959494),
-                                fontSize: 10,
-                                fontFamily: 'Noto Sans Thai',
-                                fontWeight: FontWeight.w700,
+                              style: GoogleFonts.notoSansThai(
+                                textStyle: const TextStyle(
+                                  color: Color(0xFF959494),
+                                  fontSize: 10,
+                                ),
                               ),
                             ),
                           ],
                         ),
                         const Spacer(),
-                        const Text(
-                          '0 / 24 Tables',
-                          style: TextStyle(
-                            color: Color(0xFF030260),
-                            fontSize: 12.26,
-                            fontFamily: 'Noto Sans Thai',
-                            fontWeight: FontWeight.w700,
+                        Padding(
+                          padding: const EdgeInsets.only(right: 4),
+                          child: Text(
+                            '0 / 24 โต๊ะ',
+                            style: GoogleFonts.notoSansThai(
+                              textStyle: const TextStyle(
+                                color: Color(0xFF030260),
+                                fontSize: 12.26,
+                              ),
+                            ),
                           ),
                         ),
                       ],

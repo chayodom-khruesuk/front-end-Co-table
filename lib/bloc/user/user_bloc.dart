@@ -44,10 +44,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   _onLogoutUserEvent(LogoutUserEvent event, Emitter<UserState> emit) async {
-    if (state is ReadyUserState) {
-      await userRepo.logoutUser();
-      emit(LoadingUserState());
-    }
+    await userRepo.logoutUser();
   }
 
   _onForgotPasswordEvent(

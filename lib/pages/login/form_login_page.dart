@@ -4,6 +4,7 @@ import 'package:co_table/utils/size_constant.dart';
 import 'package:co_table/utils/text_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 import '../../core.dart';
@@ -37,7 +38,7 @@ class FormLoginPageState extends State<FormLoginPage> {
           Navigator.of(context).pushReplacementNamed(homePageRoute);
           SnackBarHelper.showSuccessSnackBar(
             context,
-            title: 'Login Complete',
+            title: 'เข้าสู่ระบบสำเร็จ',
             message: state.responseText,
             duration: const Duration(seconds: 3),
           );
@@ -50,13 +51,21 @@ class FormLoginPageState extends State<FormLoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: SizeConstant.defaultPadding * 6),
-                const Text(TextConstant.headerLogin,
-                    style:
-                        TextStyle(fontSize: 35, fontWeight: FontWeight.w600)),
-                const Text(TextConstant.lableLogin,
-                    style:
-                        TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+                const SizedBox(height: SizeConstant.defaultPadding * 10),
+                Text(
+                  TextConstant.headerLogin,
+                  style: GoogleFonts.notoSansThai(
+                    textStyle: const TextStyle(
+                        fontSize: 35, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Text(
+                  TextConstant.lableLogin,
+                  style: GoogleFonts.notoSansThai(
+                    textStyle: const TextStyle(
+                        fontSize: 17, fontWeight: FontWeight.w500),
+                  ),
+                ),
                 const SizedBox(height: SizeConstant.defaultPadding + 20),
                 _buildUsernameField(state),
                 const SizedBox(height: SizeConstant.defaultPadding),
@@ -80,25 +89,26 @@ class FormLoginPageState extends State<FormLoginPage> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF6E6E6E).withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: const Offset(0, 3),
-            ),
-          ],
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: const Color(0xFF6E6E6E).withOpacity(0.5),
+          //     spreadRadius: 2,
+          //     blurRadius: 5,
+          //     offset: const Offset(0, 3),
+          //   ),
+          // ],
         ),
         child: TextFormField(
           controller: _usernameController,
           decoration: InputDecoration(
             prefixIcon: const Icon(LineAwesomeIcons.user, color: Colors.black),
             labelText: TextConstant.textUsername,
-            labelStyle: const TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w700,
+            labelStyle: GoogleFonts.notoSansThai(
+              textStyle: const TextStyle(
+                color: Colors.black,
+              ),
             ),
-            fillColor: state.backgroundGradient.colors.first,
+            fillColor: const Color(0xAAD93EF2),
             filled: true,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
@@ -106,12 +116,16 @@ class FormLoginPageState extends State<FormLoginPage> {
             ),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-            errorStyle:
-                const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+            errorStyle: GoogleFonts.notoSansThai(
+              textStyle: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.red,
+              ),
+            ),
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter your username';
+              return 'โปรดกรอกชื่อบัญชีผู้ใช้';
             }
             return null;
           },
@@ -126,14 +140,14 @@ class FormLoginPageState extends State<FormLoginPage> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF6E6E6E).withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: const Offset(0, 3),
-            ),
-          ],
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: const Color(0xFF6E6E6E).withOpacity(0.5),
+          //     spreadRadius: 2,
+          //     blurRadius: 5,
+          //     offset: const Offset(0, 3),
+          //   ),
+          // ],
         ),
         child: TextFormField(
           controller: _passwordController,
@@ -142,9 +156,12 @@ class FormLoginPageState extends State<FormLoginPage> {
             prefixIcon: const Icon(LineAwesomeIcons.fingerprint_solid,
                 color: Colors.black),
             labelText: TextConstant.textPassword,
-            labelStyle: const TextStyle(
-                color: Colors.black, fontWeight: FontWeight.w700),
-            fillColor: state.backgroundGradient.colors.first,
+            labelStyle: GoogleFonts.notoSansThai(
+              textStyle: const TextStyle(
+                color: Colors.black,
+              ),
+            ),
+            fillColor: const Color(0xAAD93EF2),
             filled: true,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
@@ -152,8 +169,10 @@ class FormLoginPageState extends State<FormLoginPage> {
             ),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-            errorStyle:
-                const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+            errorStyle: GoogleFonts.notoSansThai(
+              textStyle: const TextStyle(
+                  fontWeight: FontWeight.bold, color: Colors.red),
+            ),
             suffixIcon: IconButton(
               icon: Icon(
                   _showPassword
@@ -165,7 +184,7 @@ class FormLoginPageState extends State<FormLoginPage> {
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter your password';
+              return 'โปรดกรอกรหัสผ่าน';
             }
             return null;
           },
@@ -179,8 +198,15 @@ class FormLoginPageState extends State<FormLoginPage> {
       alignment: Alignment.centerRight,
       child: TextButton(
         onPressed: () => Navigator.of(context).pushNamed(forgotPageRoute),
-        child: const Text(TextConstant.forgotPassword,
-            style: TextStyle(color: Colors.red)),
+        child: Text(
+          TextConstant.forgotPassword,
+          style: GoogleFonts.notoSansThai(
+            textStyle: const TextStyle(
+              color: Colors.red,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -196,8 +222,15 @@ class FormLoginPageState extends State<FormLoginPage> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           backgroundColor: Colors.black,
         ),
-        child: const Text(TextConstant.login,
-            style: TextStyle(color: Colors.white, fontSize: 20)),
+        child: Text(
+          TextConstant.login,
+          style: GoogleFonts.notoSansThai(
+            textStyle: const TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -207,21 +240,29 @@ class FormLoginPageState extends State<FormLoginPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(TextConstant.textLoginFooter,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 13.5,
-                  fontWeight: FontWeight.bold)),
+          Text(
+            TextConstant.textLoginFooter,
+            style: GoogleFonts.notoSansThai(
+              textStyle: const TextStyle(
+                color: Colors.black,
+                fontSize: 14,
+              ),
+            ),
+          ),
           const Padding(padding: EdgeInsets.all(5)),
           GestureDetector(
             onTap: () =>
                 Navigator.of(context).pushReplacementNamed(signupPageRoute),
-            child: Text(TextConstant.textLinkLoginFooter,
-                style: TextStyle(
+            child: Text(
+              TextConstant.textLinkLoginFooter,
+              style: GoogleFonts.notoSansThai(
+                textStyle: TextStyle(
                   color: state.backgroundGradient.colors.first,
-                  fontSize: 13.5,
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
-                )),
+                ),
+              ),
+            ),
           ),
         ],
       ),
@@ -239,8 +280,8 @@ class FormLoginPageState extends State<FormLoginPage> {
     } else {
       SnackBarHelper.showWarningSnackBar(
         context,
-        title: 'Incomplete Form',
-        message: 'Please fill in all required fields.',
+        title: 'กรอกข้อมูลไม่ครบถ้วน',
+        message: 'กรุณากรอกข้อมูลให้ครบถ้วน',
         duration: const Duration(seconds: 3),
       );
     }
