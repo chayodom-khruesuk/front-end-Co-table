@@ -30,6 +30,13 @@ class ApiService {
       debugPrint("Response data: ${response.data}");
       return response;
     } on DioException catch (e) {
+      if (e.response?.statusCode == 409) {
+        return Response(
+          requestOptions: e.requestOptions,
+          statusCode: 409,
+          data: e.response?.data,
+        );
+      }
       debugPrint('DioException: ${e.toString()}');
       debugPrint('Response: ${e.response}');
       rethrow;
@@ -76,14 +83,18 @@ class ApiService {
       if (response.statusCode == 200) {
         final token = response.data['access_token'];
         await Token.setToken(token);
-        return "Logged in successfully";
+        return "เข้าสู่ระบบสำเร็จ";
       } else if (response.statusCode == 401) {
         // detail: Incorrect username or password.
-        return response.data['detail'];
+        return "ชื่อบัญชีผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
       } else {
         return "Something went wrong";
       }
     } catch (e) {
+      if (e is DioException && e.response?.statusCode == 401) {
+        debugPrint("Incorrect username or password");
+        return "ชื่อบัญชีผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
+      }
       debugPrint(e.toString());
       return e.toString();
     }

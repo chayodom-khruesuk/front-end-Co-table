@@ -31,7 +31,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       password: event.password,
     );
     emit(LoadingUserState(responseText: response));
-    add(LoginUserEvent(username: event.username, password: event.password));
+    if (response.contains("User created successfully")) {
+      add(LoginUserEvent(username: event.username, password: event.password));
+    }
   }
 
   _onLoginUserEvent(LoginUserEvent event, Emitter<UserState> emit) async {
@@ -40,7 +42,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       password: event.password,
     );
     emit(LoadingUserState(responseText: response));
-    add(LoadUserEvent());
+    if (response.contains("เข้าสู่ระบบสำเร็จ")) {
+      add(LoadUserEvent());
+    } else {
+      emit(UserEmptyState(responseText: response));
+    }
   }
 
   _onLogoutUserEvent(LogoutUserEvent event, Emitter<UserState> emit) async {
