@@ -1,36 +1,35 @@
 class TextConstant {
-  static const String textUsername = "Username";
+  static const String textUsername = "ชื่อบัญชีผู้ใช้";
 
-  static const String textPassword = "Password";
-  static const String textConfirmPassword = "Confirm Password";
-  static const String textNewPassword = "New Password";
+  static const String textPassword = "รหัสผ่าน";
+  static const String textConfirmPassword = "ยืนยันรหัสผ่าน";
+  static const String textNewPassword = "รหัสผ่านใหม่";
 
-  static const String textName = "Name";
+  static const String textName = "ชื่อ";
 
-  static const String textEmail = "E-mail";
+  static const String textEmail = "อีเมล";
 
-  static const String forgotPassword = "Forgot Password?";
+  static const String forgotPassword = "ลืมรหัสผ่าน?";
 
-  static const String headerLogin = "Welcome Back!";
-  static const String lableLogin = "Login to your account";
+  static const String headerLogin = "ยินดีต้อนรับ!";
+  static const String lableLogin = "ลงชื่อเข้าสู่ระบบ";
 
-  static const String headerSignup = "Welcome!";
-  static const String lableSignup = "Create your account";
+  static const String headerSignup = "ยินดีต้อนรับ!";
+  static const String lableSignup = "สร้างบัญชีผู้ใช้";
 
-  static const String headerForgot = "Forgot Password";
-  static const String lableForgot =
-      "Enter your email and change your new password";
+  static const String headerForgot = "ลืมรหัสผ่าน";
+  static const String lableForgot = "กรอกอีเมลเพื่อเปลี่ยนรหัสผ่าน";
 
-  static const String login = "LOGIN";
-  static const String textLoginFooter = "Don't have on Account?";
-  static const String textLinkLoginFooter = "Signup";
+  static const String login = "เข้าสู่ระบบ";
+  static const String textLoginFooter = "ยังไม่มีบัญชีผู้ใช้?";
+  static const String textLinkLoginFooter = "สมัครที่นี่";
 
-  static const String signup = "SIGN UP";
-  static const String textSignupFooter = "Already have an Account?";
-  static const String textLinkSignupFooter = "Login";
+  static const String signup = "สร้างบัญชีผู้ใช้";
+  static const String textSignupFooter = "มีบัญชีผู้ใช้อยู่แล้ว?";
+  static const String textLinkSignupFooter = "เข้าสู่ระบบ";
 
-  static const String submit = "SUBMIT";
-  static const String textForgotFooter = "Remember password?";
+  static const String submit = "ยืนยัน";
+  static const String textForgotFooter = "จำรหัสผ่านได้ไหม?";
 
   static const String textAvailable = "Available";
   static const String textSelected = "Selected";
@@ -38,9 +37,9 @@ class TextConstant {
 
   static const String textSelect = "Select Now";
 
-  static const String profile = "PROFILE";
+  static const String profile = "โปรไฟล์";
 
-  static const String edit = "Edit Profile";
+  static const String edit = "แก้ไขโปรไฟล์";
 
-  static const String logout = "LOGOUT";
+  static const String logout = "ออกจากระบบ";
 }

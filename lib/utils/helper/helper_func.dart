@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import '../size_constant.dart';
 
@@ -72,9 +73,14 @@ class SnackBarHelper {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(title,
-                          style: const TextStyle(fontWeight: FontWeight.bold)),
-                      Text(message),
+                      Text(
+                        title,
+                        style: GoogleFonts.notoSansThai(
+                          textStyle:
+                              const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Text(message, style: GoogleFonts.notoSansThai()),
                     ],
                   ),
                 ),
@@ -87,7 +93,7 @@ class SnackBarHelper {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             action: SnackBarAction(
-              label: 'Dismiss',
+              label: 'X',
               textColor: Colors.white,
               onPressed: () {
                 scaffoldMessenger.hideCurrentSnackBar();

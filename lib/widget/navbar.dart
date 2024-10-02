@@ -98,7 +98,7 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
                                       decoration: BoxDecoration(
                                         color: index == currentIndex
                                             ? ThemeState
-                                                .defualtTheme.colors.first
+                                                .defaultTheme.colors.first
                                             : ThemeState
                                                 .lightTheme.colors.first,
                                         borderRadius: BorderRadius.circular(50),
@@ -171,7 +171,7 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
                                               color: index == currentIndex
                                                   ? ThemeState
                                                       .lightTheme.colors.first
-                                                  : ThemeState.defualtTheme
+                                                  : ThemeState.defaultTheme
                                                       .colors.first,
                                             ),
                                           ],
