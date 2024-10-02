@@ -11,10 +11,9 @@ class ApiService {
     _dio.interceptors.add(DioInterceptor());
   }
 
-  Future<Response> get(String path,
-      {Map<String, dynamic>? queryParameters}) async {
+  Future<Response> get(String path, {Map<String, dynamic>? query}) async {
     try {
-      final response = await _dio.get(path, queryParameters: queryParameters);
+      final response = await _dio.get(path, queryParameters: query);
       return response;
     } catch (e) {
       debugPrint(e.toString());
@@ -38,13 +37,15 @@ class ApiService {
   }
 
   Future<Response> put(String path,
-      {Object? data, Map<String, dynamic>? queryParameters}) async {
+      {Object? data, Map<String, dynamic>? query}) async {
     try {
-      final response =
-          await _dio.put(path, data: data, queryParameters: queryParameters);
+      debugPrint("Request data: $data");
+      final response = await _dio.put(path, data: data, queryParameters: query);
+      debugPrint("Response data: ${response.data}");
       return response;
-    } catch (e) {
-      debugPrint(e.toString());
+    } on DioException catch (e) {
+      debugPrint('DioException: ${e.toString()}');
+      debugPrint('Response: ${e.response}');
       rethrow;
     }
   }
@@ -91,4 +92,6 @@ class ApiService {
   Future<void> logout() async {
     await Token.clearToken();
   }
+
+  patch(String s, {required Map<String, String> data}) {}
 }

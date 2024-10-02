@@ -8,7 +8,6 @@ class DioInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     final token = await Token.getToken();
-    print('Token: $token');
     if (token != null && token.isNotEmpty) {
       options.headers['Authorization'] = 'Bearer $token';
     }

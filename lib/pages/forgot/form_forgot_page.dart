@@ -17,6 +17,17 @@ class FormForgotPage extends StatefulWidget {
 }
 
 class FormForgotPageState extends State<FormForgotPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _newPasswordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _newPasswordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<UserBloc, UserState>(
@@ -33,23 +44,28 @@ class FormForgotPageState extends State<FormForgotPage> {
       },
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: SizeConstant.defaultPadding * 5),
-              const Text(TextConstant.headerForgot,
-                  style: TextStyle(fontSize: 35, fontWeight: FontWeight.w600)),
-              const Text(TextConstant.lableForgot,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-              const SizedBox(height: SizeConstant.defaultPadding + 20),
-              _buildEmailField(state),
-              const SizedBox(height: SizeConstant.defaultPadding),
-              _buildPasswordField(state),
-              const SizedBox(height: SizeConstant.defaultPadding),
-              _buildSubmitButton(),
-              const SizedBox(height: SizeConstant.defaultPadding),
-              _buildSubmitLink(state),
-            ],
+          return Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: SizeConstant.defaultPadding * 5),
+                const Text(TextConstant.headerForgot,
+                    style:
+                        TextStyle(fontSize: 35, fontWeight: FontWeight.w600)),
+                const Text(TextConstant.lableForgot,
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                const SizedBox(height: SizeConstant.defaultPadding + 20),
+                _buildEmailField(state),
+                const SizedBox(height: SizeConstant.defaultPadding),
+                _buildNewPasswordField(state),
+                const SizedBox(height: SizeConstant.defaultPadding),
+                _buildSubmitButton(),
+                const SizedBox(height: SizeConstant.defaultPadding),
+                _buildSubmitLink(state),
+              ],
+            ),
           );
         },
       ),
@@ -62,16 +78,17 @@ class FormForgotPageState extends State<FormForgotPage> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF6E6E6E).withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: const Offset(0, 3),
-            ),
-          ],
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: const Color(0xFF6E6E6E).withOpacity(0.5),
+          //     spreadRadius: 2,
+          //     blurRadius: 5,
+          //     offset: const Offset(0, 3),
+          //   ),
+          // ],
         ),
         child: TextFormField(
+          controller: _emailController,
           decoration: InputDecoration(
             prefixIcon:
                 const Icon(LineAwesomeIcons.envelope, color: Colors.black),
@@ -93,7 +110,7 @@ class FormForgotPageState extends State<FormForgotPage> {
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter your E-mail';
+              return 'กรุณากรอกอีเมล';
             }
             return null;
           },
@@ -102,22 +119,23 @@ class FormForgotPageState extends State<FormForgotPage> {
     );
   }
 
-  Widget _buildPasswordField(ThemeState state) {
+  Widget _buildNewPasswordField(ThemeState state) {
     return FractionallySizedBox(
       widthFactor: 0.9,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF6E6E6E).withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: const Offset(0, 3),
-            ),
-          ],
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: const Color(0xFF6E6E6E).withOpacity(0.5),
+          //     spreadRadius: 2,
+          //     blurRadius: 5,
+          //     offset: const Offset(0, 3),
+          //   ),
+          // ],
         ),
         child: TextFormField(
+          controller: _newPasswordController,
           decoration: InputDecoration(
             prefixIcon: const Icon(LineAwesomeIcons.fingerprint_solid,
                 color: Colors.black),
@@ -137,7 +155,7 @@ class FormForgotPageState extends State<FormForgotPage> {
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter your new password';
+              return 'กรุณาใส่รหัสผ่านใหม่';
             }
             return null;
           },
@@ -150,7 +168,7 @@ class FormForgotPageState extends State<FormForgotPage> {
     return FractionallySizedBox(
       widthFactor: 0.9,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: _submit,
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 15),
           shape:
@@ -189,5 +207,23 @@ class FormForgotPageState extends State<FormForgotPage> {
         ],
       ),
     );
+  }
+
+  void _submit() {
+    if (_formKey.currentState!.validate()) {
+      String email = _emailController.text;
+      String newPassword = _newPasswordController.text;
+      context
+          .read<UserBloc>()
+          .add(ForgotPasswordEvent(email: email, password: newPassword));
+      FocusScope.of(context).unfocus();
+    } else {
+      SnackBarHelper.showWarningSnackBar(
+        context,
+        title: 'ข้อมูลไม่ถูกต้อง',
+        message: 'กรุณากรอกข้อมูลให้ถูกต้อง',
+        duration: const Duration(seconds: 3),
+      );
+    }
   }
 }
