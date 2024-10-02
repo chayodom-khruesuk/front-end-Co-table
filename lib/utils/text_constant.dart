@@ -41,4 +41,6 @@ class TextConstant {
   static const String profile = "PROFILE";
 
   static const String edit = "Edit Profile";
+
+  static const String logout = "LOGOUT";
 }

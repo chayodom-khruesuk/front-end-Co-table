@@ -1,3 +1,5 @@
+import 'package:co_table/bloc/bloc.dart';
+import 'package:co_table/router/routes_conf.dart';
 import 'package:co_table/utils/size_constant.dart';
 import 'package:co_table/utils/text_constant.dart';
 import 'package:flutter/material.dart';
@@ -18,27 +20,32 @@ class BodyProfileState extends State<BodyProfile> {
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, state) {
-        return Container(
-          decoration: BoxDecoration(
-            color: Colors.black,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          padding: const EdgeInsets.all(20),
-          margin: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _buildPasswordField(state),
-              const SizedBox(height: SizeConstant.defaultPadding),
-              _buildPasswordField(state),
-              const SizedBox(height: SizeConstant.defaultPadding),
-              _buildPasswordField(state),
-              const SizedBox(height: SizeConstant.defaultPadding),
-              _buildPasswordField(state),
-              const SizedBox(height: SizeConstant.defaultPadding),
-              _buildEditButton(),
-            ],
-          ),
+        return Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              padding: const EdgeInsets.all(20),
+              margin: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildPasswordField(state),
+                  const SizedBox(height: SizeConstant.defaultPadding),
+                  _buildPasswordField(state),
+                  const SizedBox(height: SizeConstant.defaultPadding),
+                  _buildPasswordField(state),
+                  const SizedBox(height: SizeConstant.defaultPadding),
+                  _buildPasswordField(state),
+                  const SizedBox(height: SizeConstant.defaultPadding),
+                  _buildEditButton(),
+                ],
+              ),
+            ),
+            _buildLogoutButton(),
+          ],
         );
       },
     );
@@ -89,5 +96,27 @@ class BodyProfileState extends State<BodyProfile> {
             style: TextStyle(color: Colors.white, fontSize: 20)),
       ),
     );
+  }
+
+  Widget _buildLogoutButton() {
+    return FractionallySizedBox(
+      widthFactor: 0.9,
+      child: ElevatedButton(
+        onPressed: _logout,
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          backgroundColor: const Color.fromARGB(255, 153, 22, 22),
+        ),
+        child: const Text(TextConstant.logout,
+            style: TextStyle(color: Colors.white, fontSize: 20)),
+      ),
+    );
+  }
+
+  void _logout() {
+    context.read<UserBloc>().add(LogoutUserEvent());
+    Navigator.of(context).pushReplacementNamed(loginPageRoute);
   }
 }
