@@ -34,11 +34,20 @@ class FormLoginPageState extends State<FormLoginPage> {
   Widget build(BuildContext context) {
     return BlocListener<UserBloc, UserState>(
       listener: (context, state) {
-        if (state is LoadingUserState && state.responseText.isNotEmpty) {
+        if (state is LoadingUserState &&
+            state.responseText == "เข้าสู่ระบบสำเร็จ") {
           Navigator.of(context).pushReplacementNamed(homePageRoute);
           SnackBarHelper.showSuccessSnackBar(
             context,
-            title: 'เข้าสู่ระบบสำเร็จ',
+            title: 'แจ้งเตือนการเข้าสู่ระบบ',
+            message: state.responseText,
+            duration: const Duration(seconds: 3),
+          );
+        }
+        if (state is UserEmptyState && state.responseText.isNotEmpty) {
+          SnackBarHelper.showErrorSnackBar(
+            context,
+            title: 'แจ้งเตือนการเข้าสู่ระบบ',
             message: state.responseText,
             duration: const Duration(seconds: 3),
           );
@@ -100,6 +109,11 @@ class FormLoginPageState extends State<FormLoginPage> {
         ),
         child: TextFormField(
           controller: _usernameController,
+          style: GoogleFonts.notoSansThai(
+            textStyle: const TextStyle(
+              color: Colors.black,
+            ),
+          ),
           decoration: InputDecoration(
             prefixIcon: const Icon(LineAwesomeIcons.user, color: Colors.black),
             labelText: TextConstant.textUsername,
@@ -125,7 +139,7 @@ class FormLoginPageState extends State<FormLoginPage> {
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'โปรดกรอกชื่อบัญชีผู้ใช้';
+              return 'กรุณาระบุชื่อบัญชีผู้ใช้ของคุณ';
             }
             return null;
           },
@@ -151,6 +165,11 @@ class FormLoginPageState extends State<FormLoginPage> {
         ),
         child: TextFormField(
           controller: _passwordController,
+          style: GoogleFonts.notoSansThai(
+            textStyle: const TextStyle(
+              color: Colors.black,
+            ),
+          ),
           obscureText: !_showPassword,
           decoration: InputDecoration(
             prefixIcon: const Icon(LineAwesomeIcons.fingerprint_solid,
@@ -184,7 +203,7 @@ class FormLoginPageState extends State<FormLoginPage> {
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'โปรดกรอกรหัสผ่าน';
+              return 'กรุณาระบุรหัสผ่านของคุณ';
             }
             return null;
           },

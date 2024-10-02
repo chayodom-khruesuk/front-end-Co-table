@@ -3,6 +3,7 @@ import 'package:co_table/utils/size_constant.dart';
 import 'package:co_table/utils/text_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 import '../../bloc/bloc.dart';
@@ -42,13 +43,22 @@ class FormSignupPageState extends State<FormSignupPage> {
     return BlocListener<UserBloc, UserState>(
       listener: (context, state) {
         if (state is LoadingUserState && state.responseText.isNotEmpty) {
-          Navigator.of(context).pushReplacementNamed(homePageRoute);
-          SnackBarHelper.showSuccessSnackBar(
-            context,
-            title: 'Signup Complete',
-            message: state.responseText,
-            duration: const Duration(seconds: 3),
-          );
+          if (state.responseText == "User created successfully") {
+            Navigator.of(context).pushReplacementNamed(homePageRoute);
+            SnackBarHelper.showSuccessSnackBar(
+              context,
+              title: 'สมัครสมาชิกสำเร็จ',
+              message: state.responseText,
+              duration: const Duration(seconds: 3),
+            );
+          } else {
+            SnackBarHelper.showErrorSnackBar(
+              context,
+              title: 'สมัครสมาชิกไม่สำเร็จ',
+              message: state.responseText,
+              duration: const Duration(seconds: 3),
+            );
+          }
         }
       },
       child: BlocBuilder<ThemeBloc, ThemeState>(
@@ -59,12 +69,20 @@ class FormSignupPageState extends State<FormSignupPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: SizeConstant.defaultPadding * 10),
-                const Text(TextConstant.headerSignup,
-                    style:
-                        TextStyle(fontSize: 35, fontWeight: FontWeight.w600)),
-                const Text(TextConstant.lableSignup,
-                    style:
-                        TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+                Text(
+                  TextConstant.headerSignup,
+                  style: GoogleFonts.notoSansThai(
+                    textStyle: const TextStyle(
+                        fontSize: 35, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Text(
+                  TextConstant.lableSignup,
+                  style: GoogleFonts.notoSansThai(
+                    textStyle: const TextStyle(
+                        fontSize: 17, fontWeight: FontWeight.w500),
+                  ),
+                ),
                 const SizedBox(height: SizeConstant.defaultPadding + 20),
                 _buildUsernameField(state),
                 const SizedBox(height: SizeConstant.defaultPadding),
@@ -93,23 +111,31 @@ class FormSignupPageState extends State<FormSignupPage> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF6E6E6E).withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: const Offset(0, 2),
-            ),
-          ],
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: const Color(0xFF6E6E6E).withOpacity(0.5),
+          //     spreadRadius: 2,
+          //     blurRadius: 5,
+          //     offset: const Offset(0, 2),
+          //   ),
+          // ],
         ),
         child: TextFormField(
           controller: _usernameController,
+          style: GoogleFonts.notoSansThai(
+            textStyle: const TextStyle(
+              color: Colors.black,
+            ),
+          ),
           decoration: InputDecoration(
             prefixIcon: const Icon(LineAwesomeIcons.user, color: Colors.black),
             labelText: TextConstant.textUsername,
-            labelStyle: const TextStyle(
-                color: Colors.black, fontWeight: FontWeight.w700),
-            fillColor: state.backgroundGradient.colors.first,
+            labelStyle: GoogleFonts.notoSansThai(
+              textStyle: const TextStyle(
+                color: Colors.black,
+              ),
+            ),
+            fillColor: const Color(0xAAD93EF2),
             filled: true,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
@@ -117,12 +143,14 @@ class FormSignupPageState extends State<FormSignupPage> {
             ),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-            errorStyle:
-                const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+            errorStyle: GoogleFonts.notoSansThai(
+              textStyle: const TextStyle(
+                  fontWeight: FontWeight.bold, color: Colors.red),
+            ),
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter your name';
+              return 'กรุณากรอกชื่อผู้ใช้ของคุณ';
             }
             return null;
           },
@@ -137,24 +165,32 @@ class FormSignupPageState extends State<FormSignupPage> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF6E6E6E).withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: const Offset(0, 2),
-            ),
-          ],
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: const Color(0xFF6E6E6E).withOpacity(0.5),
+          //     spreadRadius: 2,
+          //     blurRadius: 5,
+          //     offset: const Offset(0, 2),
+          //   ),
+          // ],
         ),
         child: TextFormField(
           controller: _nameController,
+          style: GoogleFonts.notoSansThai(
+            textStyle: const TextStyle(
+              color: Colors.black,
+            ),
+          ),
           decoration: InputDecoration(
             prefixIcon: const Icon(LineAwesomeIcons.user_circle_solid,
                 color: Colors.black),
             labelText: TextConstant.textName,
-            labelStyle: const TextStyle(
-                color: Colors.black, fontWeight: FontWeight.w700),
-            fillColor: state.backgroundGradient.colors.first,
+            labelStyle: GoogleFonts.notoSansThai(
+              textStyle: const TextStyle(
+                color: Colors.black,
+              ),
+            ),
+            fillColor: const Color(0xAAD93EF2),
             filled: true,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
@@ -162,12 +198,14 @@ class FormSignupPageState extends State<FormSignupPage> {
             ),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-            errorStyle:
-                const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+            errorStyle: GoogleFonts.notoSansThai(
+              textStyle: const TextStyle(
+                  fontWeight: FontWeight.bold, color: Colors.red),
+            ),
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter your username';
+              return 'กรุณากรอกชื่อบัญชีผู้ใช้ของคุณ';
             }
             return null;
           },
@@ -182,24 +220,32 @@ class FormSignupPageState extends State<FormSignupPage> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF6E6E6E).withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: const Offset(0, 3),
-            ),
-          ],
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: const Color(0xFF6E6E6E).withOpacity(0.5),
+          //     spreadRadius: 2,
+          //     blurRadius: 5,
+          //     offset: const Offset(0, 3),
+          //   ),
+          // ],
         ),
         child: TextFormField(
           controller: _emailController,
+          style: GoogleFonts.notoSansThai(
+            textStyle: const TextStyle(
+              color: Colors.black,
+            ),
+          ),
           decoration: InputDecoration(
             prefixIcon:
                 const Icon(LineAwesomeIcons.envelope, color: Colors.black),
             labelText: TextConstant.textEmail,
-            labelStyle: const TextStyle(
-                color: Colors.black, fontWeight: FontWeight.w700),
-            fillColor: state.backgroundGradient.colors.first,
+            labelStyle: GoogleFonts.notoSansThai(
+              textStyle: const TextStyle(
+                color: Colors.black,
+              ),
+            ),
+            fillColor: const Color(0xAAD93EF2),
             filled: true,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
@@ -207,12 +253,14 @@ class FormSignupPageState extends State<FormSignupPage> {
             ),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-            errorStyle:
-                const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+            errorStyle: GoogleFonts.notoSansThai(
+              textStyle: const TextStyle(
+                  fontWeight: FontWeight.bold, color: Colors.red),
+            ),
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter your e-mail';
+              return 'กรุณากรอกอีเมลของคุณ';
             }
             return null;
           },
@@ -227,25 +275,33 @@ class FormSignupPageState extends State<FormSignupPage> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF6E6E6E).withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: const Offset(0, 3),
-            ),
-          ],
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: const Color(0xFF6E6E6E).withOpacity(0.5),
+          //     spreadRadius: 2,
+          //     blurRadius: 5,
+          //     offset: const Offset(0, 3),
+          //   ),
+          // ],
         ),
         child: TextFormField(
           obscureText: !_showPassword,
           controller: _passwordController,
+          style: GoogleFonts.notoSansThai(
+            textStyle: const TextStyle(
+              color: Colors.black,
+            ),
+          ),
           decoration: InputDecoration(
             prefixIcon: const Icon(LineAwesomeIcons.fingerprint_solid,
                 color: Colors.black),
             labelText: TextConstant.textPassword,
-            labelStyle: const TextStyle(
-                color: Colors.black, fontWeight: FontWeight.w700),
-            fillColor: state.backgroundGradient.colors.first,
+            labelStyle: GoogleFonts.notoSansThai(
+              textStyle: const TextStyle(
+                color: Colors.black,
+              ),
+            ),
+            fillColor: const Color(0xAAD93EF2),
             filled: true,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
@@ -253,8 +309,10 @@ class FormSignupPageState extends State<FormSignupPage> {
             ),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-            errorStyle:
-                const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+            errorStyle: GoogleFonts.notoSansThai(
+              textStyle: const TextStyle(
+                  fontWeight: FontWeight.bold, color: Colors.red),
+            ),
             suffixIcon: IconButton(
               icon: Icon(
                   _showPassword
@@ -266,7 +324,7 @@ class FormSignupPageState extends State<FormSignupPage> {
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter your password';
+              return 'กรุณากรอกรหัสผ่านของคุณ';
             }
             return null;
           },
@@ -281,25 +339,33 @@ class FormSignupPageState extends State<FormSignupPage> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF6E6E6E).withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: const Offset(0, 3),
-            ),
-          ],
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: const Color(0xFF6E6E6E).withOpacity(0.5),
+          //     spreadRadius: 2,
+          //     blurRadius: 5,
+          //     offset: const Offset(0, 3),
+          //   ),
+          // ],
         ),
         child: TextFormField(
           obscureText: !_showConfirmPassword,
           controller: _confirmPasswordController,
+          style: GoogleFonts.notoSansThai(
+            textStyle: const TextStyle(
+              color: Colors.black,
+            ),
+          ),
           decoration: InputDecoration(
             prefixIcon: const Icon(LineAwesomeIcons.fingerprint_solid,
                 color: Colors.black),
             labelText: TextConstant.textConfirmPassword,
-            labelStyle: const TextStyle(
-                color: Colors.black, fontWeight: FontWeight.w700),
-            fillColor: state.backgroundGradient.colors.first,
+            labelStyle: GoogleFonts.notoSansThai(
+              textStyle: const TextStyle(
+                color: Colors.black,
+              ),
+            ),
+            fillColor: const Color(0xAAD93EF2),
             filled: true,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
@@ -307,8 +373,10 @@ class FormSignupPageState extends State<FormSignupPage> {
             ),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-            errorStyle:
-                const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+            errorStyle: GoogleFonts.notoSansThai(
+              textStyle: const TextStyle(
+                  fontWeight: FontWeight.bold, color: Colors.red),
+            ),
             suffixIcon: IconButton(
               icon: Icon(
                   _showConfirmPassword
@@ -321,7 +389,7 @@ class FormSignupPageState extends State<FormSignupPage> {
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter your confirm password';
+              return 'กรุณากรอกยืนยันรหัสผ่าน';
             }
             return null;
           },
@@ -341,8 +409,15 @@ class FormSignupPageState extends State<FormSignupPage> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           backgroundColor: Colors.black,
         ),
-        child: const Text(TextConstant.signup,
-            style: TextStyle(color: Colors.white, fontSize: 20)),
+        child: Text(
+          TextConstant.signup,
+          style: GoogleFonts.notoSansThai(
+            textStyle: const TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -352,21 +427,27 @@ class FormSignupPageState extends State<FormSignupPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(TextConstant.textSignupFooter,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 13.5,
-                  fontWeight: FontWeight.bold)),
+          Text(
+            TextConstant.textSignupFooter,
+            style: GoogleFonts.notoSansThai(
+              textStyle: const TextStyle(
+                color: Colors.black,
+                fontSize: 14,
+              ),
+            ),
+          ),
           const Padding(padding: EdgeInsets.all(5)),
           GestureDetector(
             onTap: () =>
                 Navigator.of(context).pushReplacementNamed(loginPageRoute),
             child: Text(
               TextConstant.textLinkSignupFooter,
-              style: TextStyle(
-                color: state.backgroundGradient.colors.first,
-                fontSize: 13.5,
-                fontWeight: FontWeight.bold,
+              style: GoogleFonts.notoSansThai(
+                textStyle: TextStyle(
+                  color: state.backgroundGradient.colors.first,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
@@ -386,8 +467,8 @@ class FormSignupPageState extends State<FormSignupPage> {
       if (password != confirmPassword) {
         SnackBarHelper.showErrorSnackBar(
           context,
-          title: 'Password Mismatch',
-          message: 'Password and Confirm Password do not match.',
+          title: 'รหัสผ่านไม่ตรงกัน',
+          message: 'รหัสผ่านกับยืนยันรหัสผ่านไม่ตรงกัน',
           duration: const Duration(seconds: 3),
         );
         return;
@@ -398,8 +479,8 @@ class FormSignupPageState extends State<FormSignupPage> {
     } else {
       SnackBarHelper.showWarningSnackBar(
         context,
-        title: 'Incomplete Form',
-        message: 'Please fill in all required fields.',
+        title: 'กรอกข้อมูลไม่ครบถ้วน',
+        message: 'กรุณากรอกข้อมูลให้ครบถ้วน',
         duration: const Duration(seconds: 3),
       );
     }
