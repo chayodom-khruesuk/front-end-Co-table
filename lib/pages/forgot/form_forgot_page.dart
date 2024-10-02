@@ -16,6 +16,8 @@ class FormForgotPage extends StatefulWidget {
 
 class FormForgotPageState extends State<FormForgotPage> {
   bool _showPassword = false;
+  // final TextEdititgController _emailController = TextEdititgController();
+  // final TextEdititgController _passwordController = TextEdititgController();
 
   @override
   Widget build(BuildContext context) {
