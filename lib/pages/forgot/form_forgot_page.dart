@@ -2,6 +2,7 @@ import 'package:co_table/utils/size_constant.dart';
 import 'package:co_table/utils/text_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 import '../../bloc/bloc.dart';
@@ -89,15 +90,21 @@ class FormForgotPageState extends State<FormForgotPage> {
         ),
         child: TextFormField(
           controller: _emailController,
+          style: GoogleFonts.notoSansThai(
+            textStyle: const TextStyle(
+              color: Colors.black,
+            ),
+          ),
           decoration: InputDecoration(
             prefixIcon:
                 const Icon(LineAwesomeIcons.envelope, color: Colors.black),
             labelText: TextConstant.textEmail,
-            labelStyle: const TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w700,
+            labelStyle: GoogleFonts.notoSansThai(
+              textStyle: const TextStyle(
+                color: Colors.black,
+              ),
             ),
-            fillColor: state.backgroundGradient.colors.first,
+            fillColor: const Color(0xAAD93EF2),
             filled: true,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
@@ -105,8 +112,12 @@ class FormForgotPageState extends State<FormForgotPage> {
             ),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-            errorStyle:
-                const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+            errorStyle: GoogleFonts.notoSansThai(
+              textStyle: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.red,
+              ),
+            ),
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -136,13 +147,21 @@ class FormForgotPageState extends State<FormForgotPage> {
         ),
         child: TextFormField(
           controller: _newPasswordController,
+          style: GoogleFonts.notoSansThai(
+            textStyle: const TextStyle(
+              color: Colors.black,
+            ),
+          ),
           decoration: InputDecoration(
             prefixIcon: const Icon(LineAwesomeIcons.fingerprint_solid,
                 color: Colors.black),
             labelText: TextConstant.textNewPassword,
-            labelStyle: const TextStyle(
-                color: Colors.black, fontWeight: FontWeight.w700),
-            fillColor: state.backgroundGradient.colors.first,
+            labelStyle: GoogleFonts.notoSansThai(
+              textStyle: const TextStyle(
+                color: Colors.black,
+              ),
+            ),
+            fillColor: const Color(0xAAD93EF2),
             filled: true,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
@@ -150,8 +169,10 @@ class FormForgotPageState extends State<FormForgotPage> {
             ),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-            errorStyle:
-                const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+            errorStyle: GoogleFonts.notoSansThai(
+              textStyle: const TextStyle(
+                  fontWeight: FontWeight.bold, color: Colors.red),
+            ),
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -175,8 +196,15 @@ class FormForgotPageState extends State<FormForgotPage> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           backgroundColor: Colors.black,
         ),
-        child: const Text(TextConstant.submit,
-            style: TextStyle(color: Colors.white, fontSize: 20)),
+        child: Text(
+          TextConstant.submit,
+          style: GoogleFonts.notoSansThai(
+            textStyle: const TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -197,10 +225,12 @@ class FormForgotPageState extends State<FormForgotPage> {
                 Navigator.of(context).pushReplacementNamed(loginPageRoute),
             child: Text(
               TextConstant.textLinkSignupFooter,
-              style: TextStyle(
-                color: state.backgroundGradient.colors.first,
-                fontSize: 13.5,
-                fontWeight: FontWeight.bold,
+              style: GoogleFonts.notoSansThai(
+                textStyle: TextStyle(
+                  color: state.backgroundGradient.colors.first,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
