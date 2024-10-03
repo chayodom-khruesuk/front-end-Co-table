@@ -36,7 +36,7 @@ class FormForgotPageState extends State<FormForgotPage> {
           Navigator.of(context).pushReplacementNamed(loginPageRoute);
           SnackBarHelper.showSuccessSnackBar(
             context,
-            title: 'Create new password complete',
+            title: 'สร้างรหัสผ่านใหม่สำเร็จ',
             message: state.responseText,
             duration: const Duration(seconds: 3),
           );
@@ -215,7 +215,7 @@ class FormForgotPageState extends State<FormForgotPage> {
       String newPassword = _newPasswordController.text;
       context
           .read<UserBloc>()
-          .add(ForgotPasswordEvent(email: email, password: newPassword));
+          .add(ForgotPasswordEvent(email: email, newPassword: newPassword));
       FocusScope.of(context).unfocus();
     } else {
       SnackBarHelper.showWarningSnackBar(

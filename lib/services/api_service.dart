@@ -51,6 +51,13 @@ class ApiService {
       debugPrint("Response data: ${response.data}");
       return response;
     } on DioException catch (e) {
+      if (e.response?.statusCode == 409) {
+        return Response(
+          requestOptions: e.requestOptions,
+          statusCode: 409,
+          data: e.response?.data,
+        );
+      }
       debugPrint('DioException: ${e.toString()}');
       debugPrint('Response: ${e.response}');
       rethrow;

@@ -26,6 +26,6 @@ class LogoutUserEvent extends UserEvent {}
 
 class ForgotPasswordEvent extends UserEvent {
   final String email;
-  final String password;
-  ForgotPasswordEvent({required this.email, required this.password});
+  final String newPassword;
+  ForgotPasswordEvent({required this.email, required this.newPassword});
 }

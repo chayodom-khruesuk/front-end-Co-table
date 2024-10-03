@@ -31,7 +31,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       password: event.password,
     );
     emit(LoadingUserState(responseText: response));
-    if (response.contains("User created successfully")) {
+    if (response.contains("สร้างบัญชีสำเร็จ")) {
       add(LoginUserEvent(username: event.username, password: event.password));
     }
   }
@@ -55,13 +55,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   _onForgotPasswordEvent(
       ForgotPasswordEvent event, Emitter<UserState> emit) async {
-    if (state is ReadyUserState) {
-      final response = await userRepo.forgotPassword(
-        email: event.email,
-        newPassword: event.password,
-      );
-      emit(LoadingUserState(responseText: response));
-      add(LoadUserEvent());
-    }
+    final response = await userRepo.forgotPassword(
+      email: event.email,
+      newPassword: event.newPassword,
+    );
+    emit(LoadingUserState(responseText: response));
   }
 }

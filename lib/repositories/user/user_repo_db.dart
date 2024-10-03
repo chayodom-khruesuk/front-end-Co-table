@@ -50,11 +50,12 @@ class UserRepoDb extends UserRepo {
     required String newPassword,
   }) async {
     final response = await apiService.put('$baseUrl/forgot_password',
-        data: {'email': email, 'new_password': newPassword});
+        query: {'email': email}, data: {'new_password': newPassword});
+
     if (response.statusCode == 200) {
-      return "Password reset successfully";
-    } else if (response.statusCode == 404) {
-      return response.data['detail'];
+      return "Reset password successfully";
+    } else if (response.statusCode == 409) {
+      return response.data['detail'] ?? "Failed to reset password";
     } else {
       throw Exception('Failed to reset password');
     }
