@@ -6,7 +6,7 @@ import 'table_history.dart';
 class BodyHomePage extends StatelessWidget {
   final int numberOfBoxes;
 
-  const BodyHomePage({super.key, this.numberOfBoxes = 3});
+  const BodyHomePage({super.key, this.numberOfBoxes = 6});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class BodyHomePage extends StatelessWidget {
 
     return SingleChildScrollView(
       padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.13),
+          EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.07),
       child: Column(
         children: [
           ...List.generate(numberOfBoxes, (index) {

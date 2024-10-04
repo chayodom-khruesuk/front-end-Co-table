@@ -78,6 +78,7 @@ class HomePage extends StatelessWidget {
                     SearchWidget(),
                     SizedBox(height: 10),
                     Expanded(child: BodyHomePage()),
+                    SizedBox(height: 50),
                   ],
                 ),
               ),
