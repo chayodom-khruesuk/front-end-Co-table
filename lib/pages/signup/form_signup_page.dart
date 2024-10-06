@@ -475,6 +475,9 @@ class FormSignupPageState extends State<FormSignupPage> {
       }
       context.read<UserBloc>().add(CreateUserEvent(
           username: username, name: name, email: email, password: password));
+      context
+          .read<UserBloc>()
+          .add(LoginUserEvent(username: username, password: password));
       FocusScope.of(context).unfocus();
     } else {
       SnackBarHelper.showWarningSnackBar(
