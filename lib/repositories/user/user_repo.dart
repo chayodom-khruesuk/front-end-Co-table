@@ -14,6 +14,8 @@ abstract class UserRepo {
 
   Future<UserModel> getUser();
 
+  Future<List<UserModel>> getAllUser({int page = 1});
+
   Future<String> forgotPassword({
     required String email,
     required String newPassword,

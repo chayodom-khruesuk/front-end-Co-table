@@ -1,4 +1,5 @@
 import 'package:co_table/pages/home/home_page.dart';
+import 'package:co_table/pages/home/user/user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,6 +23,7 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
     const HomePage(),
     const ReservationPage(),
     const ProfilePage(),
+    const UserPage(),
   ];
 
   @override
@@ -63,7 +65,7 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: List.generate(
-                          3,
+                          4,
                           (index) => SizedBox(
                             child: InkWell(
                               onTap: () {
@@ -196,14 +198,11 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
   }
 }
 
-List<String> listNavBarText = [
-  'หน้าหลัก',
-  'การจอง',
-  'โปรไฟล์',
-];
+List<String> listNavBarText = ['หน้าหลัก', 'การจอง', 'โปรไฟล์', 'จัดการผู้ใช้'];
 
 List<IconData> listNavBarIcon = [
   Icons.home,
   Icons.book,
   Icons.person,
+  Icons.group,
 ];

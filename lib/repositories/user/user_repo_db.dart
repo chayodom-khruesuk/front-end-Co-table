@@ -4,7 +4,9 @@ import 'package:co_table/services/api_service.dart';
 import 'package:flutter/material.dart';
 
 class UserRepoDb extends UserRepo {
+  late List<UserModel> users = [];
   late UserModel user;
+  late UserModelList userList;
 
   final ApiService apiService = ApiService();
   final String baseUrl = '/users';
@@ -70,6 +72,18 @@ class UserRepoDb extends UserRepo {
       return UserModel.empty();
     } else {
       throw Exception('Failed to get user');
+    }
+  }
+
+  @override
+  Future<List<UserModel>> getAllUser({int page = 1}) async {
+    final response = await apiService.get(baseUrl, query: {'page': page});
+    if (response.statusCode == 200) {
+      final userList = UserModelList.fromJson(response.data);
+      users = userList.users;
+      return users;
+    } else {
+      throw Exception('Failed to get all user');
     }
   }
 

@@ -2,6 +2,11 @@ sealed class UserEvent {}
 
 class LoadUserEvent extends UserEvent {}
 
+class LoadUserListEvent extends UserEvent {
+  final int page;
+  LoadUserListEvent({this.page = 1});
+}
+
 class CreateUserEvent extends UserEvent {
   final String username;
   final String name;
