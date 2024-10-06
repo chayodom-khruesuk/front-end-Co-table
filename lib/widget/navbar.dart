@@ -1,3 +1,5 @@
+import 'package:co_table/bloc/bloc.dart';
+import 'package:co_table/bloc/user/user_bloc.dart';
 import 'package:co_table/pages/home/home_page.dart';
 import 'package:co_table/pages/home/user/user_page.dart';
 import 'package:flutter/material.dart';
@@ -19,17 +21,23 @@ class NavWithAnimated extends StatefulWidget {
 class _NavWithAnimatedState extends State<NavWithAnimated> {
   var currentIndex = 0;
 
-  final pages = [
-    const HomePage(),
-    const ReservationPage(),
-    const ProfilePage(),
-    const UserPage(),
-  ];
-
   @override
   Widget build(BuildContext context) {
     double displayWidth = MediaQuery.of(context).size.width;
     bool isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
+
+    final isAdmin = context.read<UserBloc>().state.user.roles.contains('admin');
+    final pages = [
+      const HomePage(),
+      const ReservationPage(),
+      const ProfilePage(),
+      if (isAdmin) const UserPage(),
+    ];
+
+    final List<IconData> navBarIcon =
+        isAdmin ? listNavBarIconAdmin : listNavBarIcon;
+    final List<String> navBarText =
+        isAdmin ? listNavBarTextAdmin : listNavBarText;
 
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, themeState) {
@@ -65,7 +73,7 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: List.generate(
-                          4,
+                          navBarText.length,
                           (index) => SizedBox(
                             child: InkWell(
                               onTap: () {
@@ -82,8 +90,7 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
                                     duration: const Duration(seconds: 1),
                                     curve: Curves.fastLinearToSlowEaseIn,
                                     width: index == currentIndex
-                                        ? (listNavBarText[index] ==
-                                                'Reservation'
+                                        ? (navBarText[index] == 'Reservation'
                                             ? displayWidth * .45
                                             : displayWidth * .4)
                                         : displayWidth * .18,
@@ -138,7 +145,7 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
                                                     .fastLinearToSlowEaseIn,
                                                 child: Text(
                                                   index == currentIndex
-                                                      ? listNavBarText[index]
+                                                      ? navBarText[index]
                                                       : '',
                                                   style:
                                                       GoogleFonts.notoSansThai(
@@ -168,8 +175,8 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
                                                   : 30,
                                             ),
                                             Icon(
-                                              listNavBarIcon[index],
                                               size: displayWidth * .08,
+                                              navBarIcon[index],
                                               color: index == currentIndex
                                                   ? ThemeState
                                                       .lightTheme.colors.first
@@ -198,9 +205,22 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
   }
 }
 
-List<String> listNavBarText = ['หน้าหลัก', 'การจอง', 'โปรไฟล์', 'จัดการผู้ใช้'];
+List<String> listNavBarText = ['หน้าหลัก', 'การจอง', 'โปรไฟล์'];
+
+List<String> listNavBarTextAdmin = [
+  'หน้าหลัก',
+  'การจอง',
+  'โปรไฟล์',
+  'จัดการผู้ใช้'
+];
 
 List<IconData> listNavBarIcon = [
+  Icons.home,
+  Icons.book,
+  Icons.person,
+];
+
+List<IconData> listNavBarIconAdmin = [
   Icons.home,
   Icons.book,
   Icons.person,
