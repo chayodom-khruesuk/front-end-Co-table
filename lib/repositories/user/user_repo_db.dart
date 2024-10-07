@@ -9,7 +9,7 @@ class UserRepoDb extends UserRepo {
   late UserModelList userList;
 
   final ApiService apiService = ApiService();
-  final String baseUrl = '/users';
+  final String _baseUrl = '/users';
 
   @override
   Future<String> createUser({
@@ -26,7 +26,7 @@ class UserRepoDb extends UserRepo {
     };
 
     debugPrint("userData: $userData");
-    final response = await apiService.post('$baseUrl/create', query: userData);
+    final response = await apiService.post('$_baseUrl/create', query: userData);
     if (response.statusCode == 200) {
       return "User created successfully";
     } else if (response.statusCode == 409) {
@@ -51,7 +51,7 @@ class UserRepoDb extends UserRepo {
     required String email,
     required String newPassword,
   }) async {
-    final response = await apiService.put('$baseUrl/forgot_password',
+    final response = await apiService.put('$_baseUrl/forgot_password',
         query: {'email': email}, data: {'new_password': newPassword});
 
     if (response.statusCode == 200) {
@@ -65,7 +65,7 @@ class UserRepoDb extends UserRepo {
 
   @override
   Future<UserModel> getUser() async {
-    final response = await apiService.get('$baseUrl/get_me');
+    final response = await apiService.get('$_baseUrl/get_me');
     if (response.statusCode == 200) {
       return UserModel.fromJson(response.data);
     } else if (response.statusCode == 401) {
@@ -77,7 +77,7 @@ class UserRepoDb extends UserRepo {
 
   @override
   Future<List<UserModel>> getAllUser({int page = 1}) async {
-    final response = await apiService.get(baseUrl, query: {'page': page});
+    final response = await apiService.get(_baseUrl, query: {'page': page});
     if (response.statusCode == 200) {
       final userList = UserModelList.fromJson(response.data);
       users = userList.users;
