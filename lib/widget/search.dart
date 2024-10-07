@@ -1,4 +1,7 @@
+import 'package:co_table/bloc/widget/widget_bloc.dart';
+import 'package:co_table/bloc/widget/widget_event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchWidget extends StatelessWidget {
   const SearchWidget({super.key});
@@ -21,6 +24,13 @@ class SearchWidget extends StatelessWidget {
             borderSide: const BorderSide(color: Color(0xFFCEC108)),
           ),
         ),
+        onChanged: (query) {
+          if (query.isEmpty) {
+            context.read<WidgetBloc>().add(SearchClearEvent());
+          } else {
+            context.read<WidgetBloc>().add(SearchRoomEvent(query));
+          }
+        },
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:co_table/bloc/widget/widget_bloc.dart';
 import 'package:co_table/repositories/user/user_repo_db.dart';
 import 'package:co_table/services/services.dart';
 import 'package:co_table/theme/theme_bloc.dart';
@@ -30,7 +31,8 @@ class MainApp extends StatelessWidget {
             }
           });
           return bloc;
-        })
+        }),
+        BlocProvider<WidgetBloc>(create: (context) => WidgetBloc(allRooms: [])),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
