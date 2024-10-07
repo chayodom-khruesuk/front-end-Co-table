@@ -1,7 +1,7 @@
 import 'package:co_table/bloc/bloc.dart';
 import 'package:co_table/bloc/user/user_bloc.dart';
 import 'package:co_table/pages/home/home_page.dart';
-import 'package:co_table/pages/home/user/user_page.dart';
+import 'package:co_table/pages/admin/admin_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -54,11 +54,11 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
                 ),
                 if (!isKeyboardVisible)
                   Positioned(
-                    left: displayWidth * .06,
-                    right: displayWidth * .06,
+                    left: displayWidth * .03,
+                    right: displayWidth * .03,
                     bottom: displayWidth * .06,
                     child: Container(
-                      height: displayWidth * .19,
+                      height: displayWidth * .180,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         boxShadow: [
@@ -90,19 +90,17 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
                                     duration: const Duration(seconds: 1),
                                     curve: Curves.fastLinearToSlowEaseIn,
                                     width: index == currentIndex
-                                        ? (navBarText[index] == 'Reservation'
-                                            ? displayWidth * .45
-                                            : displayWidth * .4)
+                                        ? displayWidth * .32
                                         : displayWidth * .18,
                                     alignment: Alignment.center,
                                     child: AnimatedContainer(
                                       duration: const Duration(seconds: 1),
                                       curve: Curves.fastLinearToSlowEaseIn,
                                       height: index == currentIndex
-                                          ? displayWidth * .13
+                                          ? displayWidth * .12
                                           : 0,
                                       width: index == currentIndex
-                                          ? displayWidth * 1
+                                          ? displayWidth * .32
                                           : 0,
                                       decoration: BoxDecoration(
                                         color: index == currentIndex
@@ -118,7 +116,7 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
                                     duration: const Duration(seconds: 1),
                                     curve: Curves.fastLinearToSlowEaseIn,
                                     width: index == currentIndex
-                                        ? displayWidth * .4
+                                        ? displayWidth * .32
                                         : displayWidth * .18,
                                     alignment: Alignment.center,
                                     child: Stack(
@@ -131,7 +129,7 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
                                               curve:
                                                   Curves.fastLinearToSlowEaseIn,
                                               width: index == currentIndex
-                                                  ? displayWidth * .135
+                                                  ? displayWidth * .13
                                                   : 0,
                                             ),
                                             Flexible(
@@ -153,11 +151,12 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
                                                       color: Colors.white,
                                                       fontWeight:
                                                           FontWeight.bold,
-                                                      fontSize: 16,
+                                                      fontSize: 14,
                                                     ),
                                                   ),
                                                   overflow:
-                                                      TextOverflow.visible,
+                                                      TextOverflow.ellipsis,
+                                                  softWrap: false,
                                                 ),
                                               ),
                                             ),
@@ -172,10 +171,10 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
                                                   Curves.fastLinearToSlowEaseIn,
                                               width: index == currentIndex
                                                   ? displayWidth * .03
-                                                  : 30,
+                                                  : 20,
                                             ),
                                             Icon(
-                                              size: displayWidth * .08,
+                                              size: displayWidth * .07,
                                               navBarIcon[index],
                                               color: index == currentIndex
                                                   ? ThemeState
