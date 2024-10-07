@@ -21,5 +21,11 @@ abstract class UserRepo {
     required String newPassword,
   });
 
+  Future<String> updateUser({
+    required String id,
+    required String email,
+    required String name,
+  });
+
   Future<void> logoutUser();
 }

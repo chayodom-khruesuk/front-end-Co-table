@@ -77,13 +77,29 @@ class UserRepoDb extends UserRepo {
 
   @override
   Future<List<UserModel>> getAllUser({int page = 1}) async {
-    final response = await apiService.get(_baseUrl, query: {'page': page});
+    final response =
+        await apiService.get('$_baseUrl/get_allUser', query: {'page': page});
     if (response.statusCode == 200) {
       final userList = UserModelList.fromJson(response.data);
       users = userList.users;
       return users;
     } else {
       throw Exception('Failed to get all user');
+    }
+  }
+
+  @override
+  Future<String> updateUser(
+      {required String id, required String email, required String name}) async {
+    final response = await apiService.put('$_baseUrl/update_user',
+        query: {'id': id}, data: {'email': email, 'name': name});
+
+    if (response.statusCode == 200) {
+      return "User updated successfully";
+    } else if (response.statusCode == 409) {
+      return response.data['detail'] ?? "Failed to update user";
+    } else {
+      throw Exception('Failed to update user');
     }
   }
 

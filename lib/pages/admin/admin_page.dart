@@ -47,8 +47,9 @@ class _UserPageState extends State<UserPage> {
                                 state.user.name,
                                 style: GoogleFonts.notoSansThai(
                                   textStyle: const TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.normal),
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                 ),
                               ),
                               const SizedBox(width: 5),
@@ -82,7 +83,7 @@ class _UserPageState extends State<UserPage> {
                   children: [
                     SearchWidget(),
                     SizedBox(height: 10),
-                    Expanded(child: BodyUserPage()),
+                    Expanded(child: BodyAdminPage()),
                     SizedBox(height: 50),
                   ],
                 ),

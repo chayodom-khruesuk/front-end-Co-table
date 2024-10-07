@@ -38,71 +38,11 @@ class ProfilePage extends StatelessWidget {
               top: 70,
               right: -70,
               child: Container(
-                width: 170,
-                height: 170,
+                width: 140,
+                height: 140,
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   color: Color(0xFFDA7BE7),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black26,
-                      offset: Offset(0, 5),
-                      blurRadius: 10,
-                      spreadRadius: 2,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: -40,
-              right: -70,
-              child: Container(
-                width: 220,
-                height: 220,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color(0xFFDA7BE7),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black26,
-                      offset: Offset(0, -3),
-                      blurRadius: 10,
-                      spreadRadius: 2,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: -130,
-              right: 0,
-              child: Container(
-                width: 220,
-                height: 220,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color(0xFF9D23B6),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black26,
-                      offset: Offset(0, -5),
-                      blurRadius: 10,
-                      spreadRadius: 2,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 130,
-              left: 30,
-              child: Container(
-                width: 60,
-                height: 60,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color(0xFF9D23B6),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black26,
@@ -117,7 +57,7 @@ class ProfilePage extends StatelessWidget {
             const SafeArea(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 40),
+                  padding: EdgeInsets.symmetric(vertical: 60),
                   child: Column(
                     children: [
                       Text(
@@ -125,17 +65,11 @@ class ProfilePage extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 42,
                           fontWeight: FontWeight.bold,
-                          shadows: [
-                            Shadow(
-                              offset: Offset(0, 2),
-                              blurRadius: 2,
-                              color: Colors.black,
-                            ),
-                          ],
                         ),
                       ),
-                      SizedBox(height: 50),
+                      SizedBox(height: 40),
                       BodyProfile(),
+                      SizedBox(height: 60),
                     ],
                   ),
                 ),
