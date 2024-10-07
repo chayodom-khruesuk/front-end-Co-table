@@ -40,7 +40,7 @@ class BodyHomePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Room Name',
+                      'Room Name${index + 1}',
                       style: GoogleFonts.notoSansThai(
                         textStyle: const TextStyle(
                           color: Color(0xFF030260),

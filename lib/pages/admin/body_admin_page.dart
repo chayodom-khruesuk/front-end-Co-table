@@ -1,8 +1,6 @@
 import 'package:co_table/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../../../core.dart';
 
 class BodyUserPage extends StatefulWidget {
   const BodyUserPage({super.key});

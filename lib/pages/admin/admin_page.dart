@@ -1,5 +1,5 @@
 import 'package:co_table/bloc/bloc.dart';
-import 'package:co_table/pages/home/user/body_user_page.dart';
+import 'package:co_table/pages/admin/body_admin_page.dart';
 import 'package:co_table/utils/image_constant.dart';
 import 'package:co_table/widget/search.dart';
 import 'package:flutter/material.dart';
