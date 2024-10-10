@@ -4,8 +4,11 @@ sealed class UserState {
   final UserModel user;
   final List<UserModel> userList;
   final String responseText;
-  UserState(
-      {required this.user, required this.userList, this.responseText = ''});
+  UserState({
+    required this.user,
+    required this.userList,
+    this.responseText = '',
+  });
 }
 
 const List<UserModel> emptyUserList = [];

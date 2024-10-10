@@ -3,9 +3,11 @@ import 'package:co_table/repositories/user/user_repo.dart';
 import 'package:co_table/services/api_service.dart';
 import 'package:flutter/material.dart';
 
+import '../../services/services.dart';
+
 class UserRepoDb extends UserRepo {
+  late UserModel user = UserModel.empty();
   late List<UserModel> users = [];
-  late UserModel user;
   late UserModelList userList;
 
   final ApiService apiService = ApiService();
@@ -41,9 +43,15 @@ class UserRepoDb extends UserRepo {
     required String username,
     required String password,
   }) async {
-    final responseText =
+    final response =
         await apiService.login(username: username, password: password);
-    return responseText;
+    if (response['status'] == 'success') {
+      return response['message'];
+    } else if (response['status'] == 'error') {
+      return response['message'];
+    } else {
+      throw Exception('Unexpected response format');
+    }
   }
 
   @override
@@ -89,17 +97,53 @@ class UserRepoDb extends UserRepo {
   }
 
   @override
-  Future<String> updateUser(
-      {required String id, required String email, required String name}) async {
-    final response = await apiService.put('$_baseUrl/update_user',
-        query: {'id': id}, data: {'email': email, 'name': name});
-
+  Future<String> updateUser({
+    required String email,
+    required String name,
+    String? faculty,
+    required int userId,
+  }) async {
+    final userId = await Token.getUserId();
+    final data = {'email': email, 'name': name};
+    if (faculty != null) {
+      data['faculty'] = faculty;
+    }
+    final response = await apiService
+        .put('$_baseUrl/update_user', data: data, query: {'user_id': userId});
+    debugPrint("response: ${response.data}");
     if (response.statusCode == 200) {
       return "User updated successfully";
-    } else if (response.statusCode == 409) {
-      return response.data['detail'] ?? "Failed to update user";
+    } else if (response.statusCode == 422) {
+      return "Invalid data provided: ${response.data['detail']}";
+    } else if (response.statusCode == 403) {
+      return "Not enough permissions";
+    } else if (response.statusCode == 404) {
+      return "User not found";
     } else {
       throw Exception('Failed to update user');
+    }
+  }
+
+  @override
+  Future<String> changePassword({
+    required int userId,
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    final userId = await Token.getUserId();
+    print("userId: $userId");
+    final response = await apiService.put(
+      '$_baseUrl/change_password',
+      data: {'current_password': currentPassword, 'new_password': newPassword},
+      query: {'user_id': userId},
+    );
+
+    if (response.statusCode == 200) {
+      return "Password changed successfully";
+    } else if (response.statusCode == 400) {
+      return response.data['detail'] ?? "Failed to change password";
+    } else {
+      throw Exception('Failed to change password');
     }
   }
 

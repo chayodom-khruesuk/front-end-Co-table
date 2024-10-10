@@ -7,14 +7,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
-class UserPage extends StatefulWidget {
-  const UserPage({super.key});
+class AdminPage extends StatefulWidget {
+  const AdminPage({super.key});
 
   @override
-  State<UserPage> createState() => _UserPageState();
+  State<AdminPage> createState() => _AdminPageState();
 }
 
-class _UserPageState extends State<UserPage> {
+class _AdminPageState extends State<AdminPage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(

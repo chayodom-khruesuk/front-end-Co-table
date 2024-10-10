@@ -46,15 +46,18 @@ class ApiService {
   Future<Response> put(String path,
       {Object? data, Map<String, dynamic>? query}) async {
     try {
-      debugPrint("Request data: $data");
+      print("Query: $query");
       final response = await _dio.put(path, data: data, queryParameters: query);
-      debugPrint("Response data: ${response.data}");
+      debugPrint("Response data: $response");
       return response;
     } on DioException catch (e) {
-      if (e.response?.statusCode == 409) {
+      if (e.response?.statusCode == 404 ||
+          e.response?.statusCode == 409 ||
+          e.response?.statusCode == 422) {
+        debugPrint('Handled error: ${e.response?.statusCode}');
         return Response(
           requestOptions: e.requestOptions,
-          statusCode: 409,
+          statusCode: e.response?.statusCode,
           data: e.response?.data,
         );
       }
@@ -76,7 +79,7 @@ class ApiService {
     }
   }
 
-  Future<String> login(
+  Future<Map<String, dynamic>> login(
       {required String username, required String password}) async {
     try {
       final response = await _dio.post(
@@ -89,27 +92,27 @@ class ApiService {
 
       if (response.statusCode == 200) {
         final token = response.data['access_token'];
+        final userId = response.data['user_id'];
         await Token.setToken(token);
-        return "เข้าสู่ระบบสำเร็จ";
-      } else if (response.statusCode == 401) {
-        // detail: Incorrect username or password.
-        return "ชื่อบัญชีผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
+        await Token.setUserId(userId);
+        return {
+          "status": "success",
+          "message": "เข้าสู่ระบบสำเร็จ",
+          "token": token,
+          "user_id": userId
+        };
       } else {
-        return "Something went wrong";
+        return {
+          "status": "error",
+          "message": "ชื่อบัญชีผู้ใช้หรือรหัสผ่านไม่ถูกต้อง"
+        };
       }
     } catch (e) {
-      if (e is DioException && e.response?.statusCode == 401) {
-        debugPrint("Incorrect username or password");
-        return "ชื่อบัญชีผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
-      }
-      debugPrint(e.toString());
-      return e.toString();
+      return {"status": "error", "message": "เกิดข้อผิดพลาดในการเชื่อมต่อ"};
     }
   }
 
   Future<void> logout() async {
     await Token.clearToken();
   }
-
-  patch(String s, {required Map<String, String> data}) {}
 }

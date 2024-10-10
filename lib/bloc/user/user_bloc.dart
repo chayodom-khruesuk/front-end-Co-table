@@ -15,6 +15,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<LoginUserEvent>(_onLoginUserEvent);
     on<LogoutUserEvent>(_onLogoutUserEvent);
     on<ForgotPasswordEvent>(_onForgotPasswordEvent);
+    on<UpdateUserEvent>(_onUpdateUserEvent);
+    on<ChangePasswordEvent>(_onChangePasswordEvent);
   }
 
   _onLoadUserEvent(LoadUserEvent event, Emitter<UserState> emit) async {
@@ -69,5 +71,33 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       newPassword: event.newPassword,
     );
     emit(LoadingUserState(responseText: response));
+  }
+
+  _onUpdateUserEvent(UpdateUserEvent event, Emitter<UserState> emit) async {
+    if (state is ReadyUserState) {
+      final currentUser = (state as ReadyUserState).user;
+      final response = await userRepo.updateUser(
+        userId: currentUser.id,
+        email: event.email,
+        name: event.name,
+        faculty: event.faculty ?? 'ไม่มีคณะ',
+      );
+      emit(LoadingUserState(responseText: response));
+      add(LoadUserEvent());
+    }
+  }
+
+  _onChangePasswordEvent(
+      ChangePasswordEvent event, Emitter<UserState> emit) async {
+    if (state is ReadyUserState) {
+      final currentUser = (state as ReadyUserState).user;
+      final response = await userRepo.changePassword(
+        userId: currentUser.id,
+        currentPassword: event.currentPassword,
+        newPassword: event.newPassword,
+      );
+      emit(LoadingUserState(responseText: response));
+      add(LoadUserEvent());
+    }
   }
 }

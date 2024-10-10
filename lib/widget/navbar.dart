@@ -1,5 +1,4 @@
 import 'package:co_table/bloc/bloc.dart';
-import 'package:co_table/bloc/user/user_bloc.dart';
 import 'package:co_table/pages/home/home_page.dart';
 import 'package:co_table/pages/admin/admin_page.dart';
 import 'package:flutter/material.dart';
@@ -28,13 +27,12 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
 
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, userState) {
-        final isAdmin = userState is ReadyUserState &&
-            userState.user.roles.contains('admin');
+        final isAdmin = userState.user.roles.contains('admin');
         final pages = [
           const HomePage(),
           const ReservationPage(),
           const ProfilePage(),
-          if (isAdmin) const UserPage(),
+          if (isAdmin) const AdminPage(),
         ];
 
         final List<IconData> navBarIcon =

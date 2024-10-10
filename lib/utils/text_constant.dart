@@ -42,4 +42,10 @@ class TextConstant {
   static const String edit = "แก้ไขโปรไฟล์";
 
   static const String logout = "ออกจากระบบ";
+
+  static const String confirm = 'ยืนยัน';
+
+  static const String cancel = 'ยกเลิก';
+
+  static const String change = 'เปลี่ยน';
 }
