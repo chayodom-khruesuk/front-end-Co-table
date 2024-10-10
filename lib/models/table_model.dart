@@ -11,6 +11,14 @@ class TableModel extends Equatable {
     required this.roomId,
   });
 
+  factory TableModel.empty() {
+    return const TableModel(
+      id: 0,
+      number: 0,
+      roomId: 0,
+    );
+  }
+
   factory TableModel.fromJson(Map<String, dynamic> json) {
     return TableModel(
       id: json['id'],

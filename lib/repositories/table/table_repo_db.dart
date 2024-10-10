@@ -12,8 +12,12 @@ class TableRepoDb extends TableRepo {
   final String _baseUrl = '/tables';
 
   @override
-  Future<String> createTable({required int number, required int roomId}) async {
-    final response = await apiService.post('$_baseUrl/create', query: {
+  Future<String> createTable({
+    required int number,
+    required int roomId,
+  }) async {
+    final roomId = await Token.getRoomId();
+    final response = await apiService.post('$_baseUrl/create_table', data: {
       'number': number,
       'room_id': roomId,
     });
@@ -25,8 +29,21 @@ class TableRepoDb extends TableRepo {
   }
 
   @override
+  Future<List<TableModel>> getAllTable({int page = 1}) async {
+    final response =
+        await apiService.get('$_baseUrl/get_listTable', query: {'page': page});
+    if (response.statusCode == 200) {
+      final tableList = TableModelList.fromJson(response.data);
+      tables = tableList.tables;
+      return tables;
+    } else {
+      throw Exception('Failed to get all table');
+    }
+  }
+
+  @override
   Future<TableModel> getTable() async {
-    final response = await apiService.get('$_baseUrl/get');
+    final response = await apiService.get('$_baseUrl/table_id');
     if (response.statusCode == 200) {
       return TableModel.fromJson(response.data);
     } else {
@@ -35,9 +52,13 @@ class TableRepoDb extends TableRepo {
   }
 
   @override
-  Future<void> deleteTable({required int id}) async {
-    final response = await apiService.delete('$_baseUrl/delete/$id');
+  Future<String> deleteTable({required int tableId}) async {
+    final response = await apiService.delete(
+      '$_baseUrl/delete_table',
+      query: {'table_id': tableId},
+    );
     if (response.statusCode == 200) {
+      return 'Table deleted successfully';
     } else {
       throw Exception('Failed to delete table');
     }
