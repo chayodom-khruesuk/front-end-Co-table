@@ -1,6 +1,5 @@
 import 'package:co_table/models/user_model.dart';
 import 'package:co_table/repositories/user/user_repo.dart';
-import 'package:co_table/services/api_service.dart';
 import 'package:flutter/material.dart';
 
 import '../../services/services.dart';
@@ -131,7 +130,6 @@ class UserRepoDb extends UserRepo {
     required String newPassword,
   }) async {
     final userId = await Token.getUserId();
-    print("userId: $userId");
     final response = await apiService.put(
       '$_baseUrl/change_password',
       data: {'current_password': currentPassword, 'new_password': newPassword},

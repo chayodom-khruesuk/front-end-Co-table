@@ -15,6 +15,16 @@ class RoomModel extends Equatable {
     this.status = false,
   });
 
+  factory RoomModel.empty() {
+    return const RoomModel(
+      id: 0,
+      name: '',
+      faculty: '',
+      userId: 0,
+      status: false,
+    );
+  }
+
   factory RoomModel.fromJson(Map<String, dynamic> json) {
     return RoomModel(
       id: json['id'],
