@@ -16,6 +16,12 @@ class AdminPage extends StatefulWidget {
 
 class _AdminPageState extends State<AdminPage> {
   @override
+  void initState() {
+    super.initState();
+    context.read<UserBloc>().add(LoadUserListEvent(page: 1));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
@@ -44,7 +50,7 @@ class _AdminPageState extends State<AdminPage> {
                           child: Row(
                             children: [
                               Text(
-                                state.user.name,
+                                state.user.name ?? '',
                                 style: GoogleFonts.notoSansThai(
                                   textStyle: const TextStyle(
                                     fontSize: 24,
@@ -82,9 +88,8 @@ class _AdminPageState extends State<AdminPage> {
                 child: const Column(
                   children: [
                     SearchWidget(),
-                    SizedBox(height: 10),
                     Expanded(child: BodyAdminPage()),
-                    SizedBox(height: 50),
+                    SizedBox(height: 100),
                   ],
                 ),
               ),

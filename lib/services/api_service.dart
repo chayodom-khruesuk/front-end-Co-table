@@ -46,7 +46,6 @@ class ApiService {
   Future<Response> put(String path,
       {Object? data, Map<String, dynamic>? query}) async {
     try {
-      print("Query: $query");
       final response = await _dio.put(path, data: data, queryParameters: query);
       debugPrint("Response data: $response");
       return response;

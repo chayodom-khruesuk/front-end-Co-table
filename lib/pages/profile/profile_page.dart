@@ -57,7 +57,7 @@ class ProfilePage extends StatelessWidget {
             const SafeArea(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 60),
+                  padding: EdgeInsets.symmetric(vertical: 45),
                   child: Column(
                     children: [
                       Text(
@@ -67,9 +67,8 @@ class ProfilePage extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 40),
+                      SizedBox(height: 5),
                       BodyProfile(),
-                      SizedBox(height: 60),
                     ],
                   ),
                 ),

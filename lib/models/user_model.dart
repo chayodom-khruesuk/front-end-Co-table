@@ -2,29 +2,29 @@ import 'package:equatable/equatable.dart';
 
 class UserModel extends Equatable {
   final int id;
-  final String username;
-  final String password;
-  final String name;
-  final String email;
-  final String roles;
-  final String faculty;
+  final String? username;
+  final String? password;
+  final String? name;
+  final String? email;
+  final String? roles;
+  final String? faculty;
   final bool roomPermission;
-  final String registerDate;
-  final String updatedDate;
-  final String lastLoginDate;
+  final String? registerDate;
+  final String? updatedDate;
+  final String? lastLoginDate;
 
   const UserModel({
     this.id = 0,
-    required this.username,
-    required this.password,
-    required this.name,
-    required this.email,
-    this.roles = '',
-    this.faculty = '',
+    this.username,
+    this.password,
+    this.name,
+    this.email,
+    this.roles,
+    this.faculty,
     this.roomPermission = false,
-    this.registerDate = '',
-    this.updatedDate = '',
-    this.lastLoginDate = '',
+    this.registerDate,
+    this.updatedDate,
+    this.lastLoginDate,
   });
 
   factory UserModel.empty() {
@@ -46,16 +46,16 @@ class UserModel extends Equatable {
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'] ?? 0,
-      username: json['username'],
-      password: json['password'],
-      name: json['name'],
-      email: json['email'],
-      roles: json['roles'],
-      faculty: json['faculty'],
-      roomPermission: json['room_permission'],
-      registerDate: json['register_date'],
-      updatedDate: json['updated_date'],
-      lastLoginDate: json['last_login_date'],
+      username: json['username'] as String?,
+      password: json['password'] as String?,
+      name: json['name'] as String?,
+      email: json['email'] as String?,
+      roles: json['roles'] as String?,
+      faculty: json['faculty'] as String?,
+      roomPermission: json['room_permission'] ?? false,
+      registerDate: json['register_date'] as String?,
+      updatedDate: json['updated_date'] as String?,
+      lastLoginDate: json['last_login_date'] as String?,
     );
   }
 

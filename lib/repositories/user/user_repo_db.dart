@@ -88,10 +88,9 @@ class UserRepoDb extends UserRepo {
         await apiService.get('$_baseUrl/get_allUser', query: {'page': page});
     if (response.statusCode == 200) {
       final userList = UserModelList.fromJson(response.data);
-      users = userList.users;
-      return users;
+      return userList.users;
     } else {
-      throw Exception('Failed to get all user');
+      throw Exception('Failed to get all users');
     }
   }
 

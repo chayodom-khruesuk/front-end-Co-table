@@ -39,7 +39,7 @@ class HomePage extends StatelessWidget {
                           child: Row(
                             children: [
                               Text(
-                                state.user.name,
+                                state.user.name ?? '',
                                 style: GoogleFonts.notoSansThai(
                                   textStyle: const TextStyle(
                                       fontSize: 24,

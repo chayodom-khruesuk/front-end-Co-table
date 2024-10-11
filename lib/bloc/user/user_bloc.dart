@@ -23,14 +23,42 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     if (state is LoadingUserState) {
       final user = await userRepo.getUser();
       debugPrint("user: ${user.toString()}");
-      emit(ReadyUserState(user: user, userList: emptyUserList));
+      emit(ReadyUserState(user: user, userList: []));
     }
   }
 
   _onLoadUserListEvent(LoadUserListEvent event, Emitter<UserState> emit) async {
-    if (state is LoadingUserState) {
-      final users = await userRepo.getAllUser(page: event.page);
-      emit(ReadyUserState(user: UserModel.empty(), userList: users));
+    if (state is ReadyUserState) {
+      final currentState = state as ReadyUserState;
+      if (!currentState.isDataLoaded) {
+        emit(LoadingUserState());
+        try {
+          final users = await userRepo.getAllUser(page: 1);
+          emit(ReadyUserState(
+            user: currentState.user,
+            userList: users,
+            currentPage: 1,
+            isDataLoaded: true,
+          ));
+        } catch (e) {
+          emit(ReadyUserState(
+            user: currentState.user,
+            userList: [],
+            currentPage: 0,
+            isDataLoaded: true,
+          ));
+        }
+      }
+    } else {
+      emit(LoadingUserState());
+      try {
+        final users = await userRepo.getAllUser(page: 1);
+        emit(ReadyUserState(
+            user: UserModel.empty(), userList: users, currentPage: 1));
+      } catch (e) {
+        emit(ReadyUserState(
+            user: UserModel.empty(), userList: [], currentPage: 0));
+      }
     }
   }
 

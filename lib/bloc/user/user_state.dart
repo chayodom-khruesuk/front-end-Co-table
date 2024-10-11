@@ -11,18 +11,24 @@ sealed class UserState {
   });
 }
 
-const List<UserModel> emptyUserList = [];
-
 class LoadingUserState extends UserState {
   LoadingUserState({super.responseText})
-      : super(user: UserModel.empty(), userList: emptyUserList);
+      : super(user: UserModel.empty(), userList: []);
 }
 
 class UserEmptyState extends UserState {
   UserEmptyState({super.responseText})
-      : super(user: UserModel.empty(), userList: emptyUserList);
+      : super(user: UserModel.empty(), userList: []);
 }
 
 class ReadyUserState extends UserState {
-  ReadyUserState({required super.user, required super.userList});
+  final int currentPage;
+  final bool isDataLoaded;
+
+  ReadyUserState({
+    required super.user,
+    required super.userList,
+    this.currentPage = 0,
+    this.isDataLoaded = false,
+  });
 }

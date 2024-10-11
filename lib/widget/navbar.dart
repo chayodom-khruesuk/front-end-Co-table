@@ -27,7 +27,7 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
 
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, userState) {
-        final isAdmin = userState.user.roles.contains('admin');
+        final isAdmin = userState.user.roles?.contains('admin') ?? false;
         final pages = [
           const HomePage(),
           const ReservationPage(),

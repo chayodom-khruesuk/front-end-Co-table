@@ -31,52 +31,58 @@ class BodyProfileState extends State<BodyProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeBloc, ThemeState>(builder: (context, themestate) {
-      return BlocBuilder<UserBloc, UserState>(
-        builder: (context, userstate) {
-          if (userstate is LoadingUserState || userstate is UserEmptyState) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          return Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xFFE7E5E5),
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xFF860F9E).withOpacity(0.3),
-                      offset: const Offset(0, 5),
-                      blurRadius: 10,
-                      spreadRadius: 10,
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, themestate) {
+        return BlocBuilder<UserBloc, UserState>(
+          builder: (context, userstate) {
+            if (userstate is LoadingUserState || userstate is UserEmptyState) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (userstate is ReadyUserState) {
+              final user = userstate.user;
+              return Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE7E5E5),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF860F9E).withOpacity(0.3),
+                          offset: const Offset(0, 5),
+                          blurRadius: 10,
+                          spreadRadius: 10,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                padding: const EdgeInsets.all(25),
-                margin: const EdgeInsets.all(16),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildEmailField(themestate, userstate.user.email),
-                    const SizedBox(height: SizeConstant.defaultPadding),
-                    _buildUsernameField(themestate, userstate.user.username),
-                    const SizedBox(height: SizeConstant.defaultPadding),
-                    _buildNameField(themestate, userstate.user.name),
-                    const SizedBox(height: SizeConstant.defaultPadding),
-                    _buildFacultyField(themestate, userstate.user.faculty),
-                    const SizedBox(height: SizeConstant.defaultPadding),
-                    _buildPasswordField(themestate, '***********'),
-                    const SizedBox(height: SizeConstant.defaultPadding),
-                    _buildEditButton(),
-                  ],
-                ),
-              ),
-              _buildLogoutButton(),
-            ],
-          );
-        },
-      );
-    });
+                    padding: const EdgeInsets.all(25),
+                    margin: const EdgeInsets.all(16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildEmailField(themestate, user.email ?? ''),
+                        const SizedBox(height: SizeConstant.defaultPadding),
+                        _buildUsernameField(themestate, user.username ?? ''),
+                        const SizedBox(height: SizeConstant.defaultPadding),
+                        _buildNameField(themestate, user.name ?? ''),
+                        const SizedBox(height: SizeConstant.defaultPadding),
+                        _buildFacultyField(themestate, user.faculty ?? ''),
+                        const SizedBox(height: SizeConstant.defaultPadding),
+                        _buildPasswordField(themestate, '***********'),
+                        const SizedBox(height: SizeConstant.defaultPadding),
+                        _buildEditButton(),
+                      ],
+                    ),
+                  ),
+                  _buildLogoutButton(),
+                ],
+              );
+            }
+            return const Center(child: Text('No users found'));
+          },
+        );
+      },
+    );
   }
 
   Widget _buildEmailField(ThemeState state, String email) {
@@ -494,8 +500,8 @@ class BodyProfileState extends State<BodyProfile> {
     if (userState is ReadyUserState) {
       final currentUser = userState.user;
       context.read<UserBloc>().add(UpdateUserEvent(
-            email: _tempEmail ?? currentUser.email,
-            name: _tempName ?? currentUser.name,
+            email: _tempEmail ?? currentUser.email ?? '',
+            name: _tempName ?? currentUser.name ?? '',
             faculty: 'ไม่มีคณะ',
           ));
 
