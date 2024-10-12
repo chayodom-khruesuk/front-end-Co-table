@@ -23,7 +23,12 @@ class _AdminPageState extends State<AdminPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserBloc, UserState>(
+    return BlocConsumer<UserBloc, UserState>(
+      listener: (context, state) {
+        if (state is ReadyUserState) {
+          context.read<UserBloc>().add(LoadUserListEvent(page: 1));
+        }
+      },
       builder: (context, state) {
         return Column(
           mainAxisSize: MainAxisSize.min,

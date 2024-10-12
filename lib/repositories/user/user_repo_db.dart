@@ -25,8 +25,6 @@ class UserRepoDb extends UserRepo {
       'email': email,
       'password': password
     };
-
-    debugPrint("userData: $userData");
     final response = await apiService.post('$_baseUrl/create', query: userData);
     if (response.statusCode == 200) {
       return "User created successfully";
@@ -86,6 +84,7 @@ class UserRepoDb extends UserRepo {
   Future<List<UserModel>> getAllUser({int page = 1}) async {
     final response =
         await apiService.get('$_baseUrl/get_allUser', query: {'page': page});
+    print("response: ${response.data}");
     if (response.statusCode == 200) {
       final userList = UserModelList.fromJson(response.data);
       return userList.users;

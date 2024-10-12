@@ -36,8 +36,37 @@ class BodyProfileState extends State<BodyProfile> {
         return BlocBuilder<UserBloc, UserState>(
           builder: (context, userstate) {
             if (userstate is LoadingUserState || userstate is UserEmptyState) {
-              return const Center(child: CircularProgressIndicator());
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const CircularProgressIndicator(),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: _logout,
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 30),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        backgroundColor: const Color(0xFF991616),
+                      ),
+                      child: Text(
+                        TextConstant.logout,
+                        style: GoogleFonts.notoSansThai(
+                          textStyle: const TextStyle(
+                            color: Color(0xFFFFFFFF),
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
             }
+
             if (userstate is ReadyUserState) {
               final user = userstate.user;
               return Column(

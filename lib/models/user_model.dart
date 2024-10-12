@@ -51,7 +51,7 @@ class UserModel extends Equatable {
       name: json['name'] as String?,
       email: json['email'] as String?,
       roles: json['roles'] as String?,
-      faculty: json['faculty'] as String?,
+      faculty: json['faculty'] as String? ?? 'ไม่มีคณะ',
       roomPermission: json['room_permission'] ?? false,
       registerDate: json['register_date'] as String?,
       updatedDate: json['updated_date'] as String?,

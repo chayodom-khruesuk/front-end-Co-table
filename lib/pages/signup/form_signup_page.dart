@@ -456,7 +456,7 @@ class FormSignupPageState extends State<FormSignupPage> {
     );
   }
 
-  void _signup() {
+  void _signup() async {
     if (_formKey.currentState!.validate()) {
       String username = _usernameController.text;
       String name = _nameController.text;
@@ -473,12 +473,22 @@ class FormSignupPageState extends State<FormSignupPage> {
         );
         return;
       }
+
+      FocusScope.of(context).unfocus();
+
       context.read<UserBloc>().add(CreateUserEvent(
           username: username, name: name, email: email, password: password));
-      context
-          .read<UserBloc>()
-          .add(LoginUserEvent(username: username, password: password));
-      FocusScope.of(context).unfocus();
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      if (mounted) {
+        context
+            .read<UserBloc>()
+            .add(LoginUserEvent(username: username, password: password));
+        await Future.delayed(const Duration(milliseconds: 500));
+        if (mounted) {
+          Navigator.of(context).pushReplacementNamed(homePageRoute);
+        }
+      }
     } else {
       SnackBarHelper.showWarningSnackBar(
         context,

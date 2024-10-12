@@ -71,7 +71,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     );
     emit(LoadingUserState(responseText: response));
     if (response.contains("สร้างบัญชีสำเร็จ")) {
-      add(LoginUserEvent(username: event.username, password: event.password));
+      await _onLoginUserEvent(
+          LoginUserEvent(username: event.username, password: event.password),
+          emit);
+      add(LoadUserEvent());
     }
   }
 
@@ -82,7 +85,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     );
     emit(LoadingUserState(responseText: response));
     if (response.contains("เข้าสู่ระบบสำเร็จ")) {
-      add(LoadUserEvent());
+      final user = await userRepo.getUser();
+      emit(ReadyUserState(user: user, userList: []));
     } else {
       emit(UserEmptyState(responseText: response));
     }
