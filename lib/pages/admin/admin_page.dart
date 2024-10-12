@@ -88,8 +88,9 @@ class _AdminPageState extends State<AdminPage> {
                 child: const Column(
                   children: [
                     SearchWidget(),
+                    SizedBox(height: 10),
                     Expanded(child: BodyAdminPage()),
-                    SizedBox(height: 100),
+                    SizedBox(height: 50),
                   ],
                 ),
               ),
