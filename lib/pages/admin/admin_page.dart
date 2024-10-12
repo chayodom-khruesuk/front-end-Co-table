@@ -1,7 +1,6 @@
 import 'package:co_table/bloc/bloc.dart';
 import 'package:co_table/pages/admin/body_admin_page.dart';
 import 'package:co_table/utils/image_constant.dart';
-import 'package:co_table/widget/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -92,8 +91,6 @@ class _AdminPageState extends State<AdminPage> {
                 ),
                 child: const Column(
                   children: [
-                    SearchWidget(),
-                    SizedBox(height: 10),
                     Expanded(child: BodyAdminPage()),
                     SizedBox(height: 50),
                   ],
