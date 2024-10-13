@@ -25,7 +25,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
-      builder: (context, state) {
+      builder: (context, userState) {
+        final isAdmin = userState is ReadyUserState &&
+            userState.user.roles?.contains('admin') == true;
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -50,14 +52,13 @@ class _HomePageState extends State<HomePage> {
                           padding: const EdgeInsets.only(top: 15),
                           child: Row(
                             children: [
-                              Text(
-                                state.user.name ?? '',
-                                style: GoogleFonts.notoSansThai(
-                                  textStyle: const TextStyle(
+                              if (userState is ReadyUserState)
+                                Text(userState.user.name ?? '',
+                                    style: GoogleFonts.notoSansThai(
+                                        textStyle: const TextStyle(
                                       fontSize: 24,
-                                      fontWeight: FontWeight.normal),
-                                ),
-                              ),
+                                      fontWeight: FontWeight.normal,
+                                    ))),
                               const SizedBox(width: 5),
                               const Icon(LineAwesomeIcons.user, size: 24),
                             ],
@@ -85,20 +86,22 @@ class _HomePageState extends State<HomePage> {
                     topRight: Radius.circular(40),
                   ),
                 ),
-                child: const Column(
+                child: Column(
                   children: [
-                    SearchWidget(),
-                    SizedBox(height: 10),
-                    Align(
+                    const SearchWidget(),
+                    const SizedBox(height: 10),
+                    if (isAdmin)
+                      const Align(
                         alignment: Alignment.centerLeft,
                         child: SizedBox(
                           width: 40,
                           height: 40,
                           child: AddDialog(),
-                        )),
-                    SizedBox(height: 10),
-                    Expanded(child: BodyHomePage()),
-                    SizedBox(height: 50),
+                        ),
+                      ),
+                    const SizedBox(height: 10),
+                    const Expanded(child: BodyHomePage()),
+                    const SizedBox(height: 50),
                   ],
                 ),
               ),

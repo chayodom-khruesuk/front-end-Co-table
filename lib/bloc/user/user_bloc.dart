@@ -17,13 +17,21 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<ForgotPasswordEvent>(_onForgotPasswordEvent);
     on<UpdateUserEvent>(_onUpdateUserEvent);
     on<ChangePasswordEvent>(_onChangePasswordEvent);
+
+    add(LoadUserEvent());
+    add(LoadUserListEvent());
   }
 
   _onLoadUserEvent(LoadUserEvent event, Emitter<UserState> emit) async {
-    if (state is LoadingUserState) {
+    emit(LoadingUserState());
+    try {
       final user = await userRepo.getUser();
+      final userList = await userRepo.getAllUser(page: 1);
       debugPrint("user: ${user.toString()}");
-      emit(ReadyUserState(user: user, userList: []));
+      emit(ReadyUserState(
+          user: user, userList: userList, currentPage: 1, isDataLoaded: true));
+    } catch (e) {
+      emit(UserEmptyState(responseText: e.toString()));
     }
   }
 
@@ -33,11 +41,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       if (!currentState.isDataLoaded) {
         emit(LoadingUserState());
         try {
-          final users = await userRepo.getAllUser(page: 1);
+          final users = await userRepo.getAllUser(page: event.page);
           emit(ReadyUserState(
             user: currentState.user,
             userList: users,
-            currentPage: 1,
+            currentPage: event.page,
             isDataLoaded: true,
           ));
         } catch (e) {
@@ -52,9 +60,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     } else {
       emit(LoadingUserState());
       try {
-        final users = await userRepo.getAllUser(page: 1);
+        final users = await userRepo.getAllUser(page: event.page);
         emit(ReadyUserState(
-            user: UserModel.empty(), userList: users, currentPage: 1));
+            user: UserModel.empty(), userList: users, currentPage: event.page));
       } catch (e) {
         emit(ReadyUserState(
             user: UserModel.empty(), userList: [], currentPage: 0));

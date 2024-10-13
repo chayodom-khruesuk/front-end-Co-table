@@ -23,8 +23,10 @@ class BodyHomePage extends StatelessWidget {
                 return const Center(child: CircularProgressIndicator());
               },
             );
-            Future.delayed(const Duration(seconds: 2), () {
-              Navigator.of(context).pop();
+            Future.delayed(const Duration(seconds: 1), () {
+              if (context.mounted) {
+                Navigator.of(context).pop();
+              }
             });
           }
           if (state is ReadyRoomState && state.responseText.isNotEmpty) {
@@ -34,9 +36,6 @@ class BodyHomePage extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          if (state is LoadingRoomState) {
-            return const Center(child: CircularProgressIndicator());
-          }
           final roomList = state.roomList;
           return SingleChildScrollView(
             padding: EdgeInsets.only(
@@ -66,7 +65,7 @@ class BodyHomePage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          room.name,
+                          '${room.name} room',
                           style: GoogleFonts.notoSansThai(
                             textStyle: const TextStyle(
                               color: Color(0xFF030260),
@@ -91,24 +90,18 @@ class BodyHomePage extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  room.faculty,
-                                  style: GoogleFonts.notoSansThai(
-                                    textStyle: const TextStyle(
+                                Text(room.faculty,
+                                    style: GoogleFonts.notoSansThai(
+                                        textStyle: const TextStyle(
                                       color: Color(0xFF030260),
                                       fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  room.status ? 'เปิด' : 'ปิด',
-                                  style: GoogleFonts.notoSansThai(
-                                    textStyle: const TextStyle(
+                                    ))),
+                                Text(room.status ? 'เปิด' : 'ปิด',
+                                    style: GoogleFonts.notoSansThai(
+                                        textStyle: const TextStyle(
                                       color: Color(0xFF959494),
                                       fontSize: 10,
-                                    ),
-                                  ),
-                                ),
+                                    )))
                               ],
                             ),
                             const Spacer(),
