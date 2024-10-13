@@ -14,8 +14,13 @@ class RoomRepoDb extends RoomRepo {
   Future<RoomModel> createRoom({
     String? faculty,
     required String name,
+    required int userId,
   }) async {
-    final data = {'name': name, 'faculty': faculty ?? 'ไม่มีคณะ'};
+    final data = {
+      'name': name,
+      'faculty': faculty ?? 'ไม่มีคณะ',
+      'user_id': userId
+    };
     final response = await apiService.post('$_baseUrl/create_room', data: data);
     if (response.statusCode == 200) {
       return RoomModel.fromJson(response.data);

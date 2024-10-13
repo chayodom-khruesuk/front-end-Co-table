@@ -1,5 +1,7 @@
 import 'package:co_table/repositories/room/room_repo.dart';
 import 'package:co_table/repositories/room/room_repo_db.dart';
+import 'package:co_table/repositories/table/table_repo.dart';
+import 'package:co_table/repositories/table/table_repo_db.dart';
 import 'package:co_table/repositories/user/user_repo_db.dart';
 import 'package:co_table/services/services.dart';
 import 'package:co_table/theme/theme_bloc.dart';
@@ -26,6 +28,7 @@ class MainApp extends StatelessWidget {
       providers: [
         RepositoryProvider<UserRepo>(create: (context) => UserRepoDb()),
         RepositoryProvider<RoomRepo>(create: (context) => RoomRepoDb()),
+        RepositoryProvider<TableRepo>(create: (context) => TableRepoDb()),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -46,6 +49,13 @@ class MainApp extends StatelessWidget {
             create: (context) {
               final bloc = RoomBloc(roomRepo: context.read<RoomRepo>());
               bloc.add(LoadRoomListEvent());
+              return bloc;
+            },
+          ),
+          BlocProvider<TableBloc>(
+            create: (context) {
+              final bloc = TableBloc(tableRepo: context.read<TableRepo>());
+              bloc.add(LoadTableListEvent());
               return bloc;
             },
           )

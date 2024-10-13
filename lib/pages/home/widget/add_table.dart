@@ -8,25 +8,25 @@ class AddTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var nameController = TextEditingController();
+    var numberController = TextEditingController();
     return FloatingActionButton(
       onPressed: () {
         showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('สร้างห้อง', style: GoogleFonts.notoSansThai()),
+              title: Text('สร้างโต๊ะ', style: GoogleFonts.notoSansThai()),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   TextField(
-                    controller: nameController,
+                    controller: numberController,
                     style: GoogleFonts.notoSansThai(),
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
-                      labelText: 'ชื่อห้อง',
+                      labelText: 'ระบุจำนวนโต๊ะ',
                       labelStyle: GoogleFonts.notoSansThai(),
-                      hintText: 'ระบุชื่อห้อง',
+                      hintText: 'เช่น 5',
                       hintStyle: GoogleFonts.notoSansThai(),
                     ),
                   ),
@@ -39,7 +39,7 @@ class AddTable extends StatelessWidget {
                     style: GoogleFonts.notoSansThai(color: Colors.red),
                   ),
                   onPressed: () {
-                    nameController.clear();
+                    numberController.clear();
                     Navigator.of(context).pop();
                   },
                 ),
@@ -49,14 +49,14 @@ class AddTable extends StatelessWidget {
                     style: GoogleFonts.notoSansThai(color: Colors.green),
                   ),
                   onPressed: () {
-                    context.read<RoomBloc>().add(CreateRoomEvent(
-                          name: nameController.text,
-                          status: true,
+                    context.read<TableBloc>().add(CreateTableEvent(
+                          number: int.tryParse(numberController.text) ?? 0,
+                          roomId: context.read<RoomBloc>().state.room.id,
                         ));
-                    nameController.clear();
+                    numberController.clear();
                     Navigator.of(context).pop();
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('กำลังสร้างห้อง...')),
+                      const SnackBar(content: Text('กำลังสร้างโต๊ะ...')),
                     );
                   },
                 )
@@ -64,14 +64,15 @@ class AddTable extends StatelessWidget {
             );
           },
         ).then((_) {
-          nameController.clear();
+          numberController.clear();
         });
       },
-      backgroundColor: const Color(0xAAD93EF2),
+      elevation: 0,
+      backgroundColor: Colors.transparent,
       child: const Icon(
-        Icons.add,
+        Icons.table_restaurant,
         size: 20,
-        color: Colors.white,
+        color: Colors.black,
       ),
     );
   }

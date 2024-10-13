@@ -8,6 +8,7 @@ class TableBloc extends Bloc<TableEvent, TableState> {
 
   TableBloc({required this.tableRepo}) : super(LoadingTableState()) {
     on<LoadTableEvent>(_onLoadTableEvent);
+    on<LoadTableListEvent>(_onLoadTableListEvent);
     on<CreateTableEvent>(_onCreateTableEvent);
     on<DeleteTableEvent>(_onDeleteTableEvent);
   }
@@ -19,9 +20,33 @@ class TableBloc extends Bloc<TableEvent, TableState> {
     }
   }
 
+  _onLoadTableListEvent(
+      LoadTableListEvent event, Emitter<TableState> emit) async {
+    emit(LoadingTableState());
+    try {
+      final tables = await tableRepo.getAllTable(page: event.page);
+      emit(ReadyTableState(
+        table: state.table,
+        tableList: tables,
+        currentPage: event.page,
+        isDataLoaded: true,
+      ));
+    } catch (e) {
+      emit(ReadyTableState(
+        table: state.table,
+        tableList: [],
+        currentPage: 0,
+        isDataLoaded: true,
+      ));
+    }
+  }
+
   _onCreateTableEvent(CreateTableEvent event, Emitter<TableState> emit) async {
     if (state is ReadyTableState) {
-      final currentRoom = (state as ReadyRoomState).room;
+      final currentRoom = (state as ReadyTableState).table;
+      // final deletetable =
+      //     await tableRepo.deleteAllTable(roomId: state.table.roomId);
+      // print('delete response $deletetable');
       final response = await tableRepo.createTable(
         number: event.number,
         roomId: currentRoom.id,

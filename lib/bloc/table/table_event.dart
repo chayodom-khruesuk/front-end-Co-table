@@ -2,6 +2,11 @@ sealed class TableEvent {}
 
 class LoadTableEvent extends TableEvent {}
 
+class LoadTableListEvent extends TableEvent {
+  final int page;
+  LoadTableListEvent({this.page = 1});
+}
+
 class CreateTableEvent extends TableEvent {
   final int number;
   final int roomId;

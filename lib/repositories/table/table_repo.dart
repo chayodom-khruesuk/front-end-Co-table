@@ -11,4 +11,6 @@ abstract class TableRepo {
   Future<List<TableModel>> getAllTable({int page = 1});
 
   Future<String> deleteTable({required int tableId});
+
+  Future<String> deleteAllTable({required int roomId});
 }

@@ -11,7 +11,12 @@ class CreateRoomEvent extends RoomEvent {
   final String name;
   final String? faculty;
   final bool status;
-  CreateRoomEvent({required this.name, this.faculty, this.status = true});
+  final int userId;
+  CreateRoomEvent(
+      {required this.name,
+      this.faculty,
+      this.status = true,
+      required this.userId});
 }
 
 class GetRoomEvent extends RoomEvent {

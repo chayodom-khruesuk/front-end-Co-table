@@ -53,6 +53,7 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
         final newRoom = await roomRepo.createRoom(
           name: event.name,
           faculty: event.faculty,
+          userId: event.userId,
         );
         final updatedRooms = [newRoom, ...currentState.roomList];
         emit(ReadyRoomState(

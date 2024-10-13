@@ -54,17 +54,8 @@ class TableHistory extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: IconButton(
-                            icon: const Icon(
-                              Icons.table_view,
-                              size: 30,
-                              color: Color(0xDF141414),
-                            ),
-                            onPressed: () {
-                              const AddTable();
-                            }),
-                      ),
+                          padding: const EdgeInsets.only(right: 10),
+                          child: const AddTable()),
                     ],
                     flexibleSpace: Container(
                         decoration: const BoxDecoration(
@@ -91,8 +82,9 @@ class TableHistory extends StatelessWidget {
                       children: [
                         _buildBoxHeader(context, room),
                         _buildBoxSelect(),
-                        const Expanded(
-                          child: TableEach(boxCount: 24),
+                        Expanded(
+                          child:
+                              TableEach(boxCount: roomState.room.tables.length),
                         ),
                       ],
                     ),

@@ -1,9 +1,11 @@
+import 'package:co_table/models/models.dart';
 import 'package:equatable/equatable.dart';
 
 class RoomModel extends Equatable {
   final int id;
   final String name;
   final String faculty;
+  final List<TableModel> tables;
   final int userId;
   final bool status;
 
@@ -11,6 +13,7 @@ class RoomModel extends Equatable {
     required this.id,
     required this.name,
     this.faculty = '',
+    this.tables = const [],
     this.userId = 0,
     this.status = true,
   });
@@ -20,6 +23,7 @@ class RoomModel extends Equatable {
       id: 0,
       name: '',
       faculty: '',
+      tables: [],
       userId: 0,
       status: true,
     );
@@ -30,6 +34,7 @@ class RoomModel extends Equatable {
       id: json['id'],
       name: json['name'] ?? '',
       faculty: json['faculty'] ?? '',
+      tables: (json['tables'] ?? []),
       userId: json['user_id'] ?? 0,
       status: json['status'] ?? true,
     );
@@ -40,6 +45,7 @@ class RoomModel extends Equatable {
       'id': id,
       'name': name,
       'faculty': faculty,
+      'tables': tables,
       'user_id': userId,
       'status': status,
     };

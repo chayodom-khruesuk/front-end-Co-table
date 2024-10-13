@@ -62,4 +62,16 @@ class TableRepoDb extends TableRepo {
       throw Exception('Failed to delete table');
     }
   }
+
+  @override
+  Future<String> deleteAllTable({required int roomId}) async {
+    final response = await apiService.delete(
+      '$_baseUrl/del_table_in_room',
+    );
+    if (response.statusCode == 200) {
+      return 'Tables deleted successfully';
+    } else {
+      throw Exception('Failed to delete tables');
+    }
+  }
 }

@@ -52,6 +52,7 @@ class AddDialog extends StatelessWidget {
                     context.read<RoomBloc>().add(CreateRoomEvent(
                           name: nameController.text,
                           status: true,
+                          userId: context.read<UserBloc>().state.user.id,
                         ));
                     nameController.clear();
                     Navigator.of(context).pop();

@@ -19,5 +19,14 @@ class LoadingTableState extends TableState {
 }
 
 class ReadyTableState extends TableState {
-  ReadyTableState({required super.table, required super.tableList});
+  final int currentPage;
+  final bool isDataLoaded;
+
+  ReadyTableState({
+    required super.table,
+    required super.tableList,
+    this.currentPage = 0,
+    this.isDataLoaded = false,
+    super.responseText = '',
+  });
 }

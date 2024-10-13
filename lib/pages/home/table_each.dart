@@ -106,9 +106,7 @@ class TableEachState extends State<TableEach> {
         decoration: BoxDecoration(
           color: _isConfirmed[index]
               ? const Color(0xFF040261)
-              : _isSelected[index]
-                  ? const Color(0xFF39B070)
-                  : const Color(0xFFD7D5D5),
+              : Colors.grey.withOpacity(0.5),
           borderRadius: BorderRadius.circular(10),
         ),
       ),
