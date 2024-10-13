@@ -11,17 +11,14 @@ class RoomRepoDb extends RoomRepo {
   final String _baseUrl = '/rooms';
 
   @override
-  Future<String> createRoom({
+  Future<RoomModel> createRoom({
     String? faculty,
     required String name,
   }) async {
-    final data = {'name': name};
-    if (faculty != null) {
-      data['faculty'] = 'ไม่มีคณะ';
-    }
+    final data = {'name': name, 'faculty': faculty ?? 'ไม่มีคณะ'};
     final response = await apiService.post('$_baseUrl/create_room', data: data);
     if (response.statusCode == 200) {
-      return "Room created successfully";
+      return RoomModel.fromJson(response.data);
     } else {
       throw Exception('Failed to create room');
     }
@@ -32,7 +29,6 @@ class RoomRepoDb extends RoomRepo {
     try {
       final response =
           await apiService.get('$_baseUrl/get_listRoom', query: {'page': page});
-      print('response room list: $response');
       if (response.statusCode == 200) {
         final roomList = RoomModelList.fromJson(response.data);
         rooms = roomList.rooms.where((room) => room.id != null).toList();
@@ -41,7 +37,6 @@ class RoomRepoDb extends RoomRepo {
         throw Exception('Failed to get all room');
       }
     } catch (e) {
-      print('Error in getAllRoom: $e');
       return [];
     }
   }

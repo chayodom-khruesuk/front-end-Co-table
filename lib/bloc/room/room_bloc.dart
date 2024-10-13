@@ -44,13 +44,31 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
   }
 
   _onCreateRoomEvent(CreateRoomEvent event, Emitter<RoomState> emit) async {
-    final response = await roomRepo.createRoom(
-      name: event.name,
-      faculty: event.faculty ?? 'ไม่มีคณะ',
-    );
-    emit(LoadingRoomState(responseText: response));
-    if (response.contains("สร้างห้องสำเร็จ")) {
-      add(LoadRoomEvent());
+    if (state is ReadyRoomState) {
+      final currentState = state as ReadyRoomState;
+      emit(LoadingRoomState());
+      try {
+        final newRoom = await roomRepo.createRoom(
+          name: event.name,
+          faculty: event.faculty,
+        );
+        final updatedRooms = [newRoom, ...currentState.roomList];
+        emit(ReadyRoomState(
+          room: newRoom,
+          roomList: updatedRooms,
+          currentPage: currentState.currentPage,
+          isDataLoaded: true,
+          responseText: "ห้องถูกสร้างเรียบร้อยแล้ว",
+        ));
+      } catch (e) {
+        emit(ReadyRoomState(
+          room: currentState.room,
+          roomList: currentState.roomList,
+          currentPage: currentState.currentPage,
+          isDataLoaded: true,
+          responseText: "เกิดข้อผิดพลาดในการสร้างห้อง",
+        ));
+      }
     }
   }
 

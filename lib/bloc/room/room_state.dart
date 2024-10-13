@@ -27,5 +27,6 @@ class ReadyRoomState extends RoomState {
     required super.roomList,
     this.currentPage = 0,
     this.isDataLoaded = false,
+    super.responseText = '',
   });
 }
