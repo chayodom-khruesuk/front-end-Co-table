@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../models/models.dart';
 import '../../repositories/room/room_repo.dart';
 import '../bloc.dart';
 
@@ -13,6 +14,7 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
     on<CreateRoomEvent>(_onCreateRoomEvent);
     on<UpdateRoomEvent>(_onUpdateRoomEvent);
     on<DeleteRoomEvent>(_onDeleteRoomEvent);
+    on<StatusRoomEvent>(_onStatusRoomEvent);
   }
 
   _onLoadRoomEvent(LoadRoomEvent event, Emitter<RoomState> emit) async {
@@ -91,6 +93,42 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
       final response = await roomRepo.deleteRoom(roomId: currentRoom.id!);
       emit(LoadingRoomState(responseText: response));
       add(LoadRoomEvent());
+    }
+  }
+
+  _onStatusRoomEvent(StatusRoomEvent event, Emitter<RoomState> emit) async {
+    if (state is ReadyRoomState) {
+      final currentState = state as ReadyRoomState;
+      try {
+        final newStatus = await roomRepo.statusRoom(roomId: event.roomId);
+        final updatedRoomList = currentState.roomList.map((room) {
+          if (room.id == event.roomId) {
+            return RoomModel(
+              id: room.id,
+              name: room.name,
+              faculty: room.faculty,
+              userId: room.userId,
+              status: newStatus,
+            );
+          }
+          return room;
+        }).toList();
+        emit(ReadyRoomState(
+          room: currentState.room,
+          roomList: updatedRoomList,
+          currentPage: currentState.currentPage,
+          isDataLoaded: true,
+          responseText: "Room status updated successfully",
+        ));
+      } catch (e) {
+        emit(ReadyRoomState(
+          room: currentState.room,
+          roomList: currentState.roomList,
+          currentPage: currentState.currentPage,
+          isDataLoaded: true,
+          responseText: "Failed to update room status",
+        ));
+      }
     }
   }
 }

@@ -10,7 +10,8 @@ class LoadRoomListEvent extends RoomEvent {
 class CreateRoomEvent extends RoomEvent {
   final String name;
   final String? faculty;
-  CreateRoomEvent({required this.name, this.faculty});
+  final bool status;
+  CreateRoomEvent({required this.name, this.faculty, this.status = true});
 }
 
 class GetRoomEvent extends RoomEvent {
@@ -28,4 +29,9 @@ class UpdateRoomEvent extends RoomEvent {
 class DeleteRoomEvent extends RoomEvent {
   final int roomId;
   DeleteRoomEvent({required this.roomId});
+}
+
+class StatusRoomEvent extends RoomEvent {
+  final int roomId;
+  StatusRoomEvent({required this.roomId});
 }

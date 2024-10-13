@@ -7,8 +7,13 @@ abstract class RoomRepo {
 
   Future<List<RoomModel>> getAllRoom({int page = 1});
 
-  Future<String> updateRoom(
-      {required int roomId, required String name, String? faculty});
+  Future<String> updateRoom({
+    required int roomId,
+    required String name,
+    String? faculty,
+  });
 
   Future<String> deleteRoom({required int roomId});
+
+  Future<bool> statusRoom({required int roomId});
 }

@@ -7,12 +7,13 @@ abstract class ReservationRepo {
     required String endTime,
     required int durationHours,
   });
+
   Future<ReservationModel> getReservations();
+
   Future<String> updateReservation({
     required int id,
     required int durationHours,
   });
-  Future<void> deleteReservation({
-    required int id,
-  });
+
+  Future<void> deleteReservation({required int id});
 }

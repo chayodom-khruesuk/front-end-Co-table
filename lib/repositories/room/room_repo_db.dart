@@ -84,4 +84,16 @@ class RoomRepoDb extends RoomRepo {
       throw Exception('Failed to delete room');
     }
   }
+
+  @override
+  Future<bool> statusRoom({required int roomId}) async {
+    final response = await apiService
+        .put('$_baseUrl/status_room', query: {'room_id': roomId});
+    print('respone status ${response.data}');
+    if (response.statusCode == 200) {
+      return response.data['status'];
+    } else {
+      throw Exception('Failed to toggle room status');
+    }
+  }
 }
