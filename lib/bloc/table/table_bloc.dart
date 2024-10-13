@@ -24,7 +24,7 @@ class TableBloc extends Bloc<TableEvent, TableState> {
       final currentRoom = (state as ReadyRoomState).room;
       final response = await tableRepo.createTable(
         number: event.number,
-        roomId: currentRoom.id!,
+        roomId: currentRoom.id,
       );
       emit(LoadingTableState(responseText: response));
       if (response.contains("สร้างโต๊ะสำเร็จ")) {

@@ -31,7 +31,7 @@ class RoomRepoDb extends RoomRepo {
           await apiService.get('$_baseUrl/get_listRoom', query: {'page': page});
       if (response.statusCode == 200) {
         final roomList = RoomModelList.fromJson(response.data);
-        rooms = roomList.rooms.where((room) => room.id != null).toList();
+        rooms = roomList.rooms.where((room) => room.id != 0).toList();
         return rooms;
       } else {
         throw Exception('Failed to get all room');
@@ -45,7 +45,8 @@ class RoomRepoDb extends RoomRepo {
   Future<RoomModel> getRoom() async {
     final roomId = await Token.getRoomId();
     final response =
-        await apiService.get('$_baseUrl/room_id', query: {'roomId': roomId});
+        await apiService.get('$_baseUrl/room_id', query: {'room_id': roomId});
+
     if (response.statusCode == 200) {
       return RoomModel.fromJson(response.data);
     } else {
@@ -65,7 +66,7 @@ class RoomRepoDb extends RoomRepo {
       data['faculty'] = faculty;
     }
     final response = await apiService
-        .put('$_baseUrl/update_room', data: data, query: {'roomId': roomId});
+        .put('$_baseUrl/update_room', data: data, query: {'room_id': roomId});
     if (response.statusCode == 200) {
       return "Room updated successfully";
     } else {
@@ -75,13 +76,13 @@ class RoomRepoDb extends RoomRepo {
 
   @override
   Future<String> deleteRoom({required int roomId}) async {
-    final roomId = await Token.getRoomId();
-    final response = await apiService
-        .delete('$_baseUrl/delete_room', query: {'roomId': roomId});
+    print('Attempting to delete room with ID: $roomId');
+    final response = await apiService.delete('$_baseUrl/delete_room/$roomId');
+    print('response delete $response');
     if (response.statusCode == 200) {
       return "Room deleted successfully";
     } else {
-      throw Exception('Failed to delete room');
+      throw Exception('Failed to delete room: ${response.statusCode}');
     }
   }
 
@@ -89,7 +90,7 @@ class RoomRepoDb extends RoomRepo {
   Future<bool> statusRoom({required int roomId}) async {
     final response = await apiService
         .put('$_baseUrl/status_room', query: {'room_id': roomId});
-    print('respone status ${response.data}');
+    // print('respone status ${response.data}');
     if (response.statusCode == 200) {
       return response.data['status'];
     } else {

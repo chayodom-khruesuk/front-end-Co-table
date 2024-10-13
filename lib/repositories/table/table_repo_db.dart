@@ -55,7 +55,6 @@ class TableRepoDb extends TableRepo {
   Future<String> deleteTable({required int tableId}) async {
     final response = await apiService.delete(
       '$_baseUrl/delete_table',
-      query: {'table_id': tableId},
     );
     if (response.statusCode == 200) {
       return 'Table deleted successfully';

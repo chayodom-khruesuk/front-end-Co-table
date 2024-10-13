@@ -47,7 +47,7 @@ class TableHistory extends StatelessWidget {
                           onPressed: () {
                             context
                                 .read<RoomBloc>()
-                                .add(StatusRoomEvent(roomId: room.id!));
+                                .add(StatusRoomEvent(roomId: room.id));
                           },
                         ),
                       ),
@@ -170,7 +170,7 @@ class TableHistory extends StatelessWidget {
     return Positioned(
       child: Column(
         children: [
-          const Padding(padding: EdgeInsets.only(top: 210)),
+          const Padding(padding: EdgeInsets.only(top: 195)),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [

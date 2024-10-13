@@ -78,7 +78,7 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
     if (state is ReadyRoomState) {
       final currentRoom = (state as ReadyRoomState).room;
       final response = await roomRepo.updateRoom(
-        roomId: currentRoom.id!,
+        roomId: currentRoom.id,
         name: event.name,
         faculty: event.faculty ?? 'ไม่มีคณะ',
       );
@@ -89,10 +89,10 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
 
   _onDeleteRoomEvent(DeleteRoomEvent event, Emitter<RoomState> emit) async {
     if (state is ReadyRoomState) {
-      final currentRoom = (state as ReadyRoomState).room;
-      final response = await roomRepo.deleteRoom(roomId: currentRoom.id!);
+      final response = await roomRepo.deleteRoom(roomId: event.roomId);
+      print('response delete: $response ');
       emit(LoadingRoomState(responseText: response));
-      add(LoadRoomEvent());
+      add(LoadRoomListEvent());
     }
   }
 

@@ -1,5 +1,5 @@
 import 'package:co_table/bloc/bloc.dart';
-import 'package:co_table/pages/home/add_dialog.dart';
+import 'package:co_table/pages/home/widget/add_dialog.dart';
 import 'package:co_table/utils/image_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +16,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool _isDeleteMode = false;
+
   @override
   void initState() {
     super.initState();
@@ -92,13 +94,46 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         const Expanded(child: SearchWidget()),
                         const SizedBox(width: 10),
-                        if (isAdmin)
+                        if (isAdmin) ...[
                           const SizedBox(
                               width: 40, height: 40, child: AddDialog()),
+                          const SizedBox(width: 10),
+                          Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: const Color(0xAAD93EF2),
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 3,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: IconButton(
+                              icon: Icon(
+                                _isDeleteMode
+                                    ? Icons.delete_forever
+                                    : Icons.delete,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isDeleteMode = !_isDeleteMode;
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                        const SizedBox(width: 10),
                       ],
                     ),
                     const SizedBox(height: 10),
-                    const Expanded(child: BodyHomePage()),
+                    Expanded(child: BodyHomePage(isDeleteMode: _isDeleteMode)),
                     const SizedBox(height: 50),
                   ],
                 ),

@@ -1,18 +1,18 @@
 import 'package:equatable/equatable.dart';
 
 class RoomModel extends Equatable {
-  final int? id;
+  final int id;
   final String name;
   final String faculty;
   final int userId;
   final bool status;
 
   const RoomModel({
-    this.id,
+    required this.id,
     required this.name,
     this.faculty = '',
     this.userId = 0,
-    this.status = false,
+    this.status = true,
   });
 
   factory RoomModel.empty() {
@@ -21,17 +21,17 @@ class RoomModel extends Equatable {
       name: '',
       faculty: '',
       userId: 0,
-      status: false,
+      status: true,
     );
   }
 
   factory RoomModel.fromJson(Map<String, dynamic> json) {
     return RoomModel(
-      id: json['id'] as int?,
+      id: json['id'],
       name: json['name'] ?? '',
       faculty: json['faculty'] ?? '',
       userId: json['user_id'] ?? 0,
-      status: json['status'] ?? false,
+      status: json['status'] ?? true,
     );
   }
 
@@ -65,7 +65,7 @@ class RoomModelList extends Equatable {
   factory RoomModelList.fromJson(Map<String, dynamic> json) {
     List<RoomModel> rooms = (json['rooms'] as List<dynamic>?)
             ?.map((room) => RoomModel.fromJson(room))
-            .where((room) => room.id != null)
+            .where((room) => room.id != 0)
             .toList() ??
         [];
     return RoomModelList(
@@ -75,7 +75,6 @@ class RoomModelList extends Equatable {
       sizePerPage: json['size_per_page'] ?? 10,
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'rooms': rooms.map((room) => room.toJson()).toList(),
