@@ -17,7 +17,7 @@ class RoomRepoDb extends RoomRepo {
   }) async {
     final data = {'name': name};
     if (faculty != null) {
-      data['faculty'] = '';
+      data['faculty'] = 'ไม่มีคณะ';
     }
     final response = await apiService.post('$_baseUrl/create_room', data: data);
     if (response.statusCode == 200) {
@@ -29,14 +29,20 @@ class RoomRepoDb extends RoomRepo {
 
   @override
   Future<List<RoomModel>> getAllRoom({int page = 1}) async {
-    final response =
-        await apiService.get('$_baseUrl/get_listRoom', query: {'page': page});
-    if (response.statusCode == 200) {
-      final roomList = RoomModelList.fromJson(response.data);
-      rooms = roomList.rooms;
-      return rooms;
-    } else {
-      throw Exception('Failed to get all room');
+    try {
+      final response =
+          await apiService.get('$_baseUrl/get_listRoom', query: {'page': page});
+      print('response room list: $response');
+      if (response.statusCode == 200) {
+        final roomList = RoomModelList.fromJson(response.data);
+        rooms = roomList.rooms.where((room) => room.id != null).toList();
+        return rooms;
+      } else {
+        throw Exception('Failed to get all room');
+      }
+    } catch (e) {
+      print('Error in getAllRoom: $e');
+      return [];
     }
   }
 

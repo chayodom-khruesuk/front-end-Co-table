@@ -8,8 +8,19 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import '../../widget/search.dart';
 import 'body_home_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<RoomBloc>().add(LoadRoomListEvent(page: 1));
+  }
 
   @override
   Widget build(BuildContext context) {

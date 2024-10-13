@@ -11,24 +11,24 @@ class BodyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const double boxHeight = 165;
+    return BlocBuilder<RoomBloc, RoomState>(
+      builder: (context, state) {
+        if (state is LoadingRoomState) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-    return BlocBuilder<RoomBloc, RoomState>(builder: (context, state) {
-      if (state is LoadingRoomState) {
-        return const Center(child: CircularProgressIndicator());
-      }
+        final roomList = state.roomList;
+        print('Room list in UI: $roomList');
 
-      final roomList = state.roomList;
+        if (roomList.isEmpty) {
+          return Center(
+            child: Text(
+              'ไม่พบห้องในระบบ',
+              style: GoogleFonts.notoSansThai(),
+            ),
+          );
+        }
 
-      if (roomList.isEmpty) {
-        return Center(
-          child: Text(
-            'ไม่พบห้องในระบบ',
-            style: GoogleFonts.notoSansThai(),
-          ),
-        );
-      }
-
-      if (state is ReadyRoomState) {
         return SingleChildScrollView(
           padding: EdgeInsets.only(
               bottom: MediaQuery.of(context).size.height * 0.07),
@@ -195,9 +195,7 @@ class BodyHomePage extends StatelessWidget {
             }).toList(),
           ),
         );
-      }
-      // Add a default return statement
-      return const Center(child: Text('No data available'));
-    });
+      },
+    );
   }
 }

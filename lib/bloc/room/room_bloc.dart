@@ -1,4 +1,3 @@
-import 'package:co_table/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,37 +24,22 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
   }
 
   _onLoadRoomListEvent(LoadRoomListEvent event, Emitter<RoomState> emit) async {
-    if (state is ReadyRoomState) {
-      final currentState = state as ReadyRoomState;
-      if (!currentState.isDataLoaded) {
-        emit(LoadingRoomState());
-        try {
-          final rooms = await roomRepo.getAllRoom(page: 1);
-          emit(ReadyRoomState(
-            room: currentState.room,
-            roomList: rooms,
-            currentPage: 1,
-            isDataLoaded: true,
-          ));
-        } catch (e) {
-          emit(ReadyRoomState(
-            room: currentState.room,
-            roomList: [],
-            currentPage: 0,
-            isDataLoaded: true,
-          ));
-        }
-      }
-    } else {
-      emit(LoadingRoomState());
-      try {
-        final rooms = await roomRepo.getAllRoom(page: 1);
-        emit(ReadyRoomState(
-            room: RoomModel.empty(), roomList: rooms, currentPage: 1));
-      } catch (e) {
-        emit(ReadyRoomState(
-            room: RoomModel.empty(), roomList: [], currentPage: 0));
-      }
+    emit(LoadingRoomState());
+    try {
+      final rooms = await roomRepo.getAllRoom(page: event.page);
+      emit(ReadyRoomState(
+        room: state.room,
+        roomList: rooms,
+        currentPage: event.page,
+        isDataLoaded: true,
+      ));
+    } catch (e) {
+      emit(ReadyRoomState(
+        room: state.room,
+        roomList: [],
+        currentPage: 0,
+        isDataLoaded: true,
+      ));
     }
   }
 
@@ -74,7 +58,7 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
     if (state is ReadyRoomState) {
       final currentRoom = (state as ReadyRoomState).room;
       final response = await roomRepo.updateRoom(
-        roomId: currentRoom.id,
+        roomId: currentRoom.id!,
         name: event.name,
         faculty: event.faculty ?? 'ไม่มีคณะ',
       );
@@ -86,7 +70,7 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
   _onDeleteRoomEvent(DeleteRoomEvent event, Emitter<RoomState> emit) async {
     if (state is ReadyRoomState) {
       final currentRoom = (state as ReadyRoomState).room;
-      final response = await roomRepo.deleteRoom(roomId: currentRoom.id);
+      final response = await roomRepo.deleteRoom(roomId: currentRoom.id!);
       emit(LoadingRoomState(responseText: response));
       add(LoadRoomEvent());
     }

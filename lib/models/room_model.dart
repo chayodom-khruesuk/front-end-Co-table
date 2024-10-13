@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
 
 class RoomModel extends Equatable {
-  final int id;
+  final int? id;
   final String name;
   final String faculty;
   final int userId;
   final bool status;
 
   const RoomModel({
-    this.id = 0,
+    this.id,
     required this.name,
     this.faculty = '',
     this.userId = 0,
@@ -27,11 +27,11 @@ class RoomModel extends Equatable {
 
   factory RoomModel.fromJson(Map<String, dynamic> json) {
     return RoomModel(
-      id: json['id'],
-      name: json['name'],
-      faculty: json['faculty'],
-      userId: json['user_id'],
-      status: json['status'],
+      id: json['id'] as int?,
+      name: json['name'] ?? '',
+      faculty: json['faculty'] ?? '',
+      userId: json['user_id'] ?? 0,
+      status: json['status'] ?? false,
     );
   }
 
@@ -63,15 +63,16 @@ class RoomModelList extends Equatable {
   });
 
   factory RoomModelList.fromJson(Map<String, dynamic> json) {
-    List<RoomModel> rooms = [];
-    for (var room in json['rooms']) {
-      rooms.add(RoomModel.fromJson(room));
-    }
+    List<RoomModel> rooms = (json['rooms'] as List<dynamic>?)
+            ?.map((room) => RoomModel.fromJson(room))
+            .where((room) => room.id != null)
+            .toList() ??
+        [];
     return RoomModelList(
       rooms: rooms,
-      page: json['page'],
-      pageCount: json['page_count'],
-      sizePerPage: json['size_per_page'],
+      page: json['page'] ?? 1,
+      pageCount: json['page_count'] ?? 1,
+      sizePerPage: json['size_per_page'] ?? 10,
     );
   }
 
