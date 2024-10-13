@@ -95,13 +95,8 @@ class BodyHomePage extends StatelessWidget {
                                         textStyle: const TextStyle(
                                       color: Color(0xFF030260),
                                       fontSize: 14,
+                                      fontWeight: FontWeight.w600,
                                     ))),
-                                Text(room.status ? 'เปิด' : 'ปิด',
-                                    style: GoogleFonts.notoSansThai(
-                                        textStyle: const TextStyle(
-                                      color: Color(0xFF959494),
-                                      fontSize: 10,
-                                    )))
                               ],
                             ),
                             const Spacer(),
@@ -146,7 +141,9 @@ class BodyHomePage extends StatelessWidget {
                               width: 31,
                               height: 28,
                               decoration: ShapeDecoration(
-                                color: const Color(0xFFD9D9D9),
+                                color: room.status
+                                    ? const Color.fromARGB(255, 76, 243, 76)
+                                    : const Color.fromARGB(255, 241, 45, 45),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5)),
                               ),
@@ -161,18 +158,19 @@ class BodyHomePage extends StatelessWidget {
                                     textStyle: const TextStyle(
                                       color: Color(0xFF030260),
                                       fontSize: 14,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                 ),
-                                Text(
-                                  'Room Name',
-                                  style: GoogleFonts.notoSansThai(
-                                    textStyle: const TextStyle(
-                                      color: Color(0xFF959494),
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                ),
+                                Text(room.status ? 'ห้องเปิด' : 'ห้องปิด',
+                                    style: GoogleFonts.notoSansThai(
+                                        textStyle: TextStyle(
+                                      color: room.status
+                                          ? Colors.green
+                                          : Colors.red,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                    ))),
                               ],
                             ),
                             const Spacer(),
@@ -183,7 +181,8 @@ class BodyHomePage extends StatelessWidget {
                                 style: GoogleFonts.notoSansThai(
                                   textStyle: const TextStyle(
                                     color: Color(0xFF030260),
-                                    fontSize: 12.26,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),

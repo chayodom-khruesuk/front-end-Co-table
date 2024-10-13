@@ -28,13 +28,17 @@ class LoginUserEvent extends UserEvent {
 }
 
 class UpdateUserEvent extends UserEvent {
+  final int userId;
   final String email;
   final String name;
   final String? faculty;
+  final String roles;
   UpdateUserEvent({
+    required this.userId,
     required this.email,
     required this.name,
     this.faculty,
+    required this.roles,
   });
 }
 
@@ -45,6 +49,7 @@ class ChangePasswordEvent extends UserEvent {
   ChangePasswordEvent({
     required this.currentPassword,
     required this.newPassword,
+    required int userId,
   });
 }
 

@@ -96,17 +96,7 @@ class FormLoginPageState extends State<FormLoginPage> {
     return FractionallySizedBox(
       widthFactor: 0.9,
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: const Color(0xFF6E6E6E).withOpacity(0.5),
-          //     spreadRadius: 2,
-          //     blurRadius: 5,
-          //     offset: const Offset(0, 3),
-          //   ),
-          // ],
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
         child: TextFormField(
           controller: _usernameController,
           style: GoogleFonts.notoSansThai(
@@ -152,17 +142,7 @@ class FormLoginPageState extends State<FormLoginPage> {
     return FractionallySizedBox(
       widthFactor: 0.9,
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: const Color(0xFF6E6E6E).withOpacity(0.5),
-          //     spreadRadius: 2,
-          //     blurRadius: 5,
-          //     offset: const Offset(0, 3),
-          //   ),
-          // ],
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
         child: TextFormField(
           controller: _passwordController,
           style: GoogleFonts.notoSansThai(

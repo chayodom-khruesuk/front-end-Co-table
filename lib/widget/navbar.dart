@@ -51,7 +51,9 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
                   children: [
                     IndexedStack(
                       index: currentIndex,
-                      children: pages,
+                      children: List.generate(pages.length, (index) {
+                        return pages[index];
+                      }),
                     ),
                     if (!isKeyboardVisible)
                       Positioned(

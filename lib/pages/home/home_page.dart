@@ -88,17 +88,15 @@ class _HomePageState extends State<HomePage> {
                 ),
                 child: Column(
                   children: [
-                    const SearchWidget(),
-                    const SizedBox(height: 10),
-                    if (isAdmin)
-                      const Align(
-                        alignment: Alignment.centerLeft,
-                        child: SizedBox(
-                          width: 40,
-                          height: 40,
-                          child: AddDialog(),
-                        ),
-                      ),
+                    Row(
+                      children: [
+                        const Expanded(child: SearchWidget()),
+                        const SizedBox(width: 10),
+                        if (isAdmin)
+                          const SizedBox(
+                              width: 40, height: 40, child: AddDialog()),
+                      ],
+                    ),
                     const SizedBox(height: 10),
                     const Expanded(child: BodyHomePage()),
                     const SizedBox(height: 50),

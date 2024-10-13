@@ -379,10 +379,11 @@ class BodyProfileState extends State<BodyProfile> {
               onPressed: () {
                 if (isEditing) {
                   _updateUserInfo();
+                } else {
+                  setState(() {
+                    isEditing = true;
+                  });
                 }
-                setState(() {
-                  isEditing = !isEditing;
-                });
               },
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 15),
@@ -527,17 +528,20 @@ class BodyProfileState extends State<BodyProfile> {
   void _updateUserInfo() {
     final userState = context.read<UserBloc>().state;
     if (userState is ReadyUserState) {
-      final currentUser = userState.user;
+      final userId = userState.user.id;
       context.read<UserBloc>().add(UpdateUserEvent(
-            email: _tempEmail ?? currentUser.email ?? '',
-            name: _tempName ?? currentUser.name ?? '',
+            userId: userId,
+            email: _tempEmail ?? userState.user.email ?? '',
+            name: _tempName ?? userState.user.name ?? '',
             faculty: 'ไม่มีคณะ',
+            roles: 'visitor',
           ));
 
       if (_tempNewPassword != null && _tempCurrentPassword != null) {
         context.read<UserBloc>().add(ChangePasswordEvent(
               currentPassword: _tempCurrentPassword!,
               newPassword: _tempNewPassword!,
+              userId: userId,
             ));
       }
     }
@@ -554,6 +558,7 @@ class BodyProfileState extends State<BodyProfile> {
       _tempCurrentPassword = null;
       _tempNewPassword = null;
       isEditing = false;
+      editedField = null;
     });
   }
 

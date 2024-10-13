@@ -33,6 +33,7 @@ abstract class UserRepo {
     required String email,
     required String name,
     required String faculty,
+    required String roles,
   });
 
   Future<void> logoutUser();
