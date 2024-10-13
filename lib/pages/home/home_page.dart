@@ -1,4 +1,5 @@
 import 'package:co_table/bloc/bloc.dart';
+import 'package:co_table/pages/home/add_dialog.dart';
 import 'package:co_table/utils/image_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -76,6 +77,14 @@ class HomePage extends StatelessWidget {
                 child: const Column(
                   children: [
                     SearchWidget(),
+                    SizedBox(height: 10),
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: SizedBox(
+                          width: 40,
+                          height: 40,
+                          child: AddDialog(),
+                        )),
                     SizedBox(height: 10),
                     Expanded(child: BodyHomePage()),
                     SizedBox(height: 50),

@@ -19,5 +19,13 @@ class LoadingRoomState extends RoomState {
 }
 
 class ReadyRoomState extends RoomState {
-  ReadyRoomState({required super.room, required super.roomList});
+  final int currentPage;
+  final bool isDataLoaded;
+
+  ReadyRoomState({
+    required super.room,
+    required super.roomList,
+    this.currentPage = 0,
+    this.isDataLoaded = false,
+  });
 }

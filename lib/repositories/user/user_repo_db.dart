@@ -84,7 +84,7 @@ class UserRepoDb extends UserRepo {
   Future<List<UserModel>> getAllUser({int page = 1}) async {
     final response =
         await apiService.get('$_baseUrl/get_allUser', query: {'page': page});
-    print("response: ${response.data}");
+    debugPrint("response: ${response.data}");
     if (response.statusCode == 200) {
       final userList = UserModelList.fromJson(response.data);
       return userList.users;

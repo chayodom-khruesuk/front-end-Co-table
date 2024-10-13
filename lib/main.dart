@@ -1,3 +1,5 @@
+import 'package:co_table/repositories/room/room_repo.dart';
+import 'package:co_table/repositories/room/room_repo_db.dart';
 import 'package:co_table/repositories/user/user_repo_db.dart';
 import 'package:co_table/services/services.dart';
 import 'package:co_table/theme/theme_bloc.dart';
@@ -23,6 +25,7 @@ class MainApp extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<UserRepo>(create: (context) => UserRepoDb()),
+        RepositoryProvider<RoomRepo>(create: (context) => RoomRepoDb()),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -39,6 +42,13 @@ class MainApp extends StatelessWidget {
           }),
           BlocProvider<WidgetBloc>(
               create: (context) => WidgetBloc(allRooms: [])),
+          BlocProvider<RoomBloc>(
+            create: (context) {
+              final bloc = RoomBloc(roomRepo: context.read<RoomRepo>());
+              bloc.add(LoadRoomListEvent());
+              return bloc;
+            },
+          )
         ],
         child: const MaterialApp(
           debugShowCheckedModeBanner: false,

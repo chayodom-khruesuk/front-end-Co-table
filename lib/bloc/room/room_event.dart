@@ -2,6 +2,11 @@ sealed class RoomEvent {}
 
 class LoadRoomEvent extends RoomEvent {}
 
+class LoadRoomListEvent extends RoomEvent {
+  final int page;
+  LoadRoomListEvent({this.page = 1});
+}
+
 class CreateRoomEvent extends RoomEvent {
   final String name;
   final String? faculty;
