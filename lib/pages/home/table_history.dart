@@ -1,8 +1,8 @@
-import 'package:co_table/pages/home/widget/add_table.dart';
 import 'package:co_table/utils/text_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'dart:developer' as dev;
 
 import '../../bloc/bloc.dart';
 import '../../core.dart';
@@ -16,6 +16,7 @@ class TableHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var numberController = TextEditingController();
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, themeState) {
         return BlocBuilder<RoomBloc, RoomState>(
@@ -57,7 +58,76 @@ class TableHistory extends StatelessWidget {
                     ),
                     Container(
                       padding: const EdgeInsets.only(right: 10),
-                      child: AddTable(roomId: room.id),
+                      child: FloatingActionButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('สร้างโต๊ะ',
+                                    style: GoogleFonts.notoSansThai()),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    TextField(
+                                      controller: numberController,
+                                      style: GoogleFonts.notoSansThai(),
+                                      decoration: InputDecoration(
+                                        border: const OutlineInputBorder(),
+                                        labelText: 'ระบุจำนวนโต๊ะ',
+                                        labelStyle: GoogleFonts.notoSansThai(),
+                                        hintText: 'เช่น 5',
+                                        hintStyle: GoogleFonts.notoSansThai(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: Text(
+                                      'ยกเลิก',
+                                      style: GoogleFonts.notoSansThai(
+                                          color: Colors.red),
+                                    ),
+                                    onPressed: () {
+                                      numberController.clear();
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: Text(
+                                      'สร้าง',
+                                      style: GoogleFonts.notoSansThai(
+                                          color: Colors.green),
+                                    ),
+                                    onPressed: () {
+                                      dev.log(room.id.toString());
+                                      context
+                                          .read<TableBloc>()
+                                          .add(CreateTableEvent(
+                                            number: (int.tryParse(
+                                                    numberController.text) ??
+                                                1),
+                                            roomId: room.id,
+                                          ));
+                                      Navigator.of(context).pop();
+                                    },
+                                  )
+                                ],
+                              );
+                            },
+                          ).then((_) {
+                            numberController.clear();
+                          });
+                        },
+                        elevation: 0,
+                        backgroundColor: const Color(0xAAD535EE),
+                        child: const Icon(
+                          Icons.table_view,
+                          size: 30,
+                          color: Color(0xDF141414),
+                        ),
+                      ),
                     ),
                   ],
                   flexibleSpace: Container(
@@ -87,8 +157,8 @@ class TableHistory extends StatelessWidget {
                       children: [
                         _buildBoxHeader(context, room),
                         _buildBoxSelect(),
-                        const Expanded(
-                          child: TableEach(),
+                        Expanded(
+                          child: TableEach(roomId: room.id),
                         ),
                       ],
                     ),

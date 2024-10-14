@@ -7,14 +7,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/bloc.dart';
 
 class TableEach extends StatelessWidget {
-  const TableEach({super.key});
+  final int roomId;
+  const TableEach({super.key, required this.roomId});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TableBloc, TableState>(
-      builder: (context, state) {
-        if (state is ReadyTableState) {
-          return _TableEachContent(boxCount: state.tableList.length);
+      builder: (context, tableState) {
+        if (tableState is ReadyTableState) {
+          final tableList = tableState.tableList
+              .where((table) => table.roomId == roomId)
+              .toList();
+          return _TableEachContent(boxCount: tableList.length);
         }
         return const CircularProgressIndicator();
       },
