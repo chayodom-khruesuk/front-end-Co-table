@@ -1,11 +1,10 @@
 import 'package:co_table/bloc/reservation/reservation_bloc.dart';
 import 'package:co_table/bloc/reservation/reservation_event.dart';
-import 'package:co_table/core.dart';
-import 'package:co_table/utils/text_constant.dart';
-import 'package:co_table/theme/theme_state.dart';
+import 'package:co_table/bloc/reservation/reservation_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:developer' as dev;
 
 import '../../bloc/bloc.dart';
 
@@ -39,14 +38,9 @@ class _TableEachContent extends StatefulWidget {
 }
 
 class _TableEachContentState extends State<_TableEachContent> {
-  late List<bool> _isSelected;
-  late List<bool> _isConfirmed;
-
   @override
   void initState() {
     super.initState();
-    _isSelected = List.generate(widget.boxCount, (_) => false);
-    _isConfirmed = List.generate(widget.boxCount, (_) => false);
   }
 
   @override
@@ -73,12 +67,6 @@ class _TableEachContentState extends State<_TableEachContent> {
             ),
           ),
         ),
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 0,
-          child: _buildConfirmButton(),
-        ),
       ],
     );
   }
@@ -86,94 +74,78 @@ class _TableEachContentState extends State<_TableEachContent> {
   Widget _buildBoxItem(int index) {
     var hoursController = TextEditingController();
     return BlocBuilder<UserBloc, UserState>(builder: (context, userState) {
-      return GestureDetector(
-        onTap: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text('จองโต๊ะ'),
-                content: TextField(
-                  controller: hoursController,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
-                ),
-                actions: <Widget>[
-                  TextButton(
-                    child: const Text('ยกเลิก'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  TextButton(
-                    child: const Text('จอง'),
-                    onPressed: () {
-                      context.read<ReservationBloc>().add(
-                          CreateReservationEvent(
-                              durationHours: int.parse(hoursController.text),
-                              userId: userState.user.id,
-                              tableId: index + 1));
-                    },
-                  ),
-                ],
+      return BlocBuilder<ReservationBloc, ReservationState>(
+          builder: (context, reservationState) {
+        bool isConfirmed = false;
+        if (reservationState is ReadyReservationState) {
+          if (reservationState.reservationList.isNotEmpty) {
+            dev.log(
+                '${reservationState.reservation.tableId.toString()}, ${index}');
+            isConfirmed = true;
+          }
+          dev.log('isConfirmed: $isConfirmed');
+          return GestureDetector(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('จองโต๊ะ'),
+                    content: TextField(
+                      controller: hoursController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        child: const Text('ยกเลิก'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: const Text('จอง'),
+                        onPressed: () {
+                          context.read<ReservationBloc>().add(
+                              CreateReservationEvent(
+                                  durationHours:
+                                      int.parse(hoursController.text),
+                                  userId: userState.user.id,
+                                  tableId: index + 1));
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
               );
             },
-          );
-        },
-        child: Container(
-          width: 60,
-          height: 60,
-          decoration: BoxDecoration(
-            color: _isConfirmed[index]
-                ? const Color(0xFF040261)
-                : Colors.grey.withOpacity(0.5),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Center(
-            child: Text(
-              '${index + 1}',
-              style: TextStyle(
-                color: _isConfirmed[index] ? Colors.white : Colors.black,
-                fontWeight: FontWeight.bold,
+            child: Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                color: isConfirmed
+                    ? const Color(0xFF040261)
+                    : Colors.grey.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Center(
+                child: Text(
+                  '${index + 1}',
+                  style: TextStyle(
+                    color: isConfirmed ? Colors.white : Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-      );
+          );
+        }
+        // Add a default return statement
+        return Container(); // You can replace this with an appropriate default widget
+      });
     });
-  }
-
-  Widget _buildConfirmButton() {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () {
-          setState(() {
-            for (int i = 1; i < widget.boxCount; i++) {
-              if (_isSelected[i]) {
-                _isConfirmed[i] = true;
-                _isSelected[i] = false;
-              }
-            }
-          });
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: ThemeState.buttonSelectTheme.colors[0],
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.zero,
-          ),
-        ),
-        child: Text(
-          TextConstant.textSelect,
-          style: TextStyle(
-            fontSize: 20,
-            color: ThemeState.lightTheme.colors[0],
-          ),
-        ),
-      ),
-    );
   }
 }
