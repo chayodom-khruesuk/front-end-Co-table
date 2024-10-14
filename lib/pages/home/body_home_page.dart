@@ -168,7 +168,8 @@ class BodyHomePage extends StatelessWidget {
                                                   MaterialPageRoute(
                                                     builder: (context) =>
                                                         TableHistory(
-                                                            boxName: room.name),
+                                                      boxName: room.name,
+                                                    ),
                                                   ),
                                                 );
                                               }
