@@ -13,7 +13,7 @@ class DioInterceptor extends Interceptor {
     }
 
     options.headers['Content-Type'] = 'application/json';
-    options.baseUrl = 'http://10.0.2.2:8000';
+    options.baseUrl = 'https://co-table-application.onrender.com';
 
     super.onRequest(options, handler);
   }

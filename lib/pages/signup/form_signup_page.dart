@@ -111,14 +111,6 @@ class FormSignupPageState extends State<FormSignupPage> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: const Color(0xFF6E6E6E).withOpacity(0.5),
-          //     spreadRadius: 2,
-          //     blurRadius: 5,
-          //     offset: const Offset(0, 2),
-          //   ),
-          // ],
         ),
         child: TextFormField(
           controller: _usernameController,
@@ -165,14 +157,6 @@ class FormSignupPageState extends State<FormSignupPage> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: const Color(0xFF6E6E6E).withOpacity(0.5),
-          //     spreadRadius: 2,
-          //     blurRadius: 5,
-          //     offset: const Offset(0, 2),
-          //   ),
-          // ],
         ),
         child: TextFormField(
           controller: _nameController,
@@ -220,14 +204,6 @@ class FormSignupPageState extends State<FormSignupPage> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: const Color(0xFF6E6E6E).withOpacity(0.5),
-          //     spreadRadius: 2,
-          //     blurRadius: 5,
-          //     offset: const Offset(0, 3),
-          //   ),
-          // ],
         ),
         child: TextFormField(
           controller: _emailController,
@@ -275,14 +251,6 @@ class FormSignupPageState extends State<FormSignupPage> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: const Color(0xFF6E6E6E).withOpacity(0.5),
-          //     spreadRadius: 2,
-          //     blurRadius: 5,
-          //     offset: const Offset(0, 3),
-          //   ),
-          // ],
         ),
         child: TextFormField(
           obscureText: !_showPassword,
@@ -339,14 +307,6 @@ class FormSignupPageState extends State<FormSignupPage> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: const Color(0xFF6E6E6E).withOpacity(0.5),
-          //     spreadRadius: 2,
-          //     blurRadius: 5,
-          //     offset: const Offset(0, 3),
-          //   ),
-          // ],
         ),
         child: TextFormField(
           obscureText: !_showConfirmPassword,
