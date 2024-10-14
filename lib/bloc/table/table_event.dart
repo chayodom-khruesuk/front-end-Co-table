@@ -29,5 +29,6 @@ class UpdateTableEvent extends TableEvent {
   final int tableId;
   UpdateTableEvent({
     required this.tableId,
+    required bool isAvailable,
   });
 }

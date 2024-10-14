@@ -90,9 +90,11 @@ class _TableEachContentState extends State<_TableEachContent> {
               final table = tableList[index];
               return BlocBuilder<ReservationBloc, ReservationState>(
                 builder: (context, reservationState) {
-                  bool isReserved = table.isAvailable;
-                  print(
-                      'Table ${index + 1} in Room ${widget.roomId} isReserved: $isReserved');
+                  bool isReserved = !table.isAvailable;
+                  if (reservationState is ReadyReservationState) {
+                    isReserved = reservationState.reservationList
+                        .any((res) => res.tableId == table.id);
+                  }
                   return GestureDetector(
                     onTap: isReserved
                         ? null
@@ -135,6 +137,7 @@ class _TableEachContentState extends State<_TableEachContent> {
                                             .read<TableBloc>()
                                             .add(UpdateTableEvent(
                                               tableId: table.id,
+                                              isAvailable: false,
                                             ));
                                         Navigator.of(context).pop();
                                       },

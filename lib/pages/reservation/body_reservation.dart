@@ -51,45 +51,62 @@ class BodyReservationState extends State<BodyReservation> {
   }
 
   Widget _buildReservationCard(ReservationModel reservation) {
-    return Card(
-      margin: const EdgeInsets.all(8.0),
-      child: ListTile(
-        title: Text(
-          'Table ${reservation.tableId} in Room ${reservation.roomId}',
-          style: GoogleFonts.notoSansThai(
-            textStyle: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
+    return Column(
+      children: [
+        Card(
+          margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Room ${reservation.roomId}',
+                  style: GoogleFonts.notoSansThai(
+                    textStyle: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Table ${reservation.tableId}',
+                  style: GoogleFonts.notoSansThai(fontSize: 14),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Duration: ${reservation.durationHours} hours',
+                  style: GoogleFonts.notoSansThai(fontSize: 14),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Start: ${reservation.startTime}',
+                  style: GoogleFonts.notoSansThai(fontSize: 14),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'End: ${reservation.endTime}',
+                  style: GoogleFonts.notoSansThai(fontSize: 14),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Status: ${_getReservationStatus(reservation)}',
+                  style: GoogleFonts.notoSansThai(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: _getStatusColor(reservation),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Duration: ${reservation.durationHours} hours',
-              style: GoogleFonts.notoSansThai(fontSize: 16),
-            ),
-            Text(
-              'Start Time: ${reservation.startTime}',
-              style: GoogleFonts.notoSansThai(fontSize: 16),
-            ),
-            Text(
-              'End Time: ${reservation.endTime}',
-              style: GoogleFonts.notoSansThai(fontSize: 16),
-            ),
-            Text(
-              'Status: ${_getReservationStatus(reservation)}',
-              style: GoogleFonts.notoSansThai(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: _getStatusColor(reservation),
-              ),
-            ),
-          ],
+        Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: _buildCancelButton(reservation),
         ),
-        trailing: _buildCancelButton(reservation),
-      ),
+      ],
     );
   }
 
@@ -126,6 +143,12 @@ class BodyReservationState extends State<BodyReservation> {
         onPressed: () {
           context.read<ReservationBloc>().add(
                 DeleteReservationEvent(reservationId: reservation.id),
+              );
+          context.read<TableBloc>().add(
+                UpdateTableEvent(
+                  tableId: reservation.tableId,
+                  isAvailable: true,
+                ),
               );
         },
         style: ElevatedButton.styleFrom(
