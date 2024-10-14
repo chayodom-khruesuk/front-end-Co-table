@@ -4,6 +4,8 @@ import 'package:co_table/bloc/reservation/reservation_state.dart';
 import 'package:co_table/repositories/reservation/reservation_repo.dart';
 import 'package:co_table/models/models.dart';
 
+import '../../services/services.dart';
+
 class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
   final ReservationRepo reservationRepo;
 
@@ -19,12 +21,21 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
   _onLoadReservationEvent(
       LoadReservationEvent event, Emitter<ReservationState> emit) async {
     try {
-      final reservation = await reservationRepo.getReservation();
-      emit(ReadyReservationState(
-        reservation: reservation,
-        reservationList: [],
-        responseText: 'Reservation loaded successfully',
-      ));
+      final reservationId = await Token.getReservataionId();
+      if (reservationId == 0) {
+        emit(ReadyReservationState(
+          reservation: ReservationModel.empty(),
+          reservationList: [],
+          responseText: 'No active reservation',
+        ));
+      } else {
+        final reservation = await reservationRepo.getReservation();
+        emit(ReadyReservationState(
+          reservation: reservation,
+          reservationList: [],
+          responseText: 'Reservation loaded successfully',
+        ));
+      }
     } catch (e) {
       emit(ReadyReservationState(
         reservation: ReservationModel.empty(),
@@ -37,33 +48,33 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
   _onLoadReservationListEvent(
       LoadReservationListEvent event, Emitter<ReservationState> emit) async {
     try {
-      final reservation = await reservationRepo.getReservation();
+      final reservations = await reservationRepo.getAllReservation();
       emit(ReadyReservationState(
-        reservation: reservation,
-        reservationList: [],
-        responseText: 'Reservation loaded successfully',
+        reservation: ReservationModel.empty(),
+        reservationList: reservations,
+        responseText: 'Reservations loaded successfully',
       ));
     } catch (e) {
       emit(ReadyReservationState(
         reservation: ReservationModel.empty(),
         reservationList: [],
-        responseText: 'Failed to load reservation',
+        responseText: 'Failed to load reservations',
       ));
     }
   }
 
   _onCreateReservationEvent(
       CreateReservationEvent event, Emitter<ReservationState> emit) async {
-    emit(LoadingReservationState());
     try {
       final reservation = await reservationRepo.createReservation(
         userId: event.userId,
         tableId: event.tableId,
         durationHours: event.durationHours,
       );
+      final reservations = await reservationRepo.getAllReservation();
       emit(ReadyReservationState(
         reservation: reservation,
-        reservationList: [],
+        reservationList: reservations,
         responseText: 'Reservation created successfully',
       ));
     } catch (e) {
@@ -84,9 +95,10 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
         userId: event.userId,
         tableId: event.tableId,
       );
+      final reservations = await reservationRepo.getAllReservation();
       emit(ReadyReservationState(
         reservation: updatedReservation,
-        reservationList: [],
+        reservationList: reservations,
         responseText: 'Reservation updated successfully',
       ));
     } catch (e) {
@@ -103,9 +115,10 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
     try {
       await reservationRepo.deleteReservation(
           reservationId: event.reservationId);
+      final reservations = await reservationRepo.getAllReservation();
       emit(ReadyReservationState(
         reservation: ReservationModel.empty(),
-        reservationList: [],
+        reservationList: reservations,
         responseText: 'Reservation deleted successfully',
       ));
     } catch (e) {

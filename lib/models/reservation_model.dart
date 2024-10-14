@@ -58,6 +58,8 @@ class ReservationModel extends Equatable {
   @override
   List<Object?> get props =>
       [id, reservedAt, startTime, endTime, durationHours, userId, tableId];
+
+  get roomId => null;
 }
 
 class ReservationModelList extends Equatable {

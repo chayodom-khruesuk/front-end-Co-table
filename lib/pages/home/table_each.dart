@@ -4,7 +4,6 @@ import 'package:co_table/bloc/reservation/reservation_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'dart:developer' as dev;
 
 import '../../bloc/bloc.dart';
 
@@ -20,7 +19,7 @@ class TableEach extends StatelessWidget {
           final tableList = tableState.tableList
               .where((table) => table.roomId == roomId)
               .toList();
-          return _TableEachContent(boxCount: tableList.length);
+          return _TableEachContent(boxCount: tableList.length, roomId: roomId);
         }
         return const CircularProgressIndicator();
       },
@@ -30,8 +29,9 @@ class TableEach extends StatelessWidget {
 
 class _TableEachContent extends StatefulWidget {
   final int boxCount;
+  final int roomId;
 
-  const _TableEachContent({required this.boxCount});
+  const _TableEachContent({required this.boxCount, required this.roomId});
 
   @override
   _TableEachContentState createState() => _TableEachContentState();
@@ -74,78 +74,92 @@ class _TableEachContentState extends State<_TableEachContent> {
   Widget _buildBoxItem(int index) {
     var hoursController = TextEditingController();
     return BlocBuilder<UserBloc, UserState>(builder: (context, userState) {
-      return BlocBuilder<ReservationBloc, ReservationState>(
-          builder: (context, reservationState) {
-        bool isConfirmed = false;
-        if (reservationState is ReadyReservationState) {
-          if (reservationState.reservationList.isNotEmpty) {
-            dev.log(
-                '${reservationState.reservation.tableId.toString()}, ${index}');
-            isConfirmed = true;
-          }
-          dev.log('isConfirmed: $isConfirmed');
-          return GestureDetector(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('จองโต๊ะ'),
-                    content: TextField(
-                      controller: hoursController,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
+      return BlocBuilder<RoomBloc, RoomState>(
+        builder: (context, roomState) {
+          if (roomState is ReadyRoomState) {
+            final room =
+                roomState.roomList.firstWhere((r) => r.id == widget.roomId);
+            return BlocBuilder<ReservationBloc, ReservationState>(
+              builder: (context, reservationState) {
+                bool isReserved = false;
+                if (reservationState is ReadyReservationState) {
+                  isReserved = reservationState.reservationList.any((res) =>
+                      res.tableId == index + 1 && res.roomId == room.id);
+                }
+                print(
+                    'Table ${index + 1} in Room ${widget.roomId} isReserved: $isReserved');
+
+                return GestureDetector(
+                  onTap: isReserved
+                      ? null
+                      : () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('จองโต๊ะ'),
+                                content: TextField(
+                                  controller: hoursController,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
+                                  decoration: const InputDecoration(
+                                    labelText: 'จำนวนชั่วโมง',
+                                  ),
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: const Text('ยกเลิก'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: const Text('จอง'),
+                                    onPressed: () {
+                                      context.read<ReservationBloc>().add(
+                                            CreateReservationEvent(
+                                              durationHours: int.parse(
+                                                  hoursController.text),
+                                              userId: userState.user.id,
+                                              tableId: index + 1,
+                                            ),
+                                          );
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                  child: Container(
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: isReserved
+                          ? const Color(0xFF040261)
+                          : Colors.grey.withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    actions: <Widget>[
-                      TextButton(
-                        child: const Text('ยกเลิก'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
+                    child: Center(
+                      child: Text(
+                        '${index + 1}',
+                        style: TextStyle(
+                          color: isReserved ? Colors.white : Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      TextButton(
-                        child: const Text('จอง'),
-                        onPressed: () {
-                          context.read<ReservationBloc>().add(
-                              CreateReservationEvent(
-                                  durationHours:
-                                      int.parse(hoursController.text),
-                                  userId: userState.user.id,
-                                  tableId: index + 1));
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-            child: Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                color: isConfirmed
-                    ? const Color(0xFF040261)
-                    : Colors.grey.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Center(
-                child: Text(
-                  '${index + 1}',
-                  style: TextStyle(
-                    color: isConfirmed ? Colors.white : Colors.black,
-                    fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ),
-            ),
-          );
-        }
-        // Add a default return statement
-        return Container(); // You can replace this with an appropriate default widget
-      });
+                );
+              },
+            );
+          }
+          return Container();
+        },
+      );
     });
   }
 }

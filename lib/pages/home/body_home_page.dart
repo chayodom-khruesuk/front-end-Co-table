@@ -247,11 +247,15 @@ class BodyHomePage extends StatelessWidget {
                                         ],
                                       ),
                                       const Spacer(),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 4),
-                                        child: Text(
-                                          '0 / 24 โต๊ะ',
+                                      const Spacer(),
+                                      BlocBuilder<TableBloc, TableState>(
+                                          builder: (context, tableState) {
+                                        final tableCount = tableState.tableList
+                                            .where((table) =>
+                                                table.roomId == room.id)
+                                            .length;
+                                        return Text(
+                                          'จำนวน $tableCount โต๊ะ',
                                           style: GoogleFonts.notoSansThai(
                                             textStyle: const TextStyle(
                                               color: Color(0xFF030260),
@@ -259,8 +263,8 @@ class BodyHomePage extends StatelessWidget {
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                        ),
-                                      ),
+                                        );
+                                      }),
                                     ],
                                   ),
                                 ],

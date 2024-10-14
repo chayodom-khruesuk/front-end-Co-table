@@ -32,7 +32,9 @@ class ReservationRepoDb extends ReservationRepo {
 
   @override
   Future<ReservationModel> getReservation() async {
-    final response = await apiService.get('$_baseUrl/get_reservation');
+    final reservationId = await Token.getReservataionId();
+    final response = await apiService.get('$_baseUrl/get_id_reservation',
+        query: {'reservation_id': reservationId});
     if (response.statusCode == 200) {
       return ReservationModel.fromJson(response.data);
     } else {
@@ -85,7 +87,8 @@ class ReservationRepoDb extends ReservationRepo {
 
   @override
   Future<String> deleteReservation({required int reservationId}) async {
-    final response = await apiService.delete('$_baseUrl/delete_reservation');
+    final response =
+        await apiService.delete('$_baseUrl/delete_reservation/$reservationId');
     if (response.statusCode == 200) {
       return 'Reservation deleted successfully';
     } else {

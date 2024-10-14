@@ -212,13 +212,20 @@ class TableHistory extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              const Text(
-                "0/12 Tables",
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF040261),
-                ),
+              BlocBuilder<TableBloc, TableState>(
+                builder: (context, tableState) {
+                  final tableCount = tableState.tableList
+                      .where((table) => table.roomId == room.id)
+                      .length;
+                  return Text(
+                    "จำนวน $tableCount โต๊ะ",
+                    style: const TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF040261),
+                    ),
+                  );
+                },
               ),
               const Padding(padding: EdgeInsets.only(right: 30)),
             ],
