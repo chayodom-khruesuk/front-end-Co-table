@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="co_table"
+        android:label="Co-table App"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

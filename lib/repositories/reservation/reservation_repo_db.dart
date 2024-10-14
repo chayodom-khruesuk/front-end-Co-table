@@ -32,7 +32,6 @@ class ReservationRepoDb extends ReservationRepo {
 
   @override
   Future<ReservationModel> getReservation({required reservationId}) async {
-    ;
     final response = await apiService.get('$_baseUrl/get_id_reservation',
         query: {'reservation_id': reservationId});
     if (response.statusCode == 200) {
