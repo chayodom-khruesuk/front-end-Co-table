@@ -87,8 +87,8 @@ class ReservationRepoDb extends ReservationRepo {
 
   @override
   Future<String> deleteReservation({required int reservationId}) async {
-    final response =
-        await apiService.delete('$_baseUrl/delete_reservation/$reservationId');
+    final response = await apiService
+        .delete('$_baseUrl/delete_reservation?reservation_id=$reservationId');
     if (response.statusCode == 200) {
       return 'Reservation deleted successfully';
     } else {
