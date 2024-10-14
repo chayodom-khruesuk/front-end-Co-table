@@ -22,6 +22,19 @@ class GetReservationEvent extends ReservationEvent {
   GetReservationEvent({required this.reservationId});
 }
 
+class UpdateReservationEvent extends ReservationEvent {
+  final int reservationId;
+  final int durationHours;
+  final int userId;
+  final int tableId;
+  UpdateReservationEvent({
+    required this.reservationId,
+    required this.durationHours,
+    required this.userId,
+    required this.tableId,
+  });
+}
+
 class DeleteReservationEvent extends ReservationEvent {
   final int reservationId;
   DeleteReservationEvent({required this.reservationId});

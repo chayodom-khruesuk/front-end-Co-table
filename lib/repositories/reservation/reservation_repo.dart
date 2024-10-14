@@ -7,7 +7,7 @@ abstract class ReservationRepo {
     required int durationHours,
   });
 
-  Future<ReservationModel> getReservation({required int reservationId});
+  Future<ReservationModel> getReservation();
 
   Future<List<ReservationModel>> getAllReservation({int page = 1});
 

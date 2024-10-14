@@ -58,7 +58,7 @@ class Token {
     await prefs.setInt('reservation_id', reservationId);
   }
 
-  static Future<int> getReservtaionId() async {
+  static Future<int> getReservataionId() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getInt('reservation_id') ?? 0;
   }

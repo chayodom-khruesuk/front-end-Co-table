@@ -1,7 +1,8 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:co_table/bloc/reservation/reservation_event.dart';
 import 'package:co_table/bloc/reservation/reservation_state.dart';
 import 'package:co_table/repositories/reservation/reservation_repo.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:co_table/models/models.dart';
 
 class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
   final ReservationRepo reservationRepo;
@@ -11,60 +12,108 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
     on<LoadReservationEvent>(_onLoadReservationEvent);
     on<LoadReservationListEvent>(_onLoadReservationListEvent);
     on<CreateReservationEvent>(_onCreateReservationEvent);
+    on<UpdateReservationEvent>(_onUpdateReservationEvent);
     on<DeleteReservationEvent>(_onDeleteReservationEvent);
   }
 
-  Future<void> _onLoadReservationEvent(
+  _onLoadReservationEvent(
       LoadReservationEvent event, Emitter<ReservationState> emit) async {
-    if (state is LoadingReservationState) {
-      final currentReservation = (state as ReadyReservationState).reservation;
-      final reservation = await reservationRepo.getReservation(
-          reservationId: currentReservation.id);
-      emit(
-          ReadyReservationState(reservation: reservation, reservationList: []));
-    }
-  }
-
-  Future<void> _onLoadReservationListEvent(
-      LoadReservationListEvent event, Emitter<ReservationState> emit) async {
     try {
-      final reservations =
-          await reservationRepo.getAllReservation(page: event.page);
+      final reservation = await reservationRepo.getReservation();
       emit(ReadyReservationState(
-        reservation: state.reservation,
-        reservationList: reservations,
-        currentPage: event.page,
-        isDataLoaded: true,
+        reservation: reservation,
+        reservationList: [],
+        responseText: 'Reservation loaded successfully',
       ));
     } catch (e) {
       emit(ReadyReservationState(
-        reservation: state.reservation,
+        reservation: ReservationModel.empty(),
         reservationList: [],
-        currentPage: 0,
-        isDataLoaded: true,
+        responseText: 'Failed to load reservation',
       ));
     }
   }
 
-  Future<void> _onCreateReservationEvent(
-      CreateReservationEvent event, Emitter<ReservationState> emit) async {
-    if (state is ReadyReservationState) {
-      final response = await reservationRepo.createReservation(
-          userId: event.userId,
-          tableId: event.tableId,
-          durationHours: event.durationHours);
-      add(LoadReservationEvent());
+  _onLoadReservationListEvent(
+      LoadReservationListEvent event, Emitter<ReservationState> emit) async {
+    try {
+      final reservation = await reservationRepo.getReservation();
+      emit(ReadyReservationState(
+        reservation: reservation,
+        reservationList: [],
+        responseText: 'Reservation loaded successfully',
+      ));
+    } catch (e) {
+      emit(ReadyReservationState(
+        reservation: ReservationModel.empty(),
+        reservationList: [],
+        responseText: 'Failed to load reservation',
+      ));
     }
   }
 
-  Future<void> _onDeleteReservationEvent(
+  _onCreateReservationEvent(
+      CreateReservationEvent event, Emitter<ReservationState> emit) async {
+    emit(LoadingReservationState());
+    try {
+      final reservation = await reservationRepo.createReservation(
+        userId: event.userId,
+        tableId: event.tableId,
+        durationHours: event.durationHours,
+      );
+      emit(ReadyReservationState(
+        reservation: reservation,
+        reservationList: [],
+        responseText: 'Reservation created successfully',
+      ));
+    } catch (e) {
+      emit(ReadyReservationState(
+        reservation: ReservationModel.empty(),
+        reservationList: [],
+        responseText: 'Failed to create reservation',
+      ));
+    }
+  }
+
+  _onUpdateReservationEvent(
+      UpdateReservationEvent event, Emitter<ReservationState> emit) async {
+    try {
+      final updatedReservation = await reservationRepo.updateReservation(
+        reservationId: event.reservationId,
+        durationHours: event.durationHours,
+        userId: event.userId,
+        tableId: event.tableId,
+      );
+      emit(ReadyReservationState(
+        reservation: updatedReservation,
+        reservationList: [],
+        responseText: 'Reservation updated successfully',
+      ));
+    } catch (e) {
+      emit(ReadyReservationState(
+        reservation: ReservationModel.empty(),
+        reservationList: [],
+        responseText: 'Failed to update reservation',
+      ));
+    }
+  }
+
+  _onDeleteReservationEvent(
       DeleteReservationEvent event, Emitter<ReservationState> emit) async {
-    if (state is ReadyReservationState) {
-      final currentReservation = (state as ReadyReservationState).reservation;
-      final response = await reservationRepo.deleteReservation(
-          reservationId: currentReservation.id);
-      emit(LoadingReservationState(responseText: response));
-      add(LoadReservationEvent());
+    try {
+      await reservationRepo.deleteReservation(
+          reservationId: event.reservationId);
+      emit(ReadyReservationState(
+        reservation: ReservationModel.empty(),
+        reservationList: [],
+        responseText: 'Reservation deleted successfully',
+      ));
+    } catch (e) {
+      emit(ReadyReservationState(
+        reservation: ReservationModel.empty(),
+        reservationList: [],
+        responseText: 'Failed to delete reservation',
+      ));
     }
   }
 }
