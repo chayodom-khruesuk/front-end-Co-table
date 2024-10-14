@@ -40,3 +40,10 @@ class StatusRoomEvent extends RoomEvent {
   final int roomId;
   StatusRoomEvent({required this.roomId});
 }
+
+class SearchRoomsEvent extends RoomEvent {
+  final String searchTerm;
+  SearchRoomsEvent(this.searchTerm);
+}
+
+class SearchClearRoomEvent extends RoomEvent {}

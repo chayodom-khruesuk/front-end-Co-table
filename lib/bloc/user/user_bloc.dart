@@ -17,9 +17,33 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<ForgotPasswordEvent>(_onForgotPasswordEvent);
     on<UpdateUserEvent>(_onUpdateUserEvent);
     on<ChangePasswordEvent>(_onChangePasswordEvent);
+    on<SearchUsersEvent>(_onSearchUsersEvent);
 
     add(LoadUserEvent());
     add(LoadUserListEvent());
+  }
+
+  _onSearchUsersEvent(SearchUsersEvent event, Emitter<UserState> emit) {
+    if (state is ReadyUserState) {
+      final currentState = state as ReadyUserState;
+      final filteredUsers = currentState.userList.where((user) {
+        return user.username
+                .toLowerCase()
+                .contains(event.searchTerm.toLowerCase()) ||
+            user.name.toLowerCase().contains(event.searchTerm.toLowerCase()) ||
+            user.email.toLowerCase().contains(event.searchTerm.toLowerCase()) ||
+            user.faculty!
+                .toLowerCase()
+                .contains(event.searchTerm.toLowerCase());
+      }).toList();
+      emit(ReadyUserState(
+        user: currentState.user,
+        userList: currentState.userList,
+        filteredUserList: filteredUsers,
+        currentPage: currentState.currentPage,
+        isDataLoaded: true,
+      ));
+    }
   }
 
   _onLoadUserEvent(LoadUserEvent event, Emitter<UserState> emit) async {

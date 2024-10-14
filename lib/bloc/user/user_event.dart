@@ -60,3 +60,10 @@ class ForgotPasswordEvent extends UserEvent {
   final String newPassword;
   ForgotPasswordEvent({required this.email, required this.newPassword});
 }
+
+class SearchUsersEvent extends UserEvent {
+  final String searchTerm;
+  SearchUsersEvent(this.searchTerm);
+}
+
+class SearchClearUserEvent extends UserEvent {}

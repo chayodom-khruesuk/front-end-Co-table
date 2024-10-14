@@ -24,11 +24,13 @@ class UserEmptyState extends UserState {
 class ReadyUserState extends UserState {
   final int currentPage;
   final bool isDataLoaded;
+  final List<UserModel> filteredUserList;
 
   ReadyUserState({
     required super.user,
     required super.userList,
     this.currentPage = 0,
     this.isDataLoaded = false,
+    this.filteredUserList = const [],
   });
 }

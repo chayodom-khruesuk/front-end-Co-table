@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _isDeleteMode = false;
+  String searchTerm = '';
 
   @override
   void initState() {
@@ -92,7 +93,9 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Row(
                       children: [
-                        const Expanded(child: SearchWidget()),
+                        Expanded(child: SearchWidget(onSearch: (value) {
+                          context.read<RoomBloc>().add(SearchRoomsEvent(value));
+                        })),
                         const SizedBox(width: 10),
                         if (isAdmin) ...[
                           const SizedBox(
@@ -133,7 +136,24 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    Expanded(child: BodyHomePage(isDeleteMode: _isDeleteMode)),
+                    Expanded(
+                      child: BlocBuilder<RoomBloc, RoomState>(
+                        builder: (context, state) {
+                          if (state is ReadyRoomState) {
+                            final roomsToDisplay =
+                                state.filteredRoomList.isNotEmpty
+                                    ? state.filteredRoomList
+                                    : state.roomList;
+                            return BodyHomePage(
+                              isDeleteMode: _isDeleteMode,
+                              rooms: roomsToDisplay,
+                            );
+                          }
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        },
+                      ),
+                    ),
                     const SizedBox(height: 50),
                   ],
                 ),

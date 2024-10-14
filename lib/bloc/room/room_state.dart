@@ -21,10 +21,12 @@ class LoadingRoomState extends RoomState {
 class ReadyRoomState extends RoomState {
   final int currentPage;
   final bool isDataLoaded;
+  final List<RoomModel> filteredRoomList;
 
   ReadyRoomState({
     required super.room,
     required super.roomList,
+    this.filteredRoomList = const [],
     this.currentPage = 0,
     this.isDataLoaded = false,
     super.responseText = '',

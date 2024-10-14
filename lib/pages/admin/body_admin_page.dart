@@ -18,6 +18,21 @@ class BodyAdminPage extends StatefulWidget {
 
 class BodyAdminPageState extends State<BodyAdminPage> {
   String _currentFilter = 'All';
+  String _searchTerm = '';
+  List<UserModel> _filteredUsers = [];
+
+  void _filterUsers(List<UserModel> users) {
+    setState(() {
+      _filteredUsers = users.where((user) {
+        return user.username
+                .toLowerCase()
+                .contains(_searchTerm.toLowerCase()) ||
+            user.name.toLowerCase().contains(_searchTerm.toLowerCase()) ||
+            user.email.toLowerCase().contains(_searchTerm.toLowerCase()) ||
+            user.faculty!.toLowerCase().contains(_searchTerm.toLowerCase());
+      }).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +43,10 @@ class BodyAdminPageState extends State<BodyAdminPage> {
         }
         if (state is ReadyUserState) {
           final filteredUsers = _currentFilter == 'All'
-              ? state.userList
-              : state.userList
+              ? _filteredUsers.isEmpty
+                  ? state.userList
+                  : _filteredUsers
+              : (_filteredUsers.isEmpty ? state.userList : _filteredUsers)
                   .where((user) => user.roles == _currentFilter)
                   .toList();
 
@@ -40,7 +57,12 @@ class BodyAdminPageState extends State<BodyAdminPage> {
             children: [
               Row(
                 children: [
-                  const Expanded(child: SearchWidget()),
+                  Expanded(child: SearchWidget(onSearch: (value) {
+                    setState(() {
+                      _searchTerm = value;
+                      _filterUsers(context.read<UserBloc>().state.userList);
+                    });
+                  })),
                   UserFilterButton(
                     currentFilter: _currentFilter,
                     onFilterChanged: (String newFilter) {

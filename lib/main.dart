@@ -43,8 +43,6 @@ class MainApp extends StatelessWidget {
             bloc.add(LoadUserListEvent());
             return bloc;
           }),
-          BlocProvider<WidgetBloc>(
-              create: (context) => WidgetBloc(allRooms: [])),
           BlocProvider<RoomBloc>(
             create: (context) {
               final bloc = RoomBloc(roomRepo: context.read<RoomRepo>());

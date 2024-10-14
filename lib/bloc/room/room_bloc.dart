@@ -15,6 +15,26 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
     on<UpdateRoomEvent>(_onUpdateRoomEvent);
     on<DeleteRoomEvent>(_onDeleteRoomEvent);
     on<StatusRoomEvent>(_onStatusRoomEvent);
+    on<SearchRoomsEvent>(_onSearchRoomsEvent);
+  }
+
+  _onSearchRoomsEvent(SearchRoomsEvent event, Emitter<RoomState> emit) {
+    if (state is ReadyRoomState) {
+      final currentState = state as ReadyRoomState;
+      final filteredRooms = currentState.roomList.where((room) {
+        return room.name
+                .toLowerCase()
+                .contains(event.searchTerm.toLowerCase()) ||
+            room.faculty.toLowerCase().contains(event.searchTerm.toLowerCase());
+      }).toList();
+      emit(ReadyRoomState(
+        room: currentState.room,
+        roomList: currentState.roomList,
+        filteredRoomList: filteredRooms,
+        currentPage: currentState.currentPage,
+        isDataLoaded: true,
+      ));
+    }
   }
 
   _onLoadRoomEvent(LoadRoomEvent event, Emitter<RoomState> emit) async {
