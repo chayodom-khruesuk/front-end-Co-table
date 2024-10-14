@@ -29,7 +29,7 @@ class EditDataUserState extends State<EditDataUser> {
     _emailController = TextEditingController(text: widget.user.email);
     _facultyController =
         TextEditingController(text: widget.user.faculty ?? 'ไม่ระบุคณะ');
-    _selectedRole = widget.user.roles!;
+    _selectedRole = widget.user.roles;
     _userId = widget.userId;
   }
 

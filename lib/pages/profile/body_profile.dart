@@ -89,13 +89,14 @@ class BodyProfileState extends State<BodyProfile> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        _buildEmailField(themestate, user.email ?? ''),
+                        _buildEmailField(themestate, user.email),
                         const SizedBox(height: SizeConstant.defaultPadding),
-                        _buildUsernameField(themestate, user.username ?? ''),
+                        _buildUsernameField(themestate, user.username),
                         const SizedBox(height: SizeConstant.defaultPadding),
-                        _buildNameField(themestate, user.name ?? ''),
+                        _buildNameField(themestate, user.name),
                         const SizedBox(height: SizeConstant.defaultPadding),
-                        _buildFacultyField(themestate, user.faculty ?? ''),
+                        _buildFacultyField(
+                            themestate, user.faculty ?? 'ไม่มีคณะ'),
                         const SizedBox(height: SizeConstant.defaultPadding),
                         _buildPasswordField(themestate, '***********'),
                         const SizedBox(height: SizeConstant.defaultPadding),
@@ -531,10 +532,10 @@ class BodyProfileState extends State<BodyProfile> {
       final userId = userState.user.id;
       context.read<UserBloc>().add(UpdateUserEvent(
             userId: userId,
-            email: _tempEmail ?? userState.user.email ?? '',
-            name: _tempName ?? userState.user.name ?? '',
+            email: _tempEmail ?? userState.user.email,
+            name: _tempName ?? userState.user.name,
             faculty: 'ไม่มีคณะ',
-            roles: 'visitor',
+            roles: userState.user.roles,
           ));
 
       if (_tempNewPassword != null && _tempCurrentPassword != null) {

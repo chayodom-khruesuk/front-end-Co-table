@@ -2,11 +2,11 @@ import 'package:equatable/equatable.dart';
 
 class UserModel extends Equatable {
   final int id;
-  final String? username;
-  final String? password;
-  final String? name;
-  final String? email;
-  final String? roles;
+  final String username;
+  final String password;
+  final String name;
+  final String email;
+  final String roles;
   final String? faculty;
   final bool roomPermission;
   final String? registerDate;
@@ -15,11 +15,11 @@ class UserModel extends Equatable {
 
   const UserModel({
     this.id = 0,
-    this.username,
-    this.password,
-    this.name,
-    this.email,
-    this.roles,
+    required this.username,
+    required this.password,
+    required this.name,
+    required this.email,
+    required this.roles,
     this.faculty,
     this.roomPermission = false,
     this.registerDate,
@@ -46,11 +46,11 @@ class UserModel extends Equatable {
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'] ?? 0,
-      username: json['username'] as String?,
-      password: json['password'] as String?,
-      name: json['name'] as String?,
-      email: json['email'] as String?,
-      roles: json['roles'] as String?,
+      username: json['username'],
+      password: json['password'],
+      name: json['name'],
+      email: json['email'],
+      roles: json['roles'],
       faculty: json['faculty'] as String? ?? 'ไม่มีคณะ',
       roomPermission: json['room_permission'] ?? false,
       registerDate: json['register_date'] as String?,

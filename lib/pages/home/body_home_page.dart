@@ -16,7 +16,7 @@ class BodyHomePage extends StatelessWidget {
 
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        final isAdmin = state.user.roles?.contains('admin') ?? false;
+        final isAdmin = state.user.roles.contains('admin');
 
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),

@@ -81,9 +81,9 @@ class RoomRepoDb extends RoomRepo {
 
   @override
   Future<String> deleteRoom({required int roomId}) async {
-    print('Attempting to delete room with ID: $roomId');
+    // print('Attempting to delete room with ID: $roomId');
     final response = await apiService.delete('$_baseUrl/delete_room/$roomId');
-    print('response delete $response');
+    // print('response delete $response');
     if (response.statusCode == 200) {
       return "Room deleted successfully";
     } else {

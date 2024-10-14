@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, userState) {
         final isAdmin = userState is ReadyUserState &&
-            userState.user.roles?.contains('admin') == true;
+            userState.user.roles.contains('admin') == true;
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
                           child: Row(
                             children: [
                               if (userState is ReadyUserState)
-                                Text(userState.user.name ?? '',
+                                Text(userState.user.name,
                                     style: GoogleFonts.notoSansThai(
                                         textStyle: const TextStyle(
                                       fontSize: 24,

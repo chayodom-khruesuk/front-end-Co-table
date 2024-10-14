@@ -27,18 +27,22 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
 
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, userState) {
-        final isAdmin = userState.user.roles?.contains('admin') ?? false;
+        final isAdmin = userState.user.roles.contains('admin');
         final pages = [
           const HomePage(),
           const ReservationPage(),
           const ProfilePage(),
-          if (isAdmin) const AdminPage(),
+          if (isAdmin) const AdminPage() else const SizedBox(),
         ];
 
         final List<IconData> navBarIcon =
             isAdmin ? listNavBarIconAdmin : listNavBarIcon;
         final List<String> navBarText =
             isAdmin ? listNavBarTextAdmin : listNavBarText;
+
+        if (currentIndex >= pages.length) {
+          currentIndex = 0;
+        }
 
         return BlocBuilder<ThemeBloc, ThemeState>(
           builder: (context, themeState) {
@@ -51,9 +55,8 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
                   children: [
                     IndexedStack(
                       index: currentIndex,
-                      children: List.generate(pages.length, (index) {
-                        return pages[index];
-                      }),
+                      children:
+                          List.generate(pages.length, (index) => pages[index]),
                     ),
                     if (!isKeyboardVisible)
                       Positioned(
@@ -80,12 +83,12 @@ class _NavWithAnimatedState extends State<NavWithAnimated> {
                               (index) => SizedBox(
                                 child: InkWell(
                                   onTap: () {
-                                    setState(
-                                      () {
+                                    if (index < pages.length) {
+                                      setState(() {
                                         currentIndex = index;
                                         HapticFeedback.lightImpact();
-                                      },
-                                    );
+                                      });
+                                    }
                                   },
                                   child: Stack(
                                     children: [
