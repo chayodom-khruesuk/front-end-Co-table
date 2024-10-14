@@ -67,7 +67,7 @@ class MainApp extends StatelessWidget {
             create: (context) {
               final bloc = ReservationBloc(
                   reservationRepo: context.read<ReservationRepo>());
-              bloc.add(LoadReservationEvent());
+              bloc.add(LoadReservationListEvent());
               return bloc;
             },
           )

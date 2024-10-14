@@ -4,8 +4,6 @@ import 'package:co_table/bloc/reservation/reservation_state.dart';
 import 'package:co_table/repositories/reservation/reservation_repo.dart';
 import 'package:co_table/models/models.dart';
 
-import '../../services/services.dart';
-
 class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
   final ReservationRepo reservationRepo;
 
@@ -21,21 +19,13 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
   _onLoadReservationEvent(
       LoadReservationEvent event, Emitter<ReservationState> emit) async {
     try {
-      final reservationId = await Token.getReservataionId();
-      if (reservationId == 0) {
-        emit(ReadyReservationState(
-          reservation: ReservationModel.empty(),
-          reservationList: [],
-          responseText: 'No active reservation',
-        ));
-      } else {
-        final reservation = await reservationRepo.getReservation();
-        emit(ReadyReservationState(
-          reservation: reservation,
-          reservationList: [],
-          responseText: 'Reservation loaded successfully',
-        ));
-      }
+      final reservation = await reservationRepo.getReservation(
+          reservationId: event.reservationId);
+      emit(ReadyReservationState(
+        reservation: reservation,
+        reservationList: [],
+        responseText: 'Reservation loaded successfully',
+      ));
     } catch (e) {
       emit(ReadyReservationState(
         reservation: ReservationModel.empty(),
@@ -50,15 +40,19 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
     try {
       final reservations = await reservationRepo.getAllReservation();
       emit(ReadyReservationState(
-        reservation: ReservationModel.empty(),
+        reservation: state.reservation,
         reservationList: reservations,
+        currentPage: event.page,
         responseText: 'Reservations loaded successfully',
+        isDataLoaded: true,
       ));
     } catch (e) {
       emit(ReadyReservationState(
-        reservation: ReservationModel.empty(),
+        reservation: state.reservation,
         reservationList: [],
+        currentPage: 0,
         responseText: 'Failed to load reservations',
+        isDataLoaded: true,
       ));
     }
   }

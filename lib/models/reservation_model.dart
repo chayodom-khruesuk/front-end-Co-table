@@ -10,7 +10,7 @@ class ReservationModel extends Equatable {
   final int tableId;
 
   const ReservationModel({
-    this.id = 0,
+    required this.id,
     required this.reservedAt,
     required this.startTime,
     required this.endTime,

@@ -7,6 +7,7 @@ import '../../bloc/reservation/reservation_bloc.dart';
 import '../../bloc/reservation/reservation_event.dart';
 import '../../bloc/reservation/reservation_state.dart';
 import '../../models/models.dart';
+import 'dart:developer' as dev;
 
 class BodyReservation extends StatefulWidget {
   const BodyReservation({super.key});
@@ -24,10 +25,11 @@ class BodyReservationState extends State<BodyReservation> {
           return BlocBuilder<ReservationBloc, ReservationState>(
             builder: (context, reservationState) {
               if (reservationState is ReadyReservationState) {
+                dev.log(reservationState.responseText.toString());
                 final userReservations = reservationState.reservationList
                     .where((res) => res.userId == userState.user.id)
                     .toList();
-
+                dev.log(userReservations.toString());
                 return Expanded(
                   child: ListView.builder(
                     itemCount: userReservations.length,

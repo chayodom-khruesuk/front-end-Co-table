@@ -1,6 +1,9 @@
 sealed class ReservationEvent {}
 
-class LoadReservationEvent extends ReservationEvent {}
+class LoadReservationEvent extends ReservationEvent {
+  final int reservationId;
+  LoadReservationEvent({required this.reservationId});
+}
 
 class LoadReservationListEvent extends ReservationEvent {
   final int page;
