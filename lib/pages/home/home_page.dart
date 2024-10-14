@@ -32,7 +32,6 @@ class _HomePageState extends State<HomePage> {
         final isAdmin = userState is ReadyUserState &&
             userState.user.roles.contains('admin') == true;
         return Column(
-          mainAxisSize: MainAxisSize.min,
           children: [
             SafeArea(
               child: Padding(
@@ -76,7 +75,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 10),
             Expanded(
               child: Container(
-                width: double.maxFinite,
+                width: double.infinity,
                 padding: const EdgeInsets.only(
                   left: 36,
                   top: 28,

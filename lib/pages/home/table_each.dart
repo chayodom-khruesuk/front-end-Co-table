@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:developer' as dev;
 
 import '../../bloc/bloc.dart';
+import '../../models/models.dart';
 
 class TableEach extends StatelessWidget {
   final int roomId;
@@ -40,35 +41,26 @@ class _TableEachContent extends StatefulWidget {
 
 class _TableEachContentState extends State<_TableEachContent> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SingleChildScrollView(
-          child: Padding(
-            padding:
-                const EdgeInsets.only(top: 30, left: 40, right: 40, bottom: 90),
-            child: GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                childAspectRatio: 1,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
-              ),
-              itemCount: widget.boxCount,
-              itemBuilder: (context, index) {
-                return _buildBoxItem(index);
-              },
-            ),
+    return SingleChildScrollView(
+      child: Padding(
+        padding:
+            const EdgeInsets.only(top: 30, left: 40, right: 40, bottom: 90),
+        child: GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4,
+            childAspectRatio: 1,
+            crossAxisSpacing: 20,
+            mainAxisSpacing: 20,
           ),
+          itemCount: widget.boxCount,
+          itemBuilder: (context, index) {
+            return _buildBoxItem(index);
+          },
         ),
-      ],
+      ),
     );
   }
 
@@ -99,53 +91,67 @@ class _TableEachContentState extends State<_TableEachContent> {
                     onTap: isReserved
                         ? null
                         : () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                dev.log({table.id}.toString());
-                                return AlertDialog(
-                                  title: const Text('จองโต๊ะ'),
-                                  content: TextField(
-                                    controller: hoursController,
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.digitsOnly
-                                    ],
-                                    decoration: const InputDecoration(
-                                      labelText: 'จำนวนชั่วโมง',
-                                    ),
-                                  ),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      child: const Text('ยกเลิก'),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                    TextButton(
-                                      child: const Text('จอง'),
-                                      onPressed: () {
-                                        context.read<ReservationBloc>().add(
-                                              CreateReservationEvent(
-                                                durationHours: int.parse(
-                                                    hoursController.text),
-                                                userId: userState.user.id,
-                                                tableId: table.id,
-                                              ),
-                                            );
-                                        context
-                                            .read<TableBloc>()
-                                            .add(UpdateTableEvent(
-                                              tableId: table.id,
-                                              isAvailable: false,
-                                            ));
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ],
+                            if (reservationState is ReadyReservationState) {
+                              final userReservation =
+                                  reservationState.reservationList.firstWhere(
+                                      (res) => res.userId == userState.user.id,
+                                      orElse: () => ReservationModel.empty());
+                              if (userReservation != ReservationModel.empty()) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text(
+                                          'คุณสามารถจองได้เพียง 1 โต๊ะเท่านั้น')),
                                 );
-                              },
-                            );
+                              } else {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    dev.log({table.id}.toString());
+                                    return AlertDialog(
+                                      title: const Text('จองโต๊ะ'),
+                                      content: TextField(
+                                        controller: hoursController,
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: <TextInputFormatter>[
+                                          FilteringTextInputFormatter.digitsOnly
+                                        ],
+                                        decoration: const InputDecoration(
+                                          labelText: 'จำนวนชั่วโมง',
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: const Text('ยกเลิก'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                        TextButton(
+                                          child: const Text('จอง'),
+                                          onPressed: () {
+                                            context.read<ReservationBloc>().add(
+                                                  CreateReservationEvent(
+                                                    durationHours: int.parse(
+                                                        hoursController.text),
+                                                    userId: userState.user.id,
+                                                    tableId: table.id,
+                                                  ),
+                                                );
+                                            context
+                                                .read<TableBloc>()
+                                                .add(UpdateTableEvent(
+                                                  tableId: table.id,
+                                                  isAvailable: false,
+                                                ));
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
+                            }
                           },
                     child: Container(
                       width: 60,

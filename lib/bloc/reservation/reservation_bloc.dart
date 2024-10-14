@@ -60,6 +60,17 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
   _onCreateReservationEvent(
       CreateReservationEvent event, Emitter<ReservationState> emit) async {
     try {
+      final userReservations =
+          state.reservationList.where((r) => r.userId == event.userId);
+      if (userReservations.isNotEmpty) {
+        emit(ReadyReservationState(
+          reservation: state.reservation,
+          reservationList: state.reservationList,
+          responseText: 'You can only reserve one table at a time.',
+        ));
+        return;
+      }
+
       final reservation = await reservationRepo.createReservation(
         userId: event.userId,
         tableId: event.tableId,
@@ -117,8 +128,8 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
       ));
     } catch (e) {
       emit(ReadyReservationState(
-        reservation: ReservationModel.empty(),
-        reservationList: [],
+        reservation: state.reservation,
+        reservationList: state.reservationList,
         responseText: 'Failed to delete reservation',
       ));
     }
