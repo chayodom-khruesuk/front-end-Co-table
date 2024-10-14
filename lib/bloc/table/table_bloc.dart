@@ -11,6 +11,7 @@ class TableBloc extends Bloc<TableEvent, TableState> {
     on<LoadTableListEvent>(_onLoadTableListEvent);
     on<CreateTableEvent>(_onCreateTableEvent);
     on<DeleteTableEvent>(_onDeleteTableEvent);
+    on<UpdateTableEvent>(_onUpdateTableEvent);
   }
 
   _onLoadTableEvent(LoadTableEvent event, Emitter<TableState> emit) async {
@@ -48,6 +49,7 @@ class TableBloc extends Bloc<TableEvent, TableState> {
       final response = await tableRepo.createTable(
         number: event.number,
         roomId: event.roomId,
+        isAvailable: event.isAvailable,
       );
       emit(LoadingTableState(responseText: response));
       if (response.contains("Table created successfully")) {
@@ -62,6 +64,17 @@ class TableBloc extends Bloc<TableEvent, TableState> {
       final response = await tableRepo.deleteTable(tableId: currentTable.id);
       emit(LoadingTableState(responseText: response));
       add(LoadTableEvent());
+    }
+  }
+
+  _onUpdateTableEvent(UpdateTableEvent event, Emitter<TableState> emit) async {
+    if (state is ReadyTableState) {
+      final response = await tableRepo.updateTable(
+        tableId: event.tableId,
+      );
+      if (response.contains("Table updated successfully")) {
+        add(LoadTableListEvent());
+      }
     }
   }
 }
