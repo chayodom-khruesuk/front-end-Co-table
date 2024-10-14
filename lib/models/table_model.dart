@@ -4,11 +4,13 @@ class TableModel extends Equatable {
   final int id;
   final int number;
   final int roomId;
+  final bool isAvailable;
 
   const TableModel({
     this.id = 0,
     required this.number,
     required this.roomId,
+    this.isAvailable = false,
   });
 
   factory TableModel.empty() {
@@ -16,6 +18,7 @@ class TableModel extends Equatable {
       id: 0,
       number: 0,
       roomId: 0,
+      isAvailable: false,
     );
   }
 
@@ -24,6 +27,7 @@ class TableModel extends Equatable {
       id: json['id'],
       number: json['number'],
       roomId: json['room_id'],
+      isAvailable: json['is_available'],
     );
   }
 
@@ -32,6 +36,7 @@ class TableModel extends Equatable {
       'id': id,
       'number': number,
       'room_id': roomId,
+      'is_available': isAvailable,
     };
   }
 

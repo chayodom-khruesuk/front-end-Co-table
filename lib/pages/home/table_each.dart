@@ -4,6 +4,7 @@ import 'package:co_table/bloc/reservation/reservation_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:developer' as dev;
 
 import '../../bloc/bloc.dart';
 
@@ -79,83 +80,93 @@ class _TableEachContentState extends State<_TableEachContent> {
           if (roomState is ReadyRoomState) {
             final room =
                 roomState.roomList.firstWhere((r) => r.id == widget.roomId);
-            return BlocBuilder<ReservationBloc, ReservationState>(
-              builder: (context, reservationState) {
-                bool isReserved = false;
-                if (reservationState is ReadyReservationState) {
-                  isReserved = reservationState.reservationList.any((res) =>
-                      res.tableId == index + 1 && res.roomId == room.id);
-                }
-                print(
-                    'Table ${index + 1} in Room ${widget.roomId} isReserved: $isReserved');
-
-                return GestureDetector(
-                  onTap: isReserved
-                      ? null
-                      : () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text('จองโต๊ะ'),
-                                content: TextField(
-                                  controller: hoursController,
-                                  keyboardType: TextInputType.number,
-                                  inputFormatters: <TextInputFormatter>[
-                                    FilteringTextInputFormatter.digitsOnly
+            return BlocBuilder<TableBloc, TableState>(
+                builder: (context, tableState) {
+              final tableList = tableState.tableList
+                  .where((table) => table.roomId == room.id)
+                  .toList();
+              tableList.sort((a, b) => a.id.compareTo(b.id));
+              dev.log(tableList.toString());
+              final table = tableList[index];
+              return BlocBuilder<ReservationBloc, ReservationState>(
+                builder: (context, reservationState) {
+                  bool isReserved = table.isAvailable;
+                  print(
+                      'Table ${index + 1} in Room ${widget.roomId} isReserved: $isReserved');
+                  return GestureDetector(
+                    onTap: isReserved
+                        ? null
+                        : () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                dev.log({table.id}.toString());
+                                return AlertDialog(
+                                  title: const Text('จองโต๊ะ'),
+                                  content: TextField(
+                                    controller: hoursController,
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.digitsOnly
+                                    ],
+                                    decoration: const InputDecoration(
+                                      labelText: 'จำนวนชั่วโมง',
+                                    ),
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: const Text('ยกเลิก'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: const Text('จอง'),
+                                      onPressed: () {
+                                        context.read<ReservationBloc>().add(
+                                              CreateReservationEvent(
+                                                durationHours: int.parse(
+                                                    hoursController.text),
+                                                userId: userState.user.id,
+                                                tableId: table.id,
+                                              ),
+                                            );
+                                        context
+                                            .read<TableBloc>()
+                                            .add(UpdateTableEvent(
+                                              tableId: table.id,
+                                            ));
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
                                   ],
-                                  decoration: const InputDecoration(
-                                    labelText: 'จำนวนชั่วโมง',
-                                  ),
-                                ),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: const Text('ยกเลิก'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                  TextButton(
-                                    child: const Text('จอง'),
-                                    onPressed: () {
-                                      context.read<ReservationBloc>().add(
-                                            CreateReservationEvent(
-                                              durationHours: int.parse(
-                                                  hoursController.text),
-                                              userId: userState.user.id,
-                                              tableId: index + 1,
-                                            ),
-                                          );
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                  child: Container(
-                    width: 60,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      color: isReserved
-                          ? const Color(0xFF040261)
-                          : Colors.grey.withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Center(
-                      child: Text(
-                        '${index + 1}',
-                        style: TextStyle(
-                          color: isReserved ? Colors.white : Colors.black,
-                          fontWeight: FontWeight.bold,
+                                );
+                              },
+                            );
+                          },
+                    child: Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: isReserved
+                            ? const Color(0xFF040261)
+                            : Colors.grey.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Text(
+                          '${index + 1}',
+                          style: TextStyle(
+                            color: isReserved ? Colors.white : Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                );
-              },
-            );
+                  );
+                },
+              );
+            });
           }
           return Container();
         },

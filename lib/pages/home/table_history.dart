@@ -109,6 +109,7 @@ class TableHistory extends StatelessWidget {
                                                     numberController.text) ??
                                                 1),
                                             roomId: room.id,
+                                            isAvailable: false,
                                           ));
                                       Navigator.of(context).pop();
                                     },

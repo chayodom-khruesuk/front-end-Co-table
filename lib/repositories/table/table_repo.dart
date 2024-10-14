@@ -4,6 +4,7 @@ abstract class TableRepo {
   Future<String> createTable({
     required int number,
     required int roomId,
+    required bool isAvailable,
   });
 
   Future<TableModel> getTable();
@@ -13,4 +14,6 @@ abstract class TableRepo {
   Future<String> deleteTable({required int tableId});
 
   Future<String> deleteAllTable({required int roomId});
+
+  Future<String> updateTable({required int tableId});
 }

@@ -15,9 +15,13 @@ class TableRepoDb extends TableRepo {
   Future<String> createTable({
     required int number,
     required int roomId,
+    required bool isAvailable,
   }) async {
-    final response = await apiService.post('$_baseUrl/create_table',
-        data: {'number': number, 'room_id': roomId});
+    final response = await apiService.post('$_baseUrl/create_table', data: {
+      'number': number,
+      'room_id': roomId,
+      'is_available': isAvailable
+    });
     if (response.statusCode == 200) {
       return "Table created successfully";
     } else {
@@ -69,6 +73,20 @@ class TableRepoDb extends TableRepo {
       return 'Tables deleted successfully';
     } else {
       throw Exception('Failed to delete tables');
+    }
+  }
+
+  @override
+  Future<String> updateTable({
+    required int tableId,
+  }) async {
+    final response = await apiService.put(
+      '$_baseUrl/is_available/$tableId',
+    );
+    if (response.statusCode == 200) {
+      return 'Table updated successfully';
+    } else {
+      throw Exception('Failed to update table');
     }
   }
 }

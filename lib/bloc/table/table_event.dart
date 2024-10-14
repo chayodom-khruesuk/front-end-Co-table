@@ -10,7 +10,9 @@ class LoadTableListEvent extends TableEvent {
 class CreateTableEvent extends TableEvent {
   final int number;
   final int roomId;
-  CreateTableEvent({required this.number, required this.roomId});
+  final bool isAvailable;
+  CreateTableEvent(
+      {required this.number, required this.roomId, required this.isAvailable});
 }
 
 class GetTableEvent extends TableEvent {
@@ -21,4 +23,11 @@ class GetTableEvent extends TableEvent {
 class DeleteTableEvent extends TableEvent {
   final int tableId;
   DeleteTableEvent({required this.tableId});
+}
+
+class UpdateTableEvent extends TableEvent {
+  final int tableId;
+  UpdateTableEvent({
+    required this.tableId,
+  });
 }
