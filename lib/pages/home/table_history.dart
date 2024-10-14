@@ -17,7 +17,6 @@ class TableHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var numberController = TextEditingController();
-    var namefacultyController = TextEditingController();
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, themeState) {
         return BlocBuilder<RoomBloc, RoomState>(
@@ -126,75 +125,6 @@ class TableHistory extends StatelessWidget {
                         backgroundColor: const Color(0xAAD535EE),
                         child: const Icon(
                           Icons.table_view,
-                          size: 30,
-                          color: Color(0xDF141414),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: FloatingActionButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('ชื่อคณะ',
-                                    style: GoogleFonts.notoSansThai()),
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    TextField(
-                                      controller: namefacultyController,
-                                      style: GoogleFonts.notoSansThai(),
-                                      decoration: InputDecoration(
-                                        border: const OutlineInputBorder(),
-                                        labelText: 'กรุณาระบุชื่อคณะ',
-                                        labelStyle: GoogleFonts.notoSansThai(),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: Text(
-                                      'ยกเลิก',
-                                      style: GoogleFonts.notoSansThai(
-                                          color: Colors.red),
-                                    ),
-                                    onPressed: () {
-                                      numberController.clear();
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                  TextButton(
-                                    child: Text(
-                                      'เปลี่ยน',
-                                      style: GoogleFonts.notoSansThai(
-                                          color: Colors.green),
-                                    ),
-                                    onPressed: () {
-                                      context
-                                          .read<RoomBloc>()
-                                          .add(UpdateRoomEvent(
-                                            faculty: namefacultyController.text,
-                                            roomId: room.id,
-                                            name: room.name,
-                                          ));
-                                      Navigator.of(context).pop();
-                                    },
-                                  )
-                                ],
-                              );
-                            },
-                          ).then((_) {
-                            numberController.clear();
-                          });
-                        },
-                        elevation: 0,
-                        backgroundColor: const Color(0xAAD535EE),
-                        child: const Icon(
-                          Icons.edit,
                           size: 30,
                           color: Color(0xDF141414),
                         ),
