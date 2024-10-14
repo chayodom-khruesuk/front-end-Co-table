@@ -4,7 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AddTable extends StatelessWidget {
-  const AddTable({super.key});
+  final int roomId;
+  const AddTable({super.key, required this.roomId});
 
   @override
   Widget build(BuildContext context) {
@@ -50,14 +51,10 @@ class AddTable extends StatelessWidget {
                   ),
                   onPressed: () {
                     context.read<TableBloc>().add(CreateTableEvent(
-                          number: int.tryParse(numberController.text) ?? 0,
+                          number: (int.tryParse(numberController.text) ?? 1),
                           roomId: context.read<RoomBloc>().state.room.id,
                         ));
-                    numberController.clear();
                     Navigator.of(context).pop();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('กำลังสร้างโต๊ะ...')),
-                    );
                   },
                 )
               ],
@@ -68,11 +65,11 @@ class AddTable extends StatelessWidget {
         });
       },
       elevation: 0,
-      backgroundColor: Colors.transparent,
+      backgroundColor: const Color(0xAAD535EE),
       child: const Icon(
-        Icons.table_restaurant,
-        size: 20,
-        color: Colors.black,
+        Icons.table_view,
+        size: 30,
+        color: Color(0xDF141414),
       ),
     );
   }

@@ -43,17 +43,15 @@ class TableBloc extends Bloc<TableEvent, TableState> {
 
   _onCreateTableEvent(CreateTableEvent event, Emitter<TableState> emit) async {
     if (state is ReadyTableState) {
-      final currentRoom = (state as ReadyTableState).table;
-      // final deletetable =
-      //     await tableRepo.deleteAllTable(roomId: state.table.roomId);
-      // print('delete response $deletetable');
+      await tableRepo.deleteAllTable(roomId: event.roomId);
+
       final response = await tableRepo.createTable(
         number: event.number,
-        roomId: currentRoom.id,
+        roomId: event.roomId,
       );
       emit(LoadingTableState(responseText: response));
-      if (response.contains("สร้างโต๊ะสำเร็จ")) {
-        add(LoadTableEvent());
+      if (response.contains("Table created successfully")) {
+        add(LoadTableListEvent());
       }
     }
   }

@@ -25,42 +25,47 @@ class TableHistory extends StatelessWidget {
                   roomState.roomList.firstWhere((r) => r.name == boxName);
               return Scaffold(
                 appBar: AppBar(
-                    title: Center(
-                        child: Text('$boxName Room',
-                            style: GoogleFonts.poppins(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                            ))),
-                    leading: Container(
-                        padding: const EdgeInsets.only(left: 25),
-                        child: IconButton(
-                          icon: const Icon(Icons.arrow_back, size: 30),
-                          onPressed: () => Navigator.of(context).pop(),
+                  title: Center(
+                    child: Text('$boxName Room',
+                        style: GoogleFonts.poppins(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
                         )),
-                    actions: [
-                      Container(
-                        padding: const EdgeInsets.only(right: 5),
-                        child: IconButton(
-                          icon: Icon(
-                            room.status ? Icons.lock_open : Icons.lock,
-                            size: 30,
-                            color: const Color(0xDF141414),
-                          ),
-                          onPressed: () {
-                            context
-                                .read<RoomBloc>()
-                                .add(StatusRoomEvent(roomId: room.id));
-                          },
+                  ),
+                  leading: Container(
+                    padding: const EdgeInsets.only(left: 25),
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_back, size: 30),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ),
+                  actions: [
+                    Container(
+                      padding: const EdgeInsets.only(right: 5),
+                      child: IconButton(
+                        icon: Icon(
+                          room.status ? Icons.lock_open : Icons.lock,
+                          size: 30,
+                          color: const Color(0xDF141414),
                         ),
+                        onPressed: () {
+                          context
+                              .read<RoomBloc>()
+                              .add(StatusRoomEvent(roomId: room.id));
+                        },
                       ),
-                      Container(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: const AddTable()),
-                    ],
-                    flexibleSpace: Container(
-                        decoration: const BoxDecoration(
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: AddTable(roomId: room.id),
+                    ),
+                  ],
+                  flexibleSpace: Container(
+                    decoration: const BoxDecoration(
                       gradient: ThemeState.appTheme,
-                    ))),
+                    ),
+                  ),
+                ),
                 body: Stack(
                   children: [
                     Container(
@@ -82,9 +87,8 @@ class TableHistory extends StatelessWidget {
                       children: [
                         _buildBoxHeader(context, room),
                         _buildBoxSelect(),
-                        Expanded(
-                          child:
-                              TableEach(boxCount: roomState.room.tables.length),
+                        const Expanded(
+                          child: TableEach(),
                         ),
                       ],
                     ),

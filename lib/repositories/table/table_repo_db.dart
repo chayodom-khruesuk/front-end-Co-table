@@ -16,11 +16,8 @@ class TableRepoDb extends TableRepo {
     required int number,
     required int roomId,
   }) async {
-    final roomId = await Token.getRoomId();
-    final response = await apiService.post('$_baseUrl/create_table', data: {
-      'number': number,
-      'room_id': roomId,
-    });
+    final response = await apiService.post('$_baseUrl/create_table',
+        data: {'number': number, 'room_id': roomId});
     if (response.statusCode == 200) {
       return "Table created successfully";
     } else {
@@ -66,7 +63,7 @@ class TableRepoDb extends TableRepo {
   @override
   Future<String> deleteAllTable({required int roomId}) async {
     final response = await apiService.delete(
-      '$_baseUrl/del_table_in_room',
+      '$_baseUrl/del_table_in_room/$roomId',
     );
     if (response.statusCode == 200) {
       return 'Tables deleted successfully';

@@ -8,7 +8,7 @@ class AddDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var nameController = TextEditingController();
+    TextEditingController nameController = TextEditingController();
     return FloatingActionButton(
       onPressed: () {
         showDialog(
