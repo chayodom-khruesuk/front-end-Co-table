@@ -1,19 +1,22 @@
 import 'package:co_table/models/models.dart';
 
 abstract class ReservationRepo {
-  Future<String> createReservation({
-    required String reservedAt,
-    required String startTime,
-    required String endTime,
+  Future<ReservationModel> createReservation({
+    required int userId,
+    required int tableId,
     required int durationHours,
   });
 
-  Future<ReservationModel> getReservations();
+  Future<ReservationModel> getReservation({required int reservationId});
 
-  Future<String> updateReservation({
-    required int id,
+  Future<List<ReservationModel>> getAllReservation({int page = 1});
+
+  Future<ReservationModel> updateReservation({
+    required int reservationId,
+    required int userId,
+    required int tableId,
     required int durationHours,
   });
 
-  Future<void> deleteReservation({required int id});
+  Future<String> deleteReservation({required int reservationId});
 }

@@ -52,4 +52,14 @@ class Token {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getInt('table_id') ?? 0;
   }
+
+  static Future<void> setReservationId(int reservationId) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('reservation_id', reservationId);
+  }
+
+  static Future<int> getReservtaionId() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('reservation_id') ?? 0;
+  }
 }

@@ -19,6 +19,18 @@ class ReservationModel extends Equatable {
     this.tableId = 0,
   });
 
+  factory ReservationModel.empty() {
+    return const ReservationModel(
+      id: 0,
+      reservedAt: '',
+      startTime: '',
+      endTime: '',
+      durationHours: 0,
+      userId: 0,
+      tableId: 0,
+    );
+  }
+
   factory ReservationModel.fromJson(Map<String, dynamic> json) {
     return ReservationModel(
       id: json['id'],

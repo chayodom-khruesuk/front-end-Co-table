@@ -15,11 +15,13 @@ class RoomRepoDb extends RoomRepo {
     String? faculty,
     required String name,
     required int userId,
+    bool status = true,
   }) async {
     final data = {
       'name': name,
       'faculty': faculty ?? 'ไม่มีคณะ',
-      'user_id': userId
+      'user_id': userId,
+      'status': status
     };
     final response = await apiService.post('$_baseUrl/create_room', data: data);
     if (response.statusCode == 200) {

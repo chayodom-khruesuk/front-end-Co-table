@@ -1,3 +1,7 @@
+import 'package:co_table/bloc/reservation/reservation_bloc.dart';
+import 'package:co_table/bloc/reservation/reservation_event.dart';
+import 'package:co_table/repositories/reservation/reservation_repo.dart';
+import 'package:co_table/repositories/reservation/reservation_repo_db.dart';
 import 'package:co_table/repositories/room/room_repo.dart';
 import 'package:co_table/repositories/room/room_repo_db.dart';
 import 'package:co_table/repositories/table/table_repo.dart';
@@ -29,6 +33,8 @@ class MainApp extends StatelessWidget {
         RepositoryProvider<UserRepo>(create: (context) => UserRepoDb()),
         RepositoryProvider<RoomRepo>(create: (context) => RoomRepoDb()),
         RepositoryProvider<TableRepo>(create: (context) => TableRepoDb()),
+        RepositoryProvider<ReservationRepo>(
+            create: (context) => ReservationRepoDb())
       ],
       child: MultiBlocProvider(
         providers: [
@@ -54,6 +60,14 @@ class MainApp extends StatelessWidget {
             create: (context) {
               final bloc = TableBloc(tableRepo: context.read<TableRepo>());
               bloc.add(LoadTableListEvent());
+              return bloc;
+            },
+          ),
+          BlocProvider<ReservationBloc>(
+            create: (context) {
+              final bloc = ReservationBloc(
+                  reservationRepo: context.read<ReservationRepo>());
+              bloc.add(LoadReservationEvent());
               return bloc;
             },
           )

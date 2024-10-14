@@ -2,7 +2,10 @@ import 'package:co_table/models/models.dart';
 
 abstract class RoomRepo {
   Future<RoomModel> createRoom(
-      {required String name, String? faculty, required int userId});
+      {required String name,
+      String? faculty,
+      required int userId,
+      bool status = true});
 
   Future<RoomModel> getRoom();
 
