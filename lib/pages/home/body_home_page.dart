@@ -143,20 +143,23 @@ class BodyHomePage extends StatelessWidget {
                                         ),
                                       ),
                                       const SizedBox(width: 9),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(room.faculty,
-                                              style: GoogleFonts.notoSansThai(
-                                                  textStyle: const TextStyle(
+                                      Expanded(
+                                        child: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            room.faculty,
+                                            style: GoogleFonts.notoSansThai(
+                                              textStyle: const TextStyle(
                                                 color: Color(0xFF030260),
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w600,
-                                              ))),
-                                        ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                      const Spacer(),
+                                      const SizedBox(width: 9),
                                       GestureDetector(
                                         onTap: (room.status) || isAdmin
                                             ? () {
@@ -182,16 +185,20 @@ class BodyHomePage extends StatelessWidget {
                                                     BorderRadius.circular(10)),
                                           ),
                                           child: Center(
-                                            child: Text(
-                                              'จอง',
-                                              style: GoogleFonts.notoSansThai(
-                                                textStyle: TextStyle(
-                                                  color: (room.status) ||
-                                                          isAdmin
-                                                      ? const Color(0xFF030260)
-                                                      : Colors.white54,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
+                                            child: FittedBox(
+                                              fit: BoxFit.scaleDown,
+                                              child: Text(
+                                                'จอง',
+                                                style: GoogleFonts.notoSansThai(
+                                                  textStyle: TextStyle(
+                                                    color:
+                                                        (room.status) || isAdmin
+                                                            ? const Color(
+                                                                0xFF030260)
+                                                            : Colors.white54,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
                                                 ),
                                               ),
                                             ),
